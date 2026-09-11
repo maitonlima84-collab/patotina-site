@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escolinha Patotina — Futebol para crianças de 4 a 14 anos em Matutina/MG 💙🤍❤️</title>
+<meta name="description" content="Escolinha de Futebol Patotina, em Matutina/MG. Turmas de 4 a 14 anos, professor formado (CREF), 5 títulos na base e aluno aprovado na peneira do Cruzeiro. Matricule pelo WhatsApp.">
+<meta name="theme-color" content="#002838">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Patotina Esporte Clube">
+<meta property="og:title" content="Escolinha Patotina — 💙🤍❤️ Família Patotina">
+<meta property="og:description" content="Futebol, amizade e desenvolvimento para crianças de 4 a 14 anos. Matutina/MG. Desde 2021.">
+<meta property="og:image" content="img/og-patotina.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  "name": "Patotina Esporte Clube",
+  "alternateName": "Escolinha de Futebol Patotina",
+  "sport": "Futebol",
+  "foundingDate": "2013-09-07",
+  "logo": "img/escudo-512.png",
+  "telephone": "+55 34 98865-8518",
+  "location": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Matutina", "addressRegion": "MG", "addressCountry": "BR" } },
+  "sameAs": ["https://www.instagram.com/escolinha.patotina/", "https://www.instagram.com/patotinaoficial/", "https://www.facebook.com/patotina.patotina"]
+}
+</script>
+<link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=1">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="crest" viewBox="0 0 1200 1200"><image href="img/escudo.webp" width="1200" height="1200"/></symbol>
+    <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.1.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ PRELOADER ============ -->
+<div id="loader" aria-hidden="true">
+  <svg class="loader__crest"><use href="#crest"/></svg>
+  <p class="loader__txt"><span>F</span><span>A</span><span>M</span><span>Í</span><span>L</span><span>I</span><span>A</span><span>&nbsp;</span><span class="gd">P</span><span class="gd">A</span><span class="gd">T</span><span class="gd">O</span><span class="gd">T</span><span class="gd">I</span><span class="gd">N</span><span class="gd">A</span></p>
+  <div class="loader__bar"><i></i></div>
+</div>
+
+<div id="progress" aria-hidden="true"></div>
+<div id="cursor-glow" aria-hidden="true"></div>
+<canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+<a class="skip" href="#turmas">Pular para o conteúdo</a>
+
+<!-- ============ NAV ============ -->
+<nav id="nav" aria-label="Navegação principal">
+  <a class="nav__brand" href="#inicio" aria-label="Início — Patotina">
+    <svg class="nav__crest"><use href="#crest"/></svg>
+    <span class="nav__name">PATOTINA <em>ESCOLINHA</em></span>
+  </a>
+  <button id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <ul class="nav__links" id="nav-links">
+    <li><a href="#turmas">Turmas</a></li>
+    <li><a href="#matricula">Matrícula</a></li>
+    <li><a href="#titulos">Títulos</a></li>
+    <li><a href="#metodo">Método</a></li>
+    <li><a href="#time">Time</a></li>
+    <li><a href="#apec">Associação</a></li>
+    <li><a href="#parceiros">Parceiros</a></li>
+    <li><a class="nav__cta" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20matr%C3%ADcula%20na%20Escolinha%20Patotina." target="_blank" rel="noopener">WhatsApp</a></li>
+  </ul>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="inicio">
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="hero__beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
+  <div class="hero__wm" aria-hidden="true"><span>PATOTINA&nbsp;★&nbsp;PATOTINA&nbsp;★&nbsp;PATOTINA&nbsp;★&nbsp;</span><span>PATOTINA&nbsp;★&nbsp;PATOTINA&nbsp;★&nbsp;PATOTINA&nbsp;★&nbsp;</span></div>
+
+  <div class="hero__inner">
+    <div class="hero__crest-wrap">
+      <div class="hero__halo" aria-hidden="true"></div>
+      <svg class="hero__crest"><use href="#crest"/></svg>
+    </div>
+    <div class="hero__text">
+      <p class="hero__eyebrow">» MATUTINA · MINAS GERAIS · ESCOLINHA DESDE 2021</p>
+      <h1 class="hero__title">
+        <span class="line line1" aria-label="PATOTINA">
+          <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">A</span><span class="ltr" style="--i:2">T</span><span class="ltr" style="--i:3">O</span><span class="ltr" style="--i:4">T</span><span class="ltr" style="--i:5">I</span><span class="ltr" style="--i:6">N</span><span class="ltr" style="--i:7">A</span>
+        </span>
+        <span class="line line2"><span class="w">ESCOLINHA</span> <span class="w outline">DE FUTEBOL</span></span>
+      </h1>
+      <p class="hero__tag">💙🤍❤️ Futebol, amizade e desenvolvimento para crianças de <b>4 a 14 anos</b></p>
+      <div class="hero__chips">
+        <span class="chip">🏆 Copa Soccer 2024</span>
+        <span class="chip">🏆 Copa Soccer 2025</span>
+        <span class="chip">🏆 1ª Copa Patotina 2026</span>
+        <span class="chip chip--gold">⭐ Aluno aprovado na peneira do Cruzeiro</span>
+      </div>
+      <div class="hero__actions">
+        <a class="btn btn--red" href="#matricula">Matricule seu filho <b>»</b></a>
+        <a class="btn btn--ghost" href="#turmas">Turmas e horários</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track">
+    <span>FAMÍLIA PATOTINA ★ 5 ANOS DE ESCOLINHA ★ MATUTINA · MG 💙🤍❤️ VENHA FAZER PARTE ★ FUTEBOL É PRA TODOS ★&nbsp;</span><span>FAMÍLIA PATOTINA ★ 5 ANOS DE ESCOLINHA ★ MATUTINA · MG 💙🤍❤️ VENHA FAZER PARTE ★ FUTEBOL É PRA TODOS ★&nbsp;</span><span>FAMÍLIA PATOTINA ★ 5 ANOS DE ESCOLINHA ★ MATUTINA · MG 💙🤍❤️ VENHA FAZER PARTE ★ FUTEBOL É PRA TODOS ★&nbsp;</span>
+  </div>
+</div>
+
+<!-- ============ STATS ============ -->
+<section class="stats">
+  <div class="wrap stats__grid">
+    <div class="stat" data-reveal><b class="stat__n">2013</b><span>FUNDAÇÃO DO CLUBE</span></div>
+    <div class="stat" data-reveal style="--d:.08s"><b class="stat__n"><i data-count="5">0</i></b><span>ANOS DE ESCOLINHA</span></div>
+    <div class="stat" data-reveal style="--d:.16s"><b class="stat__n"><i data-count="5">0</i></b><span>TROFÉUS DA BASE</span></div>
+    <div class="stat" data-reveal style="--d:.24s"><b class="stat__n"><i data-count="3">0</i></b><span>TURMAS · 4 A 14 ANOS</span></div>
+  </div>
+</section>
+
+<!-- ============ TURMAS ============ -->
+<section class="turmas" id="turmas">
+  <div class="sec-wm" aria-hidden="true">TURMAS</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» TREINOS SEMANAIS</p>
+      <h2>TURMAS E <span class="gd">HORÁRIOS</span></h2>
+      <p class="sec-sub">Cada criança na turma certa para a idade dela. Chegou, treinou, fez amigo. 💙</p>
+    </header>
+
+    <div class="tgrid">
+      <article class="turma" data-reveal data-tilt>
+        <div class="turma__shine"></div>
+        <span class="turma__age">4 <small>a</small> 6</span>
+        <h3 class="turma__name">Fut Baby</h3>
+        <p class="turma__desc">Primeiro contato com a bola. Coordenação, brincadeira e muita risada.</p>
+        <ul class="turma__sched">
+          <li><b>SEX</b> 18h00 – 18h50 <span>Campo do Clube</span></li>
+        </ul>
+        <a class="btn btn--wa btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20turma%20Fut%20Baby%20(4%20a%206%20anos)." target="_blank" rel="noopener"><svg class="ico"><use href="#wa"/></svg> Quero essa turma</a>
+      </article>
+
+      <article class="turma turma--mid" data-reveal style="--d:.1s" data-tilt>
+        <div class="turma__shine"></div>
+        <span class="turma__age">7 <small>a</small> 9</span>
+        <h3 class="turma__name">Iniciação</h3>
+        <p class="turma__desc">Fundamentos de verdade: passe, domínio, posição. Três treinos por semana.</p>
+        <ul class="turma__sched">
+          <li><b>SEG</b> 8h40 – 9h40 <span>Quadra da Escola Amélia Maria Franco</span></li>
+          <li><b>SEG</b> 14h00 – 15h00 <span>Quadra da Escola Amélia Maria Franco</span></li>
+          <li><b>SEX</b> 18h00 – 20h00 <span>Campo do Clube</span></li>
+        </ul>
+        <a class="btn btn--wa btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20turma%20de%207%20a%209%20anos." target="_blank" rel="noopener"><svg class="ico"><use href="#wa"/></svg> Quero essa turma</a>
+      </article>
+
+      <article class="turma" data-reveal style="--d:.2s" data-tilt>
+        <div class="turma__shine"></div>
+        <span class="turma__age">10<small>+</small></span>
+        <h3 class="turma__name">Formação</h3>
+        <p class="turma__desc">De 10 a 14 anos. Tática, competição e a porta de entrada para as peneiras.</p>
+        <ul class="turma__sched">
+          <li><b>TER</b> 17h30 <span>Campo Raimundão</span></li>
+          <li><b>SEX</b> 18h00 <span>Campo Raimundão</span></li>
+        </ul>
+        <a class="btn btn--wa btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20turma%20de%2010%20anos%20ou%20mais." target="_blank" rel="noopener"><svg class="ico"><use href="#wa"/></svg> Quero essa turma</a>
+      </article>
+    </div>
+    <p class="turmas__note" data-reveal>📍 Matutina/MG · Contato de inscrição: <a href="https://wa.me/5534988658518" target="_blank" rel="noopener"><b>(34) 98865-8518</b> — Lucas</a></p>
+  </div>
+</section>
+
+<!-- ============ MATRÍCULA ============ -->
+<section class="matricula" id="matricula">
+  <div class="sec-wm" aria-hidden="true">VEM</div>
+  <div class="wrap matricula__grid">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» PRÉ-MATRÍCULA</p>
+      <h2>GARANTA A <span class="gd">VAGA</span></h2>
+      <p class="sec-sub">Preencha e a mensagem abre pronta no WhatsApp do professor. Sem cadastro, sem senha, sem espera.</p>
+      <ul class="matricula__steps">
+        <li><b>1</b> Você manda a mensagem</li>
+        <li><b>2</b> O Lucas confirma a turma e o horário</li>
+        <li><b>3</b> A criança faz uma aula experimental</li>
+      </ul>
+    </header>
+
+    <form class="mform" id="mform" data-reveal style="--d:.1s" novalidate>
+      <label>Nome da criança <input name="crianca" type="text" required autocomplete="off" placeholder="Ex.: João Miguel"></label>
+      <div class="mform__row">
+        <label>Idade <input name="idade" type="number" min="3" max="15" required placeholder="7"></label>
+        <label>Turma sugerida <output name="turma" id="turma-out">—</output></label>
+      </div>
+      <label>Nome do responsável <input name="resp" type="text" required placeholder="Seu nome"></label>
+      <label>Alguma observação? <textarea name="obs" rows="2" placeholder="Já treinou antes? Tem alguma restrição de horário?"></textarea></label>
+      <button class="btn btn--wa" type="submit"><svg class="ico"><use href="#wa"/></svg> Enviar pelo WhatsApp</button>
+      <p class="mform__hint">Abre o WhatsApp com a mensagem escrita. Você confere e envia.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ DESTAQUE CRUZEIRO ============ -->
+<section class="destaque" id="cruzeiro">
+  <div class="sec-wm" aria-hidden="true">SONHO</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» DAQUI PRA FRENTE</p>
+      <h2>UM SONHO QUE COMEÇA A GANHAR <span class="gd">NOVOS CAMINHOS</span></h2>
+    </header>
+    <div class="story" data-reveal style="--d:.1s">
+      <div class="story__big">
+        <span class="story__badge">⭐ 04 · AGO · 2026</span>
+        <h3>Aluno da escolinha é selecionado pelo Cruzeiro</h3>
+        <p>Aos 12 anos, <strong>João Miguel</strong> foi aprovado na peneira do <strong>Cruzeiro Esporte Clube</strong> realizada em Matutina. Talento, disciplina e vontade de evoluir a cada treino — e o primeiro passo de uma caminhada que a Família Patotina inteira acompanha.</p>
+        <blockquote>"O primeiro passo foi dado. Que venham muitos outros!"<cite>— Escolinha Patotina</cite></blockquote>
+      </div>
+      <div class="story__side">
+        <article class="mini">
+          <span class="mini__date">30 · JUL · 2026</span>
+          <h4>Olheiro do Cruzeiro em Matutina</h4>
+          <p>Um profissional do clube acompanhou de perto o desempenho, o talento e a evolução dos nossos atletas em atividade de avaliação.</p>
+        </article>
+        <article class="mini">
+          <span class="mini__date">AGO · 2026</span>
+          <h4>5 anos de escolinha 🎂</h4>
+          <p>Cinco anos de muito amor, aprendizado e momentos inesquecíveis. Obrigado a todas as famílias, crianças e profissionais.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TÍTULOS ============ -->
+<section class="titulos" id="titulos">
+  <div class="sec-wm" aria-hidden="true">GLÓRIA</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» SALA DE TROFÉUS DA BASE <small>(clique neles 😉)</small></p>
+      <h2>NOSSAS <span class="gd">CONQUISTAS</span></h2>
+    </header>
+    <div class="trophies">
+      <button class="trophy trophy--gold" data-reveal data-confetti>
+        <span class="trophy__icon" aria-hidden="true">🏆</span>
+        <span class="trophy__year">2026</span>
+        <span class="trophy__name">1ª COPA PATOTINA DE FUTEBOL</span>
+        <span class="trophy__desc">Campeões em casa. Um verdadeiro show de raça, dedicação e espírito esportivo.</span>
+      </button>
+      <button class="trophy trophy--gold" data-reveal style="--d:.08s" data-confetti>
+        <span class="trophy__icon" aria-hidden="true">🏆</span>
+        <span class="trophy__year">2025</span>
+        <span class="trophy__name">COPA SOCCER</span>
+        <span class="trophy__desc">Bicampeões. O título veio de novo.</span>
+      </button>
+      <button class="trophy trophy--gold" data-reveal style="--d:.16s" data-confetti>
+        <span class="trophy__icon" aria-hidden="true">🏆</span>
+        <span class="trophy__year">2024</span>
+        <span class="trophy__name">COPA SOCCER</span>
+        <span class="trophy__desc">O primeiro grito de campeão da escolinha.</span>
+      </button>
+      <button class="trophy" data-reveal style="--d:.24s" data-confetti>
+        <span class="trophy__icon" aria-hidden="true">🥈</span>
+        <span class="trophy__year">2024</span>
+        <span class="trophy__name">LAGOA CUP</span>
+        <span class="trophy__desc">Vice-campeões.</span>
+      </button>
+      <button class="trophy" data-reveal style="--d:.32s" data-confetti>
+        <span class="trophy__icon" aria-hidden="true">🥈</span>
+        <span class="trophy__year">2024</span>
+        <span class="trophy__name">PATOS CUP</span>
+        <span class="trophy__desc">Vice-campeões.</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MÉTODO / PROFESSOR ============ -->
+<section class="metodo" id="metodo">
+  <div class="sec-wm" aria-hidden="true">MÉTODO</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» MAIS QUE FUTEBOL</p>
+      <h2>DESENVOLVIMENTO <span class="gd">COMPLETO</span></h2>
+      <p class="sec-sub">A escolinha ensina futebol — e cuida do desenvolvimento pleno da criança nos âmbitos físico, mental e social.</p>
+    </header>
+    <div class="pillars">
+      <article class="pillar" data-reveal><span class="pillar__ico">🏃</span><h3>Físico</h3><p>Coordenação, agilidade e condicionamento adequados a cada faixa de idade.</p></article>
+      <article class="pillar" data-reveal style="--d:.1s"><span class="pillar__ico">🧠</span><h3>Mental</h3><p>Disciplina, foco, respeito às regras e resiliência para lidar com vitória e derrota.</p></article>
+      <article class="pillar" data-reveal style="--d:.2s"><span class="pillar__ico">🤝</span><h3>Social</h3><p>Amizade, trabalho em equipe e pertencimento. Aqui todo mundo é Família Patotina.</p></article>
+    </div>
+    <div class="prof" data-reveal style="--d:.15s">
+      <div class="prof__ava" aria-hidden="true">LE</div>
+      <div>
+        <p class="prof__tag">» PROFESSOR</p>
+        <h3>Lucas Eduardo</h3>
+        <p class="prof__desc">Licenciatura e Bacharelado em Educação Física · <b>CREF 046342-G/MG</b>. Responsável pelas três turmas e pelo contato com as famílias.</p>
+      </div>
+      <a class="btn btn--ghost btn--sm" href="https://www.instagram.com/lucas_eduardo_mgf/" target="_blank" rel="noopener">Instagram ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIME ============ -->
+<section class="time" id="time">
+  <div class="time__bg" aria-hidden="true"></div>
+  <div class="sec-wm" aria-hidden="true">P.E.C.</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» PATOTINA ESPORTE CLUBE · DESDE 7 DE SETEMBRO DE 2013</p>
+      <h2>O TIME QUE DEU ORIGEM <span class="gd">A TUDO</span></h2>
+      <p class="sec-sub">Patos de Minas + Matutina = Patotina. Um grupo de jovens matutinenses que quis levar futebol, lazer e união para a cidade.</p>
+    </header>
+
+    <div class="tl">
+      <article class="tl__item" data-reveal>
+        <span class="tl__year">2013</span>
+        <div class="tl__card"><h3>Nasce o Patotina 💙🤍❤️</h3><p>Em 7 de setembro, a ideia de <strong>Lucas Ferreira de Souza</strong> vira time. O nome junta as duas cidades da turma: <strong>Pat</strong>os de Minas e Matu<strong>tina</strong>.</p></div>
+      </article>
+      <article class="tl__item" data-reveal>
+        <span class="tl__year">2015</span>
+        <div class="tl__card"><h3>A primeira estrela ⭐</h3><p>Título do <strong>2º Encontro de Amigos de Matutina</strong> e do <strong>Campeonato Municipal</strong>. A primeira estrela sobe para o escudo.</p></div>
+      </article>
+      <article class="tl__item" data-reveal>
+        <span class="tl__year">2020</span>
+        <div class="tl__card"><h3>Novo escudo, novas cores, Patolino 🦆</h3><p>Sem jogos na pandemia, o clube se reinventa: escudo redesenhado, uniforme novo, o mascote <strong>Patolino</strong> e a chegada ao Instagram.</p></div>
+      </article>
+      <article class="tl__item tl__item--big" data-reveal>
+        <span class="tl__year gd-bg">2021</span>
+        <div class="tl__card tl__card--glory"><h3>Nasce a escolinha ⚽</h3><p>O clube cria a <strong>Escolinha de Futebol Patotina</strong>. Cinco anos depois: três turmas, cinco troféus e um aluno aprovado na peneira do Cruzeiro.</p></div>
+      </article>
+      <article class="tl__item" data-reveal>
+        <span class="tl__year">2022</span>
+        <div class="tl__card"><h3>Campeão da Copa União 🏆 e nasce a APEC</h3><p><strong>3×0 no BON TFC</strong> na final em Carmo do Paranaíba (gols de Felipe, Henrique e Vinícius). No mesmo ano nasce a <strong>Associação Patotina Esporte Clube</strong>.</p></div>
+      </article>
+      <article class="tl__item" data-reveal>
+        <span class="tl__year">2026</span>
+        <div class="tl__card"><h3>Estreia com vitória 🔥</h3><p>O time adulto começa mais uma temporada vencendo. <em>"Vamos por mais 🏆"</em></p><a class="tl__link" href="https://www.instagram.com/patotinaoficial/" target="_blank" rel="noopener">@patotinaoficial ↗</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ASSOCIAÇÃO ============ -->
+<section class="apec" id="apec">
+  <div class="sec-wm" aria-hidden="true">APEC</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» ASSOCIAÇÃO PATOTINA ESPORTE CLUBE</p>
+      <h2>ESPORTE COMO <span class="gd">TRANSFORMAÇÃO</span></h2>
+    </header>
+    <div class="apec__grid">
+      <article class="acard acard--main" data-reveal>
+        <h3>APEC · desde 2022</h3>
+        <p>Entidade sem fins lucrativos criada para produzir e implementar programas e atividades <strong>sociais, esportivas, culturais e assistenciais</strong>, com atenção especial a crianças e famílias em vulnerabilidade social. A escolinha é o primeiro desses programas.</p>
+        <ul class="acard__list">
+          <li>🎽 Escolinha de futebol para crianças de 4 a 14 anos</li>
+          <li>🤝 Parcerias com a Prefeitura e a Câmara Municipal de Matutina</li>
+          <li>📋 Transparência e prestação de contas aos apoiadores</li>
+        </ul>
+        <a class="btn btn--red btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1!%20Quero%20apoiar%20a%20Associa%C3%A7%C3%A3o%20Patotina." target="_blank" rel="noopener">Quero apoiar »</a>
+      </article>
+      <article class="acard" data-reveal style="--d:.1s">
+        <h3>Patotina Master</h3>
+        <p>Os veteranos do clube. <em>"Unindo gerações apaixonadas pelo futebol. Respeito, amizade e esporte."</em></p>
+        <a class="tl__link" href="https://www.instagram.com/patotinamaster/" target="_blank" rel="noopener">@patotinamaster ↗</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARCEIROS ============ -->
+<section class="parceiros" id="parceiros">
+  <div class="sec-wm" aria-hidden="true">JUNTOS</div>
+  <div class="wrap">
+    <header class="sec-head" data-reveal>
+      <p class="sec-tag">» JUNTOS EM PROL DO ESPORTE</p>
+      <h2>NOSSOS <span class="gd">PARCEIROS</span></h2>
+    </header>
+    <div class="sponsors">
+      <div class="sponsor sponsor--master" data-reveal><b>SICOOB <span>CREDITIROS</span></b><small>PARCEIRO MASTER</small></div>
+      <div class="sponsor sponsor--master" data-reveal style="--d:.05s"><b>GRUPO <span>NUTRILEITE</span></b><small>PARCEIRO MASTER</small></div>
+      <div class="sponsor" data-reveal style="--d:.1s"><b>PREFEITURA <span>DE MATUTINA</span></b><small>APOIO INSTITUCIONAL</small></div>
+      <div class="sponsor" data-reveal style="--d:.15s"><b>CÂMARA <span>MUNICIPAL</span></b><small>APOIO INSTITUCIONAL</small></div>
+      <div class="sponsor" data-reveal style="--d:.2s"><b>CLÍNICA <span>MARUKI PEREIRA</span></b><small>PARCEIRO 2026</small></div>
+      <div class="sponsor" data-reveal style="--d:.25s"><b>MERCEARIA <span>LETÍCIA</span></b><small>PARCEIRO 2026</small></div>
+      <div class="sponsor" data-reveal style="--d:.3s"><b>CÃES E GATOS <span>VET E PET STORE</span></b><small>PARCEIRO 2026</small></div>
+      <div class="sponsor" data-reveal style="--d:.35s"><b>POSTO <span>LISBOA</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.4s"><b>CONSTRUNEVES</b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.45s"><b>JR <span>MENSURE</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.5s"><b>GOLDNET <span>TELECOM</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.55s"><b>AGRODRONE</b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.6s"><b>OLIVEIRA <span>CONSTRUÇÕES</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.65s"><b>PLANALTO <span>TINTAS</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.7s"><b>SERRALHERIA <span>MARTINS</span></b><small>PARCEIRO</small></div>
+      <div class="sponsor" data-reveal style="--d:.75s"><b>VIDRONEW</b><small>PARCEIRO</small></div>
+    </div>
+    <div class="sponsors__cta" data-reveal>
+      <p>Sua empresa junto com a Família Patotina? Fale com a gente.</p>
+      <a class="btn btn--ghost btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1!%20Quero%20ser%20parceiro%20do%20Patotina." target="_blank" rel="noopener">Quero ser parceiro »</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAMADA FINAL ============ -->
+<section class="torcida">
+  <div class="wrap">
+    <h2 class="torcida__title">VEM PRA <span class="outline-w">FAMÍLIA</span><br>PATOTINA</h2>
+    <p>Aula experimental sem compromisso. Chama no WhatsApp e a gente combina o dia. 💙🤍❤️</p>
+    <div class="torcida__actions">
+      <a class="btn btn--wt" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20agendar%20uma%20aula%20experimental%20na%20Escolinha%20Patotina." target="_blank" rel="noopener"><svg class="ico"><use href="#wa"/></svg> Agendar aula experimental</a>
+      <a class="btn btn--wt-ghost" href="https://www.instagram.com/escolinha.patotina/" target="_blank" rel="noopener">@escolinha.patotina ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div class="footer__brand">
+      <svg class="footer__crest"><use href="#crest"/></svg>
+      <p><b>PATOTINA ESPORTE CLUBE</b><br>Escolinha de Futebol · Associação · Time<br>Matutina · Minas Gerais · Desde 2013</p>
+    </div>
+    <nav class="footer__nav" aria-label="Rodapé">
+      <a href="#turmas">Turmas</a>
+      <a href="#matricula">Matrícula</a>
+      <a href="#titulos">Títulos</a>
+      <a href="#time">Time</a>
+      <a href="#apec">Associação</a>
+      <a href="#parceiros">Parceiros</a>
+    </nav>
+    <div class="footer__social">
+      <a href="https://wa.me/5534988658518" target="_blank" rel="noopener">WhatsApp (34) 98865-8518</a>
+      <a href="https://www.instagram.com/escolinha.patotina/" target="_blank" rel="noopener">@escolinha.patotina</a>
+      <a href="https://www.instagram.com/patotinaoficial/" target="_blank" rel="noopener">@patotinaoficial</a>
+      <a href="https://www.instagram.com/patotinamaster/" target="_blank" rel="noopener">@patotinamaster</a>
+      <a href="https://www.facebook.com/patotina.patotina" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </div>
+  <p class="footer__hash">💙🤍❤️ #FAMÍLIAPATOTINA</p>
+  <p class="footer__copy">© <span id="ano">2026</span> Patotina Esporte Clube · Matutina/MG</p>
+</footer>
+
+<script src="js/main.js?v=1" defer></script>
+</body>
+</html>
