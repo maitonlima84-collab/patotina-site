@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.patotina.com.br/sitemap.xml
