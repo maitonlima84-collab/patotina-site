@@ -226,6 +226,9 @@ section{position:relative;padding:clamp(4.5rem,9vw,7.5rem) 0;overflow:hidden}
 .story__big blockquote{margin-top:1.3rem;border-left:4px solid var(--gd);padding:.6rem 1.1rem;font-family:Georgia,serif;font-style:italic;font-size:1.1rem}
 .story__big cite{display:block;margin-top:.4rem;font-family:var(--bcond);font-style:normal;color:var(--gray);letter-spacing:.08em;font-size:.85rem}
 .story__side{display:grid;gap:1.3rem}
+.agenda{background:var(--navy2);padding-bottom:clamp(2rem,5vw,4rem)}
+.agenda__grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.3rem}
+.mini__meta{color:var(--sand);font-size:.9rem;margin-top:.4rem}
 .mini{background:var(--navy3);border:1px solid var(--line);border-radius:16px;padding:1.4rem;transition:border-color .35s,transform .35s var(--easy)}
 .mini:hover{border-color:rgba(232,176,24,.5);transform:translateY(-4px)}
 .mini__date{font-family:var(--bcond);font-weight:600;letter-spacing:.2em;font-size:.72rem;color:var(--gd)}

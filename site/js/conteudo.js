@@ -124,6 +124,18 @@ function chips(texto) {
   }).join('');
 }
 
+/* Próximos eventos cadastrados na gestão e marcados para o site. */
+function agenda(lista) {
+  const TIPOS = { jogo: '⚽ Jogo', festival: '🏆 Festival', viagem: '🚌 Viagem', reuniao: '👨‍👩‍👧 Reunião', sem_treino: '⛔ Sem treino' };
+  return lista.map(e => `
+    <article class="mini" data-reveal>
+      <span class="mini__date">${dataCurta(e.data)}${e.hora ? ' · ' + esc(e.hora) : ''}</span>
+      <h4>${esc(e.titulo)}</h4>
+      <p class="mini__meta">${esc(TIPOS[e.tipo] || '')}${e.local ? ' · ' + esc(e.local) : ''}</p>
+      ${e.descricao ? `<p>${rico(e.descricao)}</p>` : ''}
+    </article>`).join('');
+}
+
 /* ---------------- montagem ---------------- */
 
 function trocar(seletor, html) {
@@ -139,7 +151,7 @@ function contar(id, valor) {
   if (el.closest('.stat')?.classList.contains('in')) el.textContent = Number(valor).toLocaleString('pt-BR');
 }
 
-function montar({ turmas: ts, destaques: ds, titulos, historia: hs, parceiros: ps, textos: t }) {
+function montar({ turmas: ts, destaques: ds, titulos, historia: hs, parceiros: ps, textos: t, eventos: evs }) {
   const numero = String(t.whatsapp || '').replace(/\D/g, '') || '5534988658518';
   const numeroCompleto = numero.startsWith('55') ? numero : `55${numero}`;
 
@@ -147,11 +159,13 @@ function montar({ turmas: ts, destaques: ds, titulos, historia: hs, parceiros: p
   document.querySelectorAll('a[href^="https://wa.me/"]').forEach(a => {
     a.href = a.href.replace(/wa\.me\/\d+/, `wa.me/${numeroCompleto}`);
   });
+  // Junta ao que carregar() já pendurou (gravarPreMatricula) em vez de trocar.
   window.PATOTINA = {
+    ...(window.PATOTINA || {}),
     whatsapp: numeroCompleto,
     turmas: ts.map(x => ({
       nome: x.nome, faixa: x.faixa, idadeMin: Number(x.idadeMin), idadeMax: Number(x.idadeMax),
-      resumo: String(x.horarios || '').split('\n').map(l => l.split('|')[0]?.trim()).filter(Boolean).join(' e ').toLowerCase(),
+      resumo: [...new Set(String(x.horarios || '').split('\n').map(l => l.split('|')[0]?.trim()).filter(Boolean))].join(' e ').toLowerCase(),
     })),
   };
 
@@ -172,6 +186,15 @@ function montar({ turmas: ts, destaques: ds, titulos, historia: hs, parceiros: p
   if (t.turmasSub) trocar('#turmas-sub', rico(t.turmasSub));
   if (t.turmasNota) trocar('#turmas-nota', rico(t.turmasNota));
   if (ts.length) trocar('#tgrid', turmas(ts, numeroCompleto));
+
+  // Agenda — só aparece com evento futuro marcado para o site.
+  const secAgenda = $('#agenda');
+  if (secAgenda) {
+    const hoje = new Date().toISOString().slice(0, 10);
+    const futuros = (evs || []).filter(e => e.data >= hoje).sort((a, b) => a.data.localeCompare(b.data)).slice(0, 6);
+    if (futuros.length) trocar('#agenda-lista', agenda(futuros));
+    secAgenda.hidden = !futuros.length;
+  }
 
   // Destaques — a seção só existe quando há pelo menos um.
   const secDestaques = $('#destaques');
@@ -247,14 +270,31 @@ async function carregar() {
   const db = fs.getFirestore(app);
   if (conf.emuladores) fs.connectFirestoreEmulator(db, '127.0.0.1', 8080);
 
-  const visiveis = nome => fs.getDocs(fs.query(fs.collection(db, nome), fs.where('visivel', '==', true)))
+  const visiveis = (nome, campo = 'visivel') => fs.getDocs(fs.query(fs.collection(db, nome), fs.where(campo, '==', true)))
     .then(s => s.docs.map(d => ({ id: d.id, ...d.data() })));
   const porOrdem = (a, b) => (a.ordem ?? 0) - (b.ordem ?? 0);
 
-  const [ts, ds, tis, hs, ps, textos] = await Promise.all([
+  // A pré-matrícula do formulário vai para o app de gestão (coleção
+  // pre_matriculas, criação pública validada pelas regras). O WhatsApp abre
+  // de qualquer jeito — main.js não espera esta gravação para isso.
+  window.PATOTINA = window.PATOTINA || {};
+  window.PATOTINA.gravarPreMatricula = dados => fs.addDoc(fs.collection(db, 'pre_matriculas'), {
+    crianca: String(dados.crianca || '').slice(0, 80),
+    idade: Number(dados.idade) || 0,
+    turmaSugerida: String(dados.turmaSugerida || '').slice(0, 80),
+    responsavel: String(dados.responsavel || '').slice(0, 80),
+    telefone: String(dados.telefone || '').slice(0, 20),
+    observacao: String(dados.observacao || '').slice(0, 500),
+    situacao: 'nova',
+    origem: 'site',
+    criadoEm: new Date(),
+  });
+
+  const [ts, ds, tis, hs, ps, textos, evs] = await Promise.all([
     visiveis('site_turmas'), visiveis('site_destaques'), visiveis('site_titulos'),
     visiveis('site_historia'), visiveis('site_parceiros'),
     fs.getDoc(fs.doc(db, 'site_config', 'textos')).then(s => (s.exists() ? s.data() : {})),
+    visiveis('eventos', 'visivelNoSite').catch(() => []),
   ]);
 
   montar({
@@ -264,6 +304,7 @@ async function carregar() {
     historia: hs.sort(porOrdem),
     parceiros: ps.sort(porOrdem),
     textos: textos || {},
+    eventos: evs,
   });
 }
 

@@ -119,6 +119,42 @@ service cloud.firestore {
       }
     }
 
+    // Pré-matrícula: o formulário do site grava SEM login, só com os campos
+    // dele e já como 'nova'. Ler e mexer é do Gestor. Nada se apaga.
+    match /pre_matriculas/{id} {
+      allow read: if isGestor();
+      allow create: if request.resource.data.keys().hasOnly(['crianca', 'idade', 'turmaSugerida', 'responsavel', 'telefone', 'observacao', 'situacao', 'origem', 'criadoEm'])
+        && request.resource.data.crianca is string && request.resource.data.crianca.size() > 0 && request.resource.data.crianca.size() <= 80
+        && request.resource.data.idade is number
+        && request.resource.data.responsavel is string && request.resource.data.responsavel.size() <= 80
+        && request.resource.data.telefone is string && request.resource.data.telefone.size() <= 20
+        && request.resource.data.observacao is string && request.resource.data.observacao.size() <= 500
+        && request.resource.data.turmaSugerida is string && request.resource.data.turmaSugerida.size() <= 80
+        && request.resource.data.situacao == 'nova'
+        && request.resource.data.origem == 'site';
+      allow update: if isGestor()
+        && request.resource.data.situacao in ['nova', 'em_contato', 'matriculada', 'recusada'];
+      allow delete: if false;
+    }
+
+    // Agenda: quem entra no app lê; o site lê só o marcado para ele
+    // (a consulta vem com where('visivelNoSite', '==', true)).
+    match /eventos/{id} {
+      allow read: if isProfessor() || resource.data.visivelNoSite == true;
+      allow create, update: if isGestor()
+        && request.resource.data.titulo is string
+        && request.resource.data.data is string
+        && request.resource.data.visivelNoSite is bool;
+      allow delete: if isGestor();
+    }
+
+    // Avisos enviados: histórico do que foi mandado por WhatsApp.
+    match /avisos/{id} {
+      allow read: if isProfessor();
+      allow create: if isGestor();
+      allow update, delete: if false;
+    }
+
     // Mensalidades: só o Gestor. Cancelar é a saída; apagar não existe.
     match /cobrancas/{id} {
       allow read: if isGestor();

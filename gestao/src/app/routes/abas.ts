@@ -1,4 +1,4 @@
-import { ClipboardCheck, Home, Layers, Settings, UserRound, Users, Wallet, type LucideIcon } from 'lucide-react'
+import { CalendarDays, ClipboardCheck, Home, Inbox, Layers, Megaphone, Settings, UserRound, Users, Wallet, type LucideIcon } from 'lucide-react'
 import type { useAuth } from '@shared/auth/AuthProvider'
 
 // As abas do app, na ordem em que aparecem (docs/gestao.md, §3). No
@@ -21,6 +21,9 @@ export const ABAS: Aba[] = [
   { caminho: '/chamada', titulo: 'Chamada', icone: ClipboardCheck, grupo: 'Escolinha', barra: true },
   { caminho: '/mensalidades', titulo: 'Mensalidades', icone: Wallet, grupo: 'Escolinha', barra: true, mostrar: (a) => a.isGestor },
   { caminho: '/turmas', titulo: 'Turmas', icone: Layers, grupo: 'Escolinha' },
+  { caminho: '/pre-matriculas', titulo: 'Pré-matrículas', icone: Inbox, grupo: 'Escolinha', mostrar: (a) => a.isGestor },
+  { caminho: '/agenda', titulo: 'Agenda', icone: CalendarDays, grupo: 'Escolinha' },
+  { caminho: '/avisos', titulo: 'Avisos', icone: Megaphone, grupo: 'Escolinha', mostrar: (a) => a.isGestor },
   { caminho: '/configuracoes', titulo: 'Configurações', icone: Settings, grupo: 'Administração', mostrar: (a) => a.isGestor },
   { caminho: '/contas', titulo: 'Contas', icone: Users, grupo: 'Administração', mostrar: (a) => a.isMaster },
 ]

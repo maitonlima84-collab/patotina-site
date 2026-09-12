@@ -3,7 +3,7 @@ import { useMemo, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { PageHeader } from '@shared/components/PageHeader'
-import { DIAS_SEMANA, hojeIso, moeda } from '@shared/lib/utils'
+import { dataBr, DIAS_SEMANA, hojeIso, moeda } from '@shared/lib/utils'
 import { Avatar } from '@/modules/alunos/components/AlunoLinha'
 import { useAlunos } from '@/modules/alunos/hooks/useAlunos'
 import { aniversariantes, idade } from '@/modules/alunos/services/alunosService'
@@ -14,6 +14,9 @@ import { alunosEmAlerta, primeiroDiaDoMes, somarMeses } from '@/modules/chamada/
 import { useCobrancasAbertas, useCobrancasDoMes } from '@/modules/mensalidades/hooks/useCobrancas'
 import { atrasada } from '@/modules/mensalidades/services/mensalidadesService'
 import { valorDevido } from '@/modules/mensalidades/types'
+import { usePreMatriculas } from '@/modules/prematriculas/hooks/usePreMatriculas'
+import { useEventos } from '@/modules/agenda/hooks/useEventos'
+import { TIPOS_EVENTO } from '@/modules/agenda/types'
 
 // Os números do dia (docs/gestao.md, §2.1). Cada número é link para a lista
 // filtrada. Cresce conforme os módulos entram: chamada, mensalidades,
@@ -48,7 +51,10 @@ export function InicioPage() {
   // Aviso de "gerar cobranças": há aluno ativo e nenhuma cobrança no mês.
   const { rows: doMes, loading: carregandoMes } = useCobrancasDoMes(mesAtual, isGestor)
   const semCobrancaNoMes = isGestor && !carregandoMes && ativos.length > 0 && doMes.length === 0
-  const preMatriculas = alunos.filter((a) => a.situacao === 'pre_matricula').length
+  const { rows: pres } = usePreMatriculas(isGestor)
+  const preMatriculas = pres.filter((p) => p.situacao === 'nova' || p.situacao === 'em_contato').length
+  const { rows: eventos } = useEventos()
+  const proximos = eventos.filter((e) => e.data >= hojeStr && (isGestor || e.turmaIds.length === 0 || e.turmaIds.some((t) => minhasIds.has(t)))).slice(0, 5)
   const doDia = turmasDoDia(turmas, hoje.getDay())
   const niver = aniversariantes(alunos, hoje.getMonth() + 1)
 
@@ -60,7 +66,7 @@ export function InicioPage() {
         <Numero rotulo="Alunos ativos" valor={loading ? '…' : ativos.length} para="/alunos" />
         <Numero rotulo="Turmas ativas" valor={turmas.filter((t) => t.ativa).length} para="/turmas" />
         <Numero rotulo="Sem turma" valor={semTurma} para="/alunos?situacao=ativo&turma=sem" destaque={semTurma > 0} />
-        {isGestor && <Numero rotulo="Pré-matrículas" valor={preMatriculas} para="/alunos?situacao=pre_matricula" destaque={preMatriculas > 0} />}
+        {isGestor && <Numero rotulo="Pré-matrículas" valor={preMatriculas} para="/pre-matriculas" destaque={preMatriculas > 0} />}
         {isGestor && <Numero rotulo={`Em aberto (${abertas.length})`} valor={moeda(abertas.reduce((s, c) => s + valorDevido(c), 0))} para="/mensalidades?f=aberta" />}
         {isGestor && <Numero rotulo={`Atrasadas (${atrasadas.length})`} valor={moeda(valorAtrasado)} para="/mensalidades/inadimplencia" destaque={atrasadas.length > 0} />}
       </div>
@@ -108,6 +114,23 @@ export function InicioPage() {
             ))}
           </Bloco>
         )}
+
+        <Bloco titulo="Próximos eventos">
+          {proximos.length === 0 ? (
+            <p className="text-gray">Nada marcado na agenda.</p>
+          ) : (
+            proximos.map((e) => (
+              <Link key={e.id} to={`/agenda/${e.id}`} className="flex items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-navy-3">
+                <span>{TIPOS_EVENTO[e.tipo]?.icone}</span>
+                <span className="min-w-0 flex-1 truncate">{e.titulo}</span>
+                <span className="text-[0.85rem] text-gray">
+                  {dataBr(e.data)}
+                  {e.hora && ` ${e.hora}`}
+                </span>
+              </Link>
+            ))
+          )}
+        </Bloco>
 
         <Bloco titulo="Aniversariantes do mês">
           {niver.length === 0 ? (

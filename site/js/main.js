@@ -107,8 +107,18 @@
         `⚽ Turma sugerida: ${turmaPor(+v('idade')) || '—'}`,
         `👤 Responsável: ${v('resp')}`
       ];
+      if (v('tel')) linhas.push(`📱 WhatsApp: ${v('tel')}`);
       if (v('obs')) linhas.push(`📝 Obs.: ${v('obs')}`);
       linhas.push('', 'Enviado pelo site 💙🤍❤️');
+      // Guarda na caixa de entrada da gestão (se o banco responder) e abre o
+      // WhatsApp de qualquer jeito: o contato nunca se perde.
+      const gravar = window.PATOTINA && window.PATOTINA.gravarPreMatricula;
+      if (gravar) {
+        gravar({
+          crianca: v('crianca'), idade: v('idade'), turmaSugerida: turmaPor(+v('idade')) || '',
+          responsavel: v('resp'), telefone: v('tel'), observacao: v('obs'),
+        }).catch(err => console.warn('Pré-matrícula não gravada na gestão:', err));
+      }
       open(`https://wa.me/${WHATSAPP()}?text=${encodeURIComponent(linhas.join('\n'))}`, '_blank', 'noopener');
     });
   }

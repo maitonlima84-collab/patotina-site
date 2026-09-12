@@ -19,6 +19,7 @@ export function AlunoForm({
   aluno,
   turmas,
   turmaSugerida,
+  inicial,
   rotuloFinal,
   onSalvar,
   onCancelar,
@@ -26,6 +27,8 @@ export function AlunoForm({
   aluno: Aluno | null
   turmas: Turma[]
   turmaSugerida?: Turma
+  // O que já se sabe antes de abrir (pré-matrícula do site, por exemplo).
+  inicial?: Partial<Valores>
   rotuloFinal: string
   onSalvar: (valores: Valores) => Promise<void>
   onCancelar: () => void
@@ -36,7 +39,7 @@ export function AlunoForm({
 
   const form = useForm<Valores>({
     resolver: zodResolver(esquemaAluno),
-    defaultValues: valoresIniciais(aluno, { mensalidade: turmaSugerida?.mensalidade }),
+    defaultValues: { ...valoresIniciais(aluno, { mensalidade: turmaSugerida?.mensalidade }), turmaId: turmaSugerida?.id ?? '', ...inicial },
     mode: 'onTouched',
   })
   const { register, control, handleSubmit, trigger, watch, setValue, formState } = form

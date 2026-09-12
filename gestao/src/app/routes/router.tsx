@@ -8,6 +8,9 @@ import { rotasTurmas } from '@/modules/turmas/routes'
 import { rotasChamada } from '@/modules/chamada/routes'
 import { rotasMensalidades } from '@/modules/mensalidades/routes'
 import { rotasConfiguracoes } from '@/modules/configuracoes/routes'
+import { rotasPreMatriculas } from '@/modules/prematriculas/routes'
+import { rotasAgenda } from '@/modules/agenda/routes'
+import { rotasAvisos } from '@/modules/avisos/routes'
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +34,9 @@ export const router = createBrowserRouter([
       ...rotasChamada,
       ...rotasMensalidades,
       ...rotasConfiguracoes,
+      ...rotasPreMatriculas,
+      ...rotasAgenda,
+      ...rotasAvisos,
       ...rotasContas,
       { path: '*', element: <Navigate to="/inicio" replace /> },
     ],
