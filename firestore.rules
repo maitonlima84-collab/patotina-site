@@ -119,6 +119,24 @@ service cloud.firestore {
       }
     }
 
+    // Mensalidades: só o Gestor. Cancelar é a saída; apagar não existe.
+    match /cobrancas/{id} {
+      allow read: if isGestor();
+      allow create, update: if isGestor()
+        && request.resource.data.alunoId is string
+        && request.resource.data.competencia is string
+        && request.resource.data.situacao in ['aberta', 'paga', 'isenta', 'cancelada']
+        && id == request.resource.data.alunoId + '_' + request.resource.data.competencia;
+      allow delete: if false;
+    }
+
+    // Configurações da escolinha: um documento, todo mundo do app lê (chave
+    // Pix, locais), o Gestor escreve.
+    match /configuracoes/{documento} {
+      allow read: if isProfessor();
+      allow write: if isGestor();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

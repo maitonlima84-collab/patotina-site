@@ -3,7 +3,7 @@ import { useMemo, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { PageHeader } from '@shared/components/PageHeader'
-import { DIAS_SEMANA, hojeIso } from '@shared/lib/utils'
+import { DIAS_SEMANA, hojeIso, moeda } from '@shared/lib/utils'
 import { Avatar } from '@/modules/alunos/components/AlunoLinha'
 import { useAlunos } from '@/modules/alunos/hooks/useAlunos'
 import { aniversariantes, idade } from '@/modules/alunos/services/alunosService'
@@ -11,6 +11,9 @@ import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
 import { descreverHorario, turmasDoDia } from '@/modules/turmas/services/turmasService'
 import { useChamadasEntre } from '@/modules/chamada/hooks/useChamada'
 import { alunosEmAlerta, primeiroDiaDoMes, somarMeses } from '@/modules/chamada/services/chamadaService'
+import { useCobrancasAbertas, useCobrancasDoMes } from '@/modules/mensalidades/hooks/useCobrancas'
+import { atrasada } from '@/modules/mensalidades/services/mensalidadesService'
+import { valorDevido } from '@/modules/mensalidades/types'
 
 // Os números do dia (docs/gestao.md, §2.1). Cada número é link para a lista
 // filtrada. Cresce conforme os módulos entram: chamada, mensalidades,
@@ -29,6 +32,10 @@ export function InicioPage() {
   const { chamadas } = useChamadasEntre(primeiroDiaDoMes(somarMeses(hojeStr.slice(0, 7), -1)), hojeStr)
   const chamadasHoje = useMemo(() => new Set(chamadas.filter((c) => c.data === hojeStr).map((c) => c.turmaId)), [chamadas, hojeStr])
   const alertas = useMemo(() => alunosEmAlerta(alunos, chamadas), [alunos, chamadas])
+  // Só o Gestor lê cobranças (regra); para o Professor o hook nem assina.
+  const { rows: abertas } = useCobrancasAbertas(isGestor)
+  const atrasadas = useMemo(() => abertas.filter((c) => atrasada(c)), [abertas])
+  const valorAtrasado = atrasadas.reduce((s, c) => s + valorDevido(c), 0)
 
   const ativos = useMemo(() => alunos.filter((a) => a.situacao === 'ativo'), [alunos])
   const porTurma = useMemo(() => {
@@ -37,6 +44,10 @@ export function InicioPage() {
     return m
   }, [ativos])
   const semTurma = porTurma.get('') ?? 0
+  const mesAtual = hojeStr.slice(0, 7)
+  // Aviso de "gerar cobranças": há aluno ativo e nenhuma cobrança no mês.
+  const { rows: doMes, loading: carregandoMes } = useCobrancasDoMes(mesAtual, isGestor)
+  const semCobrancaNoMes = isGestor && !carregandoMes && ativos.length > 0 && doMes.length === 0
   const preMatriculas = alunos.filter((a) => a.situacao === 'pre_matricula').length
   const doDia = turmasDoDia(turmas, hoje.getDay())
   const niver = aniversariantes(alunos, hoje.getMonth() + 1)
@@ -50,7 +61,14 @@ export function InicioPage() {
         <Numero rotulo="Turmas ativas" valor={turmas.filter((t) => t.ativa).length} para="/turmas" />
         <Numero rotulo="Sem turma" valor={semTurma} para="/alunos?situacao=ativo&turma=sem" destaque={semTurma > 0} />
         {isGestor && <Numero rotulo="Pré-matrículas" valor={preMatriculas} para="/alunos?situacao=pre_matricula" destaque={preMatriculas > 0} />}
+        {isGestor && <Numero rotulo={`Em aberto (${abertas.length})`} valor={moeda(abertas.reduce((s, c) => s + valorDevido(c), 0))} para="/mensalidades?f=aberta" />}
+        {isGestor && <Numero rotulo={`Atrasadas (${atrasadas.length})`} valor={moeda(valorAtrasado)} para="/mensalidades/inadimplencia" destaque={atrasadas.length > 0} />}
       </div>
+      {semCobrancaNoMes && (
+        <Link to={`/mensalidades?mes=${mesAtual}`} className="mb-4 block rounded-lg border border-gold/40 bg-gold/10 px-3.5 py-2.5 text-[0.95rem] text-gold-2">
+          As cobranças deste mês ainda não foram geradas — toque para gerar em Mensalidades.
+        </Link>
+      )}
 
       <div className="grid gap-4 md:grid-cols-2">
         <Bloco titulo="Treinos de hoje">

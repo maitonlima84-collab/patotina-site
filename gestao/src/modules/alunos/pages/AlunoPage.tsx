@@ -12,6 +12,7 @@ import { Avatar } from '../components/AlunoLinha'
 import { SituacaoSelo } from '../components/SituacaoSelo'
 import { MovimentacaoDialog, type Movimentacao } from '../components/MovimentacaoDialog'
 import { PresencaDoAluno } from '@/modules/chamada/components/PresencaDoAluno'
+import { FinanceiroDoAluno } from '@/modules/mensalidades/components/FinanceiroDoAluno'
 
 const ABAS = [
   { id: 'ficha', titulo: 'Ficha' },
@@ -246,7 +247,7 @@ function Financeiro({ aluno }: { aluno: Aluno }) {
         )}
         <Linha r="Quem paga" v={aluno.responsaveis.find((r) => r.pagador)?.nome} />
       </Bloco>
-      <p className="rounded-xl border border-dashed border-line p-8 text-center text-gray">As cobranças aparecem aqui quando as mensalidades começarem a ser geradas.</p>
+      <FinanceiroDoAluno aluno={aluno} />
     </>
   )
 }
