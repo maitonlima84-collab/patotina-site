@@ -26,6 +26,9 @@ publicar.
   As regras do Firestore são a autoridade; o `RequireRole`/`AuthGate` da
   tela só esconde. Uma conta, dois apps: o `AuthGate` de cada um diz quem
   entra (`isEditor` no painel, `isProfessor` na gestão).
+- **Venda para outras escolinhas é low cost** (R$ 39/mês gestão, R$ 59
+  site + gestão), um projeto Firebase por escolinha, sem prometer cobrança
+  automática. Decidido em 12/09/2026; raciocínio em `docs/comercial.md`.
 
 ## Convenções
 

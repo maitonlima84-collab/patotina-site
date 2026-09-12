@@ -26,6 +26,7 @@ firestore.rules  ← quem lê e escreve o quê
 storage.rules    ← logos dos parceiros
 firebase.json    ← Hosting (site "patotina": raiz + /app; site "patotina-gestao") e emuladores
 docs/gestao.md   ← desenho do app de gestão (gestao/, app.patotina.com.br)
+docs/comercial.md ← venda para outras escolinhas: preço low cost, custo, mercado
 PAINEL.md        ← manual do painel do site, escrito para a escolinha
 GESTAO.md        ← manual do app de gestão, escrito para a escolinha
 DEPLOY.md        ← como criar o projeto Firebase e publicar
