@@ -7,7 +7,11 @@ e o app de gestão.
 `patotina`, Auth (e-mail/senha), Firestore e Storage em southamerica-east1,
 regras publicadas, conteúdo inicial e o primeiro Master criados. O papel
 cross-service do Storage (seção "Se o upload de logo falhar") já foi
-concedido. Falta só o domínio (passo 7).
+concedido. **12/09/2026 (tarde):** o app de gestão foi publicado em
+https://patotina-gestao.web.app (site `patotina-gestao` criado, domínios
+`patotina-gestao.web.app` e `app.patotina.com.br` autorizados no Auth pela
+API — ver passo 6). Faltam os domínios (passo 7): `www.patotina.com.br` e
+`app.patotina.com.br` dependem do DNS.
 A chave de conta de serviço foi gerada com `gcloud iam service-accounts keys
 create` e está em `patotina-service-account.json` (ignorada pelo git).
 
@@ -141,7 +145,13 @@ O `.firebaserc` já liga o target `gestao` a esse site. Ele responde em
 `patotina-gestao.web.app`; o domínio `app.patotina.com.br` entra no passo 7.
 Como o app de gestão faz login por e-mail/senha num domínio diferente do
 `authDomain`, acrescente `patotina-gestao.web.app` e `app.patotina.com.br` em
-Console → **Authentication** → *Settings* → *Authorized domains*.
+Console → **Authentication** → *Settings* → *Authorized domains*. Sem
+console, pela API (o gcloud precisa do projeto de cota no cabeçalho):
+
+```bash
+TOKEN=$(gcloud auth print-access-token)
+curl -s -X PATCH -H "Authorization: Bearer $TOKEN" -H "x-goog-user-project: patotina"   -H "Content-Type: application/json"   "https://identitytoolkit.googleapis.com/admin/v2/projects/patotina/config?updateMask=authorizedDomains"   -d '{"authorizedDomains":["localhost","patotina.firebaseapp.com","patotina.web.app","www.patotina.com.br","patotina.com.br","patotina-gestao.web.app","app.patotina.com.br"]}'
+```
 
 > No Windows, o emulador de Hosting **não aplica redirects nem headers**
 > (bug do `glob-slasher`, que troca `/admin` por `\admin`). Em produção
