@@ -1,0 +1,41 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function logado() {
+      return request.auth != null;
+    }
+
+    // Só quem tem acesso ao painel sobe imagem. A checagem cruza com o
+    // Firestore (usuário ativo com papel Editor ou Master). Se em produção o
+    // firestore.get() recusar por IAM (aconteceu no OnTrac em 07/2026), o
+    // caminho é liberar o papel cross-service para a conta de serviço do
+    // Storage — ver DEPLOY.md.
+    function usuario() {
+      return firestore.get(/databases/(default)/documents/usuarios/$(request.auth.uid)).data;
+    }
+
+    function edita() {
+      return logado() && usuario().ativo == true
+        && ('Editor' in usuario().papeis || 'Master' in usuario().papeis);
+    }
+
+    function ehImagemPequena() {
+      return request.resource.contentType.matches('image/.*')
+        && request.resource.size < 3 * 1024 * 1024;
+    }
+
+    // Logos dos parceiros e demais imagens do site: leitura pública (o site
+    // mostra), escrita só de quem edita, e o painel apaga a imagem antiga ao
+    // trocar para não deixar entulho.
+    match /site/{pasta}/{arquivo} {
+      allow read: if true;
+      allow create, update: if edita() && ehImagemPequena();
+      allow delete: if edita();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

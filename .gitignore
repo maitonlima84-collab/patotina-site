@@ -1,2 +1,30 @@
+# Dependências e build
+node_modules
+dist
+*.local
+
+# Ambiente — a config web do Firebase não é segredo, mas cada máquina/projeto
+# tem a sua. O .env.development (emuladores, projeto demo) é versionado.
+.env
+.env.production
+
+# Firebase
+.firebase
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+storage-debug.log
+*service-account*.json
+
+# Dados dos emuladores locais (contas e conteúdo de teste) — estado local,
+# persistido entre reinícios pelo --import/--export-on-exit do "npm run emulators".
+.emulator-data
+firebase-export-*
+
+# Sistema / editores
 .claude/
 *.log
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

@@ -37,7 +37,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1">
+<link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -76,6 +76,7 @@
     <li><a href="#time">Time</a></li>
     <li><a href="#apec">Associação</a></li>
     <li><a href="#parceiros">Parceiros</a></li>
+    <li><a class="nav__admin" href="/app/" title="Área da escolinha">🔒 Painel</a></li>
     <li><a class="nav__cta" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20matr%C3%ADcula%20na%20Escolinha%20Patotina." target="_blank" rel="noopener">WhatsApp</a></li>
   </ul>
 </nav>
@@ -92,15 +93,15 @@
       <svg class="hero__crest"><use href="#crest"/></svg>
     </div>
     <div class="hero__text">
-      <p class="hero__eyebrow">» MATUTINA · MINAS GERAIS · ESCOLINHA DESDE 2021</p>
+      <p class="hero__eyebrow" id="hero-eyebrow">» MATUTINA · MINAS GERAIS · ESCOLINHA DESDE 2021</p>
       <h1 class="hero__title">
         <span class="line line1" aria-label="PATOTINA">
           <span class="ltr" style="--i:0">P</span><span class="ltr" style="--i:1">A</span><span class="ltr" style="--i:2">T</span><span class="ltr" style="--i:3">O</span><span class="ltr" style="--i:4">T</span><span class="ltr" style="--i:5">I</span><span class="ltr" style="--i:6">N</span><span class="ltr" style="--i:7">A</span>
         </span>
         <span class="line line2"><span class="w">ESCOLINHA</span> <span class="w outline">DE FUTEBOL</span></span>
       </h1>
-      <p class="hero__tag">💙🤍❤️ Futebol, amizade e desenvolvimento para crianças de <b>4 a 14 anos</b></p>
-      <div class="hero__chips">
+      <p class="hero__tag" id="hero-tag">💙🤍❤️ Futebol, amizade e desenvolvimento para crianças de <b>4 a 14 anos</b></p>
+      <div class="hero__chips" id="hero-chips">
         <span class="chip">🏆 Copa Soccer 2024</span>
         <span class="chip">🏆 Copa Soccer 2025</span>
         <span class="chip">🏆 1ª Copa Patotina 2026</span>
@@ -125,9 +126,9 @@
 <section class="stats">
   <div class="wrap stats__grid">
     <div class="stat" data-reveal><b class="stat__n">2013</b><span>FUNDAÇÃO DO CLUBE</span></div>
-    <div class="stat" data-reveal style="--d:.08s"><b class="stat__n"><i data-count="5">0</i></b><span>ANOS DE ESCOLINHA</span></div>
-    <div class="stat" data-reveal style="--d:.16s"><b class="stat__n"><i data-count="5">0</i></b><span>TROFÉUS DA BASE</span></div>
-    <div class="stat" data-reveal style="--d:.24s"><b class="stat__n"><i data-count="3">0</i></b><span>TURMAS · 4 A 14 ANOS</span></div>
+    <div class="stat" data-reveal style="--d:.08s"><b class="stat__n"><i data-count="5" id="stat-anos">0</i></b><span>ANOS DE ESCOLINHA</span></div>
+    <div class="stat" data-reveal style="--d:.16s"><b class="stat__n"><i data-count="5" id="stat-trofeus">0</i></b><span>TROFÉUS DA BASE</span></div>
+    <div class="stat" data-reveal style="--d:.24s"><b class="stat__n"><i data-count="3" id="stat-turmas">0</i></b><span>TURMAS · 4 A 14 ANOS</span></div>
   </div>
 </section>
 
@@ -136,12 +137,12 @@
   <div class="sec-wm" aria-hidden="true">TURMAS</div>
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <p class="sec-tag">» TREINOS SEMANAIS</p>
-      <h2>TURMAS E <span class="gd">HORÁRIOS</span></h2>
-      <p class="sec-sub">Cada criança na turma certa para a idade dela. Chegou, treinou, fez amigo. 💙</p>
+      <p class="sec-tag" id="turmas-tag">» TREINOS SEMANAIS</p>
+      <h2 id="turmas-titulo">TURMAS E <span class="gd">HORÁRIOS</span></h2>
+      <p class="sec-sub" id="turmas-sub">Cada criança na turma certa para a idade dela. Chegou, treinou, fez amigo. 💙</p>
     </header>
 
-    <div class="tgrid">
+    <div class="tgrid" id="tgrid">
       <article class="turma" data-reveal data-tilt>
         <div class="turma__shine"></div>
         <span class="turma__age">4 <small>a</small> 6</span>
@@ -178,7 +179,7 @@
         <a class="btn btn--wa btn--sm" href="https://wa.me/5534988658518?text=Ol%C3%A1%2C%20Lucas!%20Quero%20informa%C3%A7%C3%B5es%20sobre%20a%20turma%20de%2010%20anos%20ou%20mais." target="_blank" rel="noopener"><svg class="ico"><use href="#wa"/></svg> Quero essa turma</a>
       </article>
     </div>
-    <p class="turmas__note" data-reveal>📍 Matutina/MG · Contato de inscrição: <a href="https://wa.me/5534988658518" target="_blank" rel="noopener"><b>(34) 98865-8518</b> — Lucas</a></p>
+    <p class="turmas__note" id="turmas-nota" data-reveal>📍 Matutina/MG · Contato de inscrição: <a href="https://wa.me/5534988658518" target="_blank" rel="noopener"><b>(34) 98865-8518</b> — Lucas</a></p>
   </div>
 </section>
 
@@ -212,14 +213,14 @@
 </section>
 
 <!-- ============ DESTAQUE CRUZEIRO ============ -->
-<section class="destaque" id="cruzeiro">
+<section class="destaque" id="destaques">
   <div class="sec-wm" aria-hidden="true">SONHO</div>
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <p class="sec-tag">» DAQUI PRA FRENTE</p>
-      <h2>UM SONHO QUE COMEÇA A GANHAR <span class="gd">NOVOS CAMINHOS</span></h2>
+      <p class="sec-tag" id="destaques-tag">» DAQUI PRA FRENTE</p>
+      <h2 id="destaques-titulo">UM SONHO QUE COMEÇA A GANHAR <span class="gd">NOVOS CAMINHOS</span></h2>
     </header>
-    <div class="story" data-reveal style="--d:.1s">
+    <div class="story" id="story" data-reveal style="--d:.1s">
       <div class="story__big">
         <span class="story__badge">⭐ 04 · AGO · 2026</span>
         <h3>Aluno da escolinha é selecionado pelo Cruzeiro</h3>
@@ -247,10 +248,10 @@
   <div class="sec-wm" aria-hidden="true">GLÓRIA</div>
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <p class="sec-tag">» SALA DE TROFÉUS DA BASE <small>(clique neles 😉)</small></p>
-      <h2>NOSSAS <span class="gd">CONQUISTAS</span></h2>
+      <p class="sec-tag" id="titulos-tag">» SALA DE TROFÉUS DA BASE <small>(clique neles 😉)</small></p>
+      <h2 id="titulos-titulo">NOSSAS <span class="gd">CONQUISTAS</span></h2>
     </header>
-    <div class="trophies">
+    <div class="trophies" id="trophies">
       <button class="trophy trophy--gold" data-reveal data-confetti>
         <span class="trophy__icon" aria-hidden="true">🏆</span>
         <span class="trophy__year">2026</span>
@@ -300,13 +301,13 @@
       <article class="pillar" data-reveal style="--d:.2s"><span class="pillar__ico">🤝</span><h3>Social</h3><p>Amizade, trabalho em equipe e pertencimento. Aqui todo mundo é Família Patotina.</p></article>
     </div>
     <div class="prof" data-reveal style="--d:.15s">
-      <div class="prof__ava" aria-hidden="true">LE</div>
+      <div class="prof__ava" id="prof-ava" aria-hidden="true">LE</div>
       <div>
         <p class="prof__tag">» PROFESSOR</p>
-        <h3>Lucas Eduardo</h3>
-        <p class="prof__desc">Licenciatura e Bacharelado em Educação Física · <b>CREF 046342-G/MG</b>. Responsável pelas três turmas e pelo contato com as famílias.</p>
+        <h3 id="prof-nome">Lucas Eduardo</h3>
+        <p class="prof__desc" id="prof-desc">Licenciatura e Bacharelado em Educação Física · <b>CREF 046342-G/MG</b>. Responsável pelas três turmas e pelo contato com as famílias.</p>
       </div>
-      <a class="btn btn--ghost btn--sm" href="https://www.instagram.com/lucas_eduardo_mgf/" target="_blank" rel="noopener">Instagram ↗</a>
+      <a class="btn btn--ghost btn--sm" id="prof-insta" href="https://www.instagram.com/lucas_eduardo_mgf/" target="_blank" rel="noopener">Instagram ↗</a>
     </div>
   </div>
 </section>
@@ -322,7 +323,7 @@
       <p class="sec-sub">Patos de Minas + Matutina = Patotina. Um grupo de jovens matutinenses que quis levar futebol, lazer e união para a cidade.</p>
     </header>
 
-    <div class="tl">
+    <div class="tl" id="tl">
       <article class="tl__item" data-reveal>
         <span class="tl__year">2013</span>
         <div class="tl__card"><h3>Nasce o Patotina 💙🤍❤️</h3><p>Em 7 de setembro, a ideia de <strong>Lucas Ferreira de Souza</strong> vira time. O nome junta as duas cidades da turma: <strong>Pat</strong>os de Minas e Matu<strong>tina</strong>.</p></div>
@@ -384,10 +385,10 @@
   <div class="sec-wm" aria-hidden="true">JUNTOS</div>
   <div class="wrap">
     <header class="sec-head" data-reveal>
-      <p class="sec-tag">» JUNTOS EM PROL DO ESPORTE</p>
-      <h2>NOSSOS <span class="gd">PARCEIROS</span></h2>
+      <p class="sec-tag" id="parceiros-tag">» JUNTOS EM PROL DO ESPORTE</p>
+      <h2 id="parceiros-titulo">NOSSOS <span class="gd">PARCEIROS</span></h2>
     </header>
-    <div class="sponsors">
+    <div class="sponsors" id="sponsors">
       <div class="sponsor sponsor--master" data-reveal><b>SICOOB <span>CREDITIROS</span></b><small>PARCEIRO MASTER</small></div>
       <div class="sponsor sponsor--master" data-reveal style="--d:.05s"><b>GRUPO <span>NUTRILEITE</span></b><small>PARCEIRO MASTER</small></div>
       <div class="sponsor" data-reveal style="--d:.1s"><b>PREFEITURA <span>DE MATUTINA</span></b><small>APOIO INSTITUCIONAL</small></div>
@@ -438,6 +439,7 @@
       <a href="#time">Time</a>
       <a href="#apec">Associação</a>
       <a href="#parceiros">Parceiros</a>
+      <a href="/app/">🔒 Painel da escolinha</a>
     </nav>
     <div class="footer__social">
       <a href="https://wa.me/5534988658518" target="_blank" rel="noopener">WhatsApp (34) 98865-8518</a>
@@ -451,6 +453,8 @@
   <p class="footer__copy">© <span id="ano">2026</span> Patotina Esporte Clube · Matutina/MG</p>
 </footer>
 
-<script src="js/main.js?v=1" defer></script>
+<script src="js/main.js?v=2" defer></script>
+<!-- Conteúdo editado no painel (/app): troca o miolo das seções pelo que está no Firestore. -->
+<script type="module" src="js/conteudo.js?v=2"></script>
 </body>
 </html>

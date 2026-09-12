@@ -6,7 +6,9 @@
   const $  = (s, c) => (c || document).querySelector(s);
   const $$ = (s, c) => [...(c || document).querySelectorAll(s)];
   const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const WHATSAPP = '5534988658518';
+  // O número vem do painel (js/conteudo.js grava em window.PATOTINA); o fixo
+  // aqui é a reserva para quando o banco não responde.
+  const WHATSAPP = () => (window.PATOTINA && window.PATOTINA.whatsapp) || '5534988658518';
 
   /* ---------- Preloader ---------- */
   function ready() {
@@ -46,7 +48,8 @@
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { threshold: .15, rootMargin: '0px 0px -40px' });
-  $$('[data-reveal]').forEach(el => io.observe(el));
+  const ligarReveal = root => $$('[data-reveal]', root).forEach(el => { if (!el.classList.contains('in')) io.observe(el); });
+  ligarReveal();
 
   /* ---------- Contadores ---------- */
   const fmt = n => n.toLocaleString('pt-BR');
@@ -61,21 +64,29 @@
     };
     RM ? e.target.textContent = fmt(end) : requestAnimationFrame(step);
   }), { threshold: .6 });
-  $$('[data-count]').forEach(el => cio.observe(el));
+  const ligarContadores = root => $$('[data-count]', root).forEach(el => cio.observe(el));
+  ligarContadores();
 
   /* ---------- Pré-matrícula → WhatsApp ---------- */
   /* Sem backend: a idade sugere a turma e o formulário vira uma mensagem
      pronta no WhatsApp do professor. O responsável confere e envia. */
   const form = $('#mform');
+  const idade = form && form.elements.idade, out = $('#turma-out');
+  // As turmas cadastradas no painel decidem a sugestão; a lista fixa é a
+  // reserva enquanto o conteúdo não chega (ou se o banco não responder).
+  const TURMAS_RESERVA = [
+    { nome: 'Fut Baby', faixa: '4 a 6', idadeMin: 4, idadeMax: 6, resumo: 'sexta 18h · Campo do Clube' },
+    { nome: 'Iniciação', faixa: '7 a 9', idadeMin: 7, idadeMax: 9, resumo: 'segunda e sexta' },
+    { nome: 'Formação', faixa: '10+', idadeMin: 10, idadeMax: 14, resumo: 'terça e sexta · Campo Raimundão' },
+  ];
+  const turmaPor = n => {
+    if (!n || n < 3) return null;
+    const turmas = (window.PATOTINA && window.PATOTINA.turmas) || TURMAS_RESERVA;
+    const t = turmas.find(t => n >= t.idadeMin && n <= t.idadeMax);
+    if (!t) return 'Fale com o professor para ver a melhor opção';
+    return `${t.nome} (${t.faixa} anos)${t.resumo ? ' · ' + t.resumo : ''}`;
+  };
   if (form) {
-    const idade = form.elements.idade, out = $('#turma-out');
-    const turmaPor = n => {
-      if (!n || n < 3) return null;
-      if (n <= 6) return 'Fut Baby (4 a 6 anos) · sexta 18h · Campo do Clube';
-      if (n <= 9) return 'Iniciação (7 a 9 anos) · segunda e sexta';
-      if (n <= 14) return 'Formação (10 anos ou mais) · terça e sexta · Campo Raimundão';
-      return 'Fale com o professor para ver a melhor opção';
-    };
     idade.addEventListener('input', () => { out.value = turmaPor(+idade.value) || '—'; });
 
     form.addEventListener('submit', e => {
@@ -98,7 +109,7 @@
       ];
       if (v('obs')) linhas.push(`📝 Obs.: ${v('obs')}`);
       linhas.push('', 'Enviado pelo site 💙🤍❤️');
-      open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(linhas.join('\n'))}`, '_blank', 'noopener');
+      open(`https://wa.me/${WHATSAPP()}?text=${encodeURIComponent(linhas.join('\n'))}`, '_blank', 'noopener');
     });
   }
 
@@ -180,8 +191,11 @@
   }
 
   /* ---------- Tilt 3D nos cards ---------- */
-  if (!RM && matchMedia('(pointer:fine)').matches) {
-    $$('[data-tilt]').forEach(card => {
+  const ligarTilt = root => {
+    if (RM || !matchMedia('(pointer:fine)').matches) return;
+    $$('[data-tilt]', root).forEach(card => {
+      if (card.dataset.tiltOn) return;
+      card.dataset.tiltOn = '1';
       card.addEventListener('mousemove', e => {
         const r = card.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
@@ -195,7 +209,8 @@
         setTimeout(() => card.style.transition = '', 500);
       });
     });
-  }
+  };
+  ligarTilt();
 
   /* ---------- Confete nos troféus 🏆 ---------- */
   const cvs = $('#confetti-canvas'), cctx = cvs.getContext('2d');
@@ -222,11 +237,25 @@
     if (pieces.length) requestAnimationFrame(confLoop);
     else { confRun = false; cctx.clearRect(0, 0, cvs.width, cvs.height); }
   }
-  $$('[data-confetti]').forEach(el => el.addEventListener('click', e => {
-    if (RM) return;
-    const r = el.getBoundingClientRect();
-    burst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
-  }));
+  const ligarConfete = root => $$('[data-confetti]', root).forEach(el => {
+    if (el.dataset.confettiOn) return;
+    el.dataset.confettiOn = '1';
+    el.addEventListener('click', e => {
+      if (RM) return;
+      const r = el.getBoundingClientRect();
+      burst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+    });
+  });
+  ligarConfete();
+
+  /* ---------- Conteúdo vindo do painel ---------- */
+  // js/conteudo.js troca o miolo das seções depois que a página carregou;
+  // avisa aqui para os efeitos valerem também no que acabou de entrar.
+  addEventListener('patotina:conteudo', e => {
+    const root = e.detail && e.detail.root;
+    ligarReveal(root); ligarContadores(root); ligarTilt(root); ligarConfete(root);
+    if (idade && out) out.value = turmaPor(+idade.value) || '—';
+  });
 
   $('#ano').textContent = new Date().getFullYear();
 })();

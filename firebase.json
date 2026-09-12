@@ -1,0 +1,136 @@
+{
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "predeploy": [
+      "npm run build"
+    ],
+    "redirects": [
+      {
+        "source": "/admin",
+        "destination": "/app/",
+        "type": 302
+      },
+      {
+        "source": "/admin/",
+        "destination": "/app/",
+        "type": 302
+      },
+      {
+        "source": "/instagram",
+        "destination": "https://www.instagram.com/escolinha.patotina/",
+        "type": 302
+      },
+      {
+        "source": "/insta",
+        "destination": "https://www.instagram.com/escolinha.patotina/",
+        "type": 302
+      },
+      {
+        "source": "/time",
+        "destination": "https://www.instagram.com/patotinaoficial/",
+        "type": 302
+      },
+      {
+        "source": "/master",
+        "destination": "https://www.instagram.com/patotinamaster/",
+        "type": 302
+      },
+      {
+        "source": "/facebook",
+        "destination": "https://www.facebook.com/patotina.patotina",
+        "type": 302
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/app/**",
+        "destination": "/app/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, must-revalidate"
+          },
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "SAMEORIGIN"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=()"
+          }
+        ]
+      },
+      {
+        "source": "/app/assets/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "/img/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      },
+      {
+        "source": "/app/**",
+        "headers": [
+          {
+            "key": "X-Robots-Tag",
+            "value": "noindex, nofollow"
+          }
+        ]
+      }
+    ],
+    "//": "HTML nunca cacheado: o index.html do site e o do painel são os únicos arquivos sem hash no nome, e são eles que apontam para os bundles. no-cache e não no-store — guarda a entrada e revalida a cada navegação (mesma lição do OnTrac em 10/08/2026). | Bundles do painel: nome com hash do conteúdo, cache de um ano. | Imagens do site raramente mudam; css/js do site têm ?v= no HTML, então uma semana basta. | Painel fora do Google."
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "storage": {
+      "port": 9199
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}

@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function logado() {
+      return request.auth != null;
+    }
+
+    function meuUsuario() {
+      return get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data;
+    }
+
+    function ativo() {
+      return logado() && exists(/databases/$(database)/documents/usuarios/$(request.auth.uid))
+        && meuUsuario().ativo == true
+        && meuUsuario().papeis.size() > 0;
+    }
+
+    function temPapel(papel) {
+      return ativo() && (papel in meuUsuario().papeis);
+    }
+
+    // Master cria e remove acessos; Editor mexe no conteúdo do site. O Master
+    // também edita conteúdo (mesmo atalho "Master vê tudo" do OnTrac).
+    function isMaster() {
+      return temPapel('Master');
+    }
+
+    function isEditor() {
+      return isMaster() || temPapel('Editor');
+    }
+
+    function colecaoDoSite(nome) {
+      return nome in ['site_turmas', 'site_destaques', 'site_titulos', 'site_historia', 'site_parceiros'];
+    }
+
+    // ---------------- conteúdo do site ----------------
+    // O site público lê SEM login, mas só o que está marcado como visível: a
+    // consulta do site vem com where('visivel', '==', true), que é o que
+    // satisfaz a regra de lista. Quem edita enxerga tudo, inclusive o oculto.
+    match /{colecao}/{id} {
+      allow read: if colecaoDoSite(colecao) && (resource.data.visivel == true || isEditor());
+      allow create, update: if colecaoDoSite(colecao) && isEditor()
+        && request.resource.data.visivel is bool;
+      allow delete: if colecaoDoSite(colecao) && isEditor();
+    }
+
+    // Textos soltos do site (site_config/textos): um documento só.
+    match /site_config/{documento} {
+      allow read: if true;
+      allow write: if isEditor();
+    }
+
+    // ---------------- contas ----------------
+    // Cada pessoa lê o próprio registro (é o que diz ao painel quais papéis ela
+    // tem); o Master lê e mexe em todos. Ninguém apaga: desligar `ativo` é o
+    // caminho, para preservar quem editava o quê.
+    match /usuarios/{uid} {
+      allow read: if logado() && (request.auth.uid == uid || isMaster());
+      allow create: if isMaster()
+        && request.resource.data.keys().hasAll(['nome', 'email', 'ativo', 'papeis'])
+        && request.resource.data.papeis is list;
+      // Trava contra tirar o próprio acesso de Master por engano — sem isso a
+      // escolinha ficaria sem ninguém que consiga criar conta.
+      allow update: if isMaster()
+        && request.resource.data.papeis is list
+        && !(request.auth.uid == uid
+             && (request.resource.data.ativo != true || !('Master' in request.resource.data.papeis)));
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

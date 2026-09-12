@@ -74,6 +74,8 @@ body.has-mouse #cursor-glow,body.has-tilt #cursor-glow{opacity:1}
 .nav__links a{font-family:var(--bcond);font-weight:600;font-size:1.02rem;letter-spacing:.08em;text-transform:uppercase;position:relative;padding:.3rem 0}
 .nav__links a:not(.nav__cta)::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--gd);transform:scaleX(0);transform-origin:right;transition:transform .35s var(--easy)}
 .nav__links a:not(.nav__cta):hover::after{transform:scaleX(1);transform-origin:left}
+.nav__admin{color:var(--gray);font-size:.9rem!important}
+.nav__admin:hover{color:var(--gd)}
 .nav__cta{background:var(--wa);color:#04210f!important;padding:.4rem 1rem!important;font-weight:700;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);transition:transform .25s var(--easy),box-shadow .25s}
 .nav__cta:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.35)}
 #burger{display:none;flex-direction:column;gap:5px;z-index:1002;padding:.4rem}
@@ -356,3 +358,9 @@ section{position:relative;padding:clamp(4.5rem,9vw,7.5rem) 0;overflow:hidden}
   .ltr,.line2 .w{transform:none}
   #cursor-glow,#particles,.hero__beams{display:none}
 }
+
+/* ---------- logos enviados pelo painel ---------- */
+a.sponsor{text-decoration:none}
+.sponsor__logo{max-height:56px;max-width:82%;object-fit:contain;filter:grayscale(1) opacity(.75);transition:filter .35s}
+.sponsor:hover .sponsor__logo,.sponsor--master .sponsor__logo{filter:none}
+.sponsor--master .sponsor__logo{max-height:84px}
