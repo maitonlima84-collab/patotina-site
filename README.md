@@ -17,7 +17,8 @@ app/             ← painel do site (/app): Vite + React + TS, padrão OnTrac
   src/modules/   ← site (conteúdo)
 gestao/          ← app de gestão (app.patotina.com.br): segundo app Vite, PWA
   src/app/       ← rotas, layout (sidebar + barra inferior)
-  src/modules/   ← inicio (e os módulos de docs/gestao.md conforme entram)
+  src/modules/   ← inicio, alunos, turmas, chamada, mensalidades, prematriculas,
+                   agenda, avisos, configuracoes, familia (área do responsável)
 shared/          ← o que os dois apps usam: auth (login, papéis), contas,
                    firebase, componentes de UI, tema (estilos/tema.css)
 scripts/         ← seed do conteúdo, criação de acesso, montagem do dist/
@@ -25,7 +26,8 @@ firestore.rules  ← quem lê e escreve o quê
 storage.rules    ← logos dos parceiros
 firebase.json    ← Hosting (site "patotina": raiz + /app; site "patotina-gestao") e emuladores
 docs/gestao.md   ← desenho do app de gestão (gestao/, app.patotina.com.br)
-PAINEL.md        ← manual do painel, escrito para a escolinha
+PAINEL.md        ← manual do painel do site, escrito para a escolinha
+GESTAO.md        ← manual do app de gestão, escrito para a escolinha
 DEPLOY.md        ← como criar o projeto Firebase e publicar
 ```
 

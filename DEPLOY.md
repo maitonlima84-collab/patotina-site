@@ -21,8 +21,13 @@ Firebase Hosting — site "patotina" (target `site`, dist/)
 │                  Auth (e-mail/senha) + papéis em usuarios/{uid}
 └── /admin       → redireciona para /app
 Firebase Hosting — site "patotina-gestao" (target `gestao`, dist-gestao/)
-└── /            → app de gestão (gestao/), PWA; app.patotina.com.br
-                   mesma Auth e os mesmos usuarios/{uid} (papéis Gestor/Professor)
+├── /            → app de gestão (gestao/), PWA; app.patotina.com.br
+│                  mesma Auth e os mesmos usuarios/{uid} (papéis Gestor/Professor)
+└── /familia     → área da família (responsaveis/{uid}), mesmo app
+
+Firestore   + alunos, turmas, chamadas, cobrancas, pre_matriculas, eventos,
+            avisos, configuracoes/escolinha, responsaveis (ver docs/gestao.md)
+Storage     + gestao/alunos/*.webp (fotos dos alunos)
 
 Firestore   site_turmas, site_destaques, site_titulos, site_historia,
             site_parceiros, site_config/textos, usuarios

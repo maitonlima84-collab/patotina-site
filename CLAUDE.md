@@ -42,6 +42,16 @@ publicar.
 - Acrescentar um campo a uma seção = `modules/site/colecoes.ts` (campo +
   validação) + `types.ts` + `site/js/conteudo.js` (como o site mostra) +
   `scripts/seed-site.mts` (valor inicial).
+- Coleções da gestão (sem prefixo, nunca públicas, salvo `eventos` com
+  `visivelNoSite` e a criação de `pre_matriculas` pelo site): `alunos`
+  (+`historico`), `turmas`, `chamadas` (`turmaId_data`), `cobrancas`
+  (`alunoId_AAAA-MM`), `pre_matriculas`, `eventos`, `avisos`,
+  `configuracoes/escolinha`, `responsaveis`. Ids compostos são a garantia
+  de idempotência (chamada e cobrança nunca duplicam). Nada de gestão se
+  apaga: situação/cancelamento é o caminho, e o histórico do aluno só cresce.
+- Módulo novo na gestão: `gestao/src/modules/<nome>/` com `routes.tsx`, entra
+  em `router.tsx` e em `abas.ts`; regra no `firestore.rules`; se o
+  responsável precisa ler, liberar por `ehResponsavelDe`/`ehResponsavel`.
 - Convenções de texto do conteúdo: `|` marca a parte dourada de um título;
   `*asteriscos*` viram negrito; selo do topo começando com `*` é dourado;
   treinos são `DIA | HORÁRIO | LOCAL`, um por linha.

@@ -6,8 +6,14 @@ mesmo projeto Firebase (Auth, Firestore, Storage), publicado como segundo site
 do Hosting em **app.patotina.com.br**. Web/PWA instalável — abre no navegador
 e vira ícone no celular; funciona offline para a chamada.
 
-Este documento é o mapa: o que o app faz, para quem, com que dados. Cada
-módulo ganha o próprio `docs/gestao/<modulo>.md` quando começar a ser feito.
+Este documento é o mapa: o que o app faz, para quem, com que dados.
+
+**Estado em 12/09/2026: as cinco fases estão implementadas** (um commit por
+fase, `git log` conta a história). O que ficou diferente do desenho original
+está marcado com *(feito assim:)* ao longo do texto. Manual para a escolinha
+em `GESTAO.md`. Ainda não feito: nada de Cloud Functions (geração de
+cobranças e lembretes continuam manuais, por decisão), avaliação de
+desenvolvimento, pedidos de uniforme, caixa geral.
 
 ---
 
@@ -127,9 +133,17 @@ vencimento, chave Pix, locais de treino, textos padrão dos WhatsApps
 (lembrete de mensalidade, convocação), próximo número de recibo.
 
 ### 2.10 Área do responsável (fase 5)
-Login por link no e-mail ou por telefone (SMS custa; decidir na hora). Vê os
-filhos vinculados: presença, mensalidades com Pix, avisos, agenda; atualiza
-telefone e endereço. `responsaveis/{uid}` liga a conta aos `alunoIds`.
+*(feito assim:)* login por **e-mail e senha criados pelo Gestor** na ficha
+do aluno (bloco "Acesso da família"), sem SMS nem link mágico — zero custo,
+zero configuração no console, e a família recebe a senha de quem ela já
+conhece. Família com dois filhos usa uma conta: o segundo aluno é vinculado
+pelo e-mail. `responsaveis/{uid}` guarda `alunoIds`, e as regras liberam
+só o que é dela. Em `/familia` (rota do mesmo app): turma e treinos,
+presença dos últimos três meses, mensalidades em aberto com **Pix
+copia-e-cola** (BR Code estático com valor, `familia/services/pix.ts`),
+recibos, agenda com "convocado" e avisos. Só leitura — quem quer mudar
+algo fala no WhatsApp. Conta só de família que entra pela gestão é levada
+para `/familia`; equipe que cai em `/familia` volta para `/inicio`.
 
 ### Mais tarde, se houver dor
 Avaliação de desenvolvimento (observações do professor, medidas, avaliação
@@ -208,8 +222,13 @@ configuracoes/escolinha
   textos: { lembreteMensalidade, convocacao }, proximoRecibo
 
 usuarios/{uid}.papeis  += 'Gestor' | 'Professor'
-responsaveis/{uid}     (fase 5) alunoIds: []
+responsaveis/{uid}     nome, email, telefone, alunoIds: [], ativo
 ```
+
+*(feito assim:)* `cobrancas` guarda também `alunoNome` (a lista do mês não
+precisa cruzar com alunos) e `avisos` guarda `filtro`, `quantidade` e
+`porNome` em vez de ids de destinatários. `pre_matriculas` tem `alunoId`
+quando vira matrícula. `chamadas` tem `registradoPorNome`.
 
 Sem agregados incrementais na v1: tudo que é contagem (frequência, em
 aberto, alunos por turma) se calcula no navegador a partir das listas, que
@@ -239,6 +258,13 @@ configuracoes       read: isProfessor()   write: isGestor()
 O Professor lê todos os alunos (o Firestore não filtra campos): o app
 esconde o financeiro, mas os dados de saúde ele precisa ver mesmo. Se isso
 incomodar, `cobrancas` já está separado — o que o Professor nunca alcança.
+
+*(feito assim:)* o Gestor também lê `usuarios` (para escolher o professor
+da turma). A família (`responsaveis/{uid}`) lê: o próprio documento, os
+alunos em `alunoIds`, as cobranças desses alunos (`where alunoId ==`),
+todas as chamadas (só ids dos outros alunos, sem nome), turmas, eventos,
+avisos e configurações. `eventos` é lido sem login quando
+`visivelNoSite == true` — o site consulta com esse filtro.
 
 ---
 
