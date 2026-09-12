@@ -20,14 +20,24 @@ service cloud.firestore {
       return ativo() && (papel in meuUsuario().papeis);
     }
 
-    // Master cria e remove acessos; Editor mexe no conteúdo do site. O Master
-    // também edita conteúdo (mesmo atalho "Master vê tudo" do OnTrac).
+    // Master cria e remove acessos e passa em tudo (atalho "Master vê tudo"
+    // do OnTrac). Editor mexe no conteúdo do site; Gestor e Professor são do
+    // app de gestão (docs/gestao.md, §1 e §5) — Gestor administra a
+    // escolinha, Professor só faz chamada e vê alunos.
     function isMaster() {
       return temPapel('Master');
     }
 
     function isEditor() {
       return isMaster() || temPapel('Editor');
+    }
+
+    function isGestor() {
+      return isMaster() || temPapel('Gestor');
+    }
+
+    function isProfessor() {
+      return isGestor() || temPapel('Professor');
     }
 
     function colecaoDoSite(nome) {

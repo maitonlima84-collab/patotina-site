@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "patotina"
+  },
+  "targets": {
+    "patotina": {
+      "hosting": {
+        "site": [
+          "patotina"
+        ],
+        "gestao": [
+          "patotina-gestao"
+        ]
+      }
+    }
   }
 }

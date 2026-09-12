@@ -1,14 +1,14 @@
 import { useState } from 'react'
-import { useAviso } from '@/shared/components/Aviso'
-import { PageHeader } from '@/shared/components/PageHeader'
-import { Botao } from '@/shared/components/ui/Botao'
-import { mensagemDeErro } from '@/shared/lib/erros'
+import { useAviso } from '@shared/components/Aviso'
+import { PageHeader } from '@shared/components/PageHeader'
+import { Botao } from '@shared/components/ui/Botao'
+import { mensagemDeErro } from '@shared/lib/erros'
 import type { SecaoDef } from '../colecoes'
 import type { ItemDoSite } from '../types'
 import { useColecao } from '../hooks/useColecao'
 import { moverItem } from '../services/siteService'
 import { ItemFormDialog } from '../components/ItemFormDialog'
-import { ItemLinha } from '../components/ItemLinha'
+import { ItemLinha } from '@shared/components/ItemLinha'
 
 // A tela de qualquer seção em lista (turmas, títulos, parceiros…): a mesma
 // página, com a definição da seção dizendo o que mostrar e o que editar.

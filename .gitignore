@@ -1,6 +1,7 @@
 # Dependências e build
 node_modules
 dist
+dist-gestao
 *.local
 
 # Ambiente — a config web do Firebase não é segredo, mas cada máquina/projeto

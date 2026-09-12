@@ -59,6 +59,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(RAIZ, './app/src'),
+      // O que o painel e o app de gestão (gestao/) têm em comum.
+      '@shared': path.resolve(RAIZ, './shared'),
     },
   },
   server: { port: 5173 },

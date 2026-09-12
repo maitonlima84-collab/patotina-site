@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { dataCurta, hojeIso } from '@/shared/lib/utils'
+import { dataCurta, hojeIso } from '@shared/lib/utils'
 import type { Destaque, Historia, ItemDoSite, Parceiro, Textos, Titulo, Turma } from './types'
 
 /**

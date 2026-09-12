@@ -1,5 +1,7 @@
-// Cria (ou reseta) o acesso de alguém ao painel — o primeiro administrador
-// nasce por aqui; os seguintes, pela aba Contas do próprio painel.
+// Cria (ou reseta) o acesso de alguém — o primeiro administrador nasce por
+// aqui; os seguintes, pela aba Contas. A conta vale para o painel do site e
+// para o app de gestão; o papel diz a porta: master (tudo), editor (site),
+// gestor (gestão da escolinha), professor (chamada).
 //
 //   npm run criar-acesso -- --emulador --nome "Maiton Lima" --email maiton@exemplo.com --senha "SenhaForte123" --papel master
 //   npm run criar-acesso -- --projeto patotina --chave conta.json --nome "Lucas" --email lucas@exemplo.com --senha "Senha123" --papel editor
@@ -10,10 +12,16 @@ import { conectar, argumento } from './_admin.mts'
 const nome = argumento('nome')
 const email = argumento('email')?.trim().toLowerCase()
 const senha = argumento('senha')
-const papel = argumento('papel') === 'master' ? 'master' : 'editor'
+const PAPEIS = {
+  master: ['Master', 'Editor', 'Gestor'],
+  editor: ['Editor'],
+  gestor: ['Gestor'],
+  professor: ['Professor'],
+} as const
+const papel = (argumento('papel') ?? 'editor') as keyof typeof PAPEIS
 
-if (!nome || !email || !senha) {
-  console.error('Faltou informação. Use: --nome "Nome" --email email@x.com --senha "SenhaForte123" [--papel master|editor]')
+if (!nome || !email || !senha || !(papel in PAPEIS)) {
+  console.error('Faltou informação. Use: --nome "Nome" --email email@x.com --senha "SenhaForte123" [--papel master|editor|gestor|professor]')
   process.exit(1)
 }
 if (senha.length < 8 || !/[a-zA-Z]/.test(senha) || !/[0-9]/.test(senha)) {
@@ -33,12 +41,11 @@ await db.doc(`usuarios/${user.uid}`).set(
     nome,
     email,
     ativo: true,
-    // Master também edita conteúdo; Editor só edita.
-    papeis: papel === 'master' ? ['Master', 'Editor'] : ['Editor'],
+    papeis: [...PAPEIS[papel]],
     criadoEm: new Date(),
   },
   { merge: true },
 )
 
-console.log(`${existente ? 'Atualizado' : 'Criado'}: ${nome} <${email}> — ${papel === 'master' ? 'administrador' : 'editor'} (uid ${user.uid})`)
+console.log(`${existente ? 'Atualizado' : 'Criado'}: ${nome} <${email}> — ${papel} (uid ${user.uid})`)
 process.exit(0)

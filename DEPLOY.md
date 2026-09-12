@@ -1,6 +1,7 @@
 # Deploy — www.patotina.com.br (Firebase)
 
-Como o projeto Firebase do Patotina foi montado e como publicar site + painel.
+Como o projeto Firebase do Patotina foi montado e como publicar site, painel
+e o app de gestão.
 
 **Estado em 12/09/2026:** tudo no ar em https://patotina.web.app — projeto
 `patotina`, Auth (e-mail/senha), Firestore e Storage em southamerica-east1,
@@ -13,12 +14,15 @@ create` e está em `patotina-service-account.json` (ignorada pelo git).
 ## Arquitetura
 
 ```
-Firebase Hosting (um site só)
+Firebase Hosting — site "patotina" (target `site`, dist/)
 ├── /            → site público (site/), HTML/CSS/JS puro
 │                  lê o Firestore sem login (só o que está visível)
-├── /app         → painel (app/), Vite + React + TS
+├── /app         → painel do site (app/), Vite + React + TS
 │                  Auth (e-mail/senha) + papéis em usuarios/{uid}
 └── /admin       → redireciona para /app
+Firebase Hosting — site "patotina-gestao" (target `gestao`, dist-gestao/)
+└── /            → app de gestão (gestao/), PWA; app.patotina.com.br
+                   mesma Auth e os mesmos usuarios/{uid} (papéis Gestor/Professor)
 
 Firestore   site_turmas, site_destaques, site_titulos, site_historia,
             site_parceiros, site_config/textos, usuarios
@@ -115,8 +119,24 @@ firebase deploy
 ```
 
 O `predeploy` roda `npm run build` (site copiado para `dist/`, painel em
-`dist/app/`). Saem também as regras. Ao fim, o site responde em
-`patotina.web.app`. Confira `/app` (login) e o site com o conteúdo do banco.
+`dist/app/`, app de gestão em `dist-gestao/`). Saem também as regras. Ao
+fim, o site responde em `patotina.web.app`. Confira `/app` (login) e o site
+com o conteúdo do banco.
+
+### O segundo site (app de gestão)
+
+O `firebase.json` publica dois sites do Hosting. O segundo precisa existir no
+projeto antes do primeiro deploy — uma vez só:
+
+```bash
+firebase hosting:sites:create patotina-gestao
+```
+
+O `.firebaserc` já liga o target `gestao` a esse site. Ele responde em
+`patotina-gestao.web.app`; o domínio `app.patotina.com.br` entra no passo 7.
+Como o app de gestão faz login por e-mail/senha num domínio diferente do
+`authDomain`, acrescente `patotina-gestao.web.app` e `app.patotina.com.br` em
+Console → **Authentication** → *Settings* → *Authorized domains*.
 
 > No Windows, o emulador de Hosting **não aplica redirects nem headers**
 > (bug do `glob-slasher`, que troca `/admin` por `\admin`). Em produção
@@ -139,6 +159,10 @@ troca:
    repositório antigo — este repositório não publica mais lá (os arquivos do
    site agora vivem em `site/`, e o `CNAME` saiu).
 
+Para o app de gestão, o mesmo caminho no site `patotina-gestao`:
+*Adicionar domínio personalizado* → `app.patotina.com.br`, e o CNAME/A que
+o Firebase pedir no DNS.
+
 ## Se o upload de logo falhar em produção
 
 As regras do Storage consultam o Firestore (`firestore.get`) para saber se
@@ -152,8 +176,9 @@ OnTrac). Saída: Console do Google Cloud → IAM → conta de serviço
 
 ```bash
 git pull
-firebase deploy            # site + painel + regras
-firebase deploy --only hosting   # só arquivos, mais rápido
+firebase deploy                        # site + painel + gestão + regras
+firebase deploy --only hosting         # só arquivos, mais rápido
+firebase deploy --only hosting:gestao  # só o app de gestão
 ```
 
 Conteúdo (turmas, destaques, títulos, parceiros, textos) **não passa por

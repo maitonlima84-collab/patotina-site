@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom'
-import { RequireRole } from '@/shared/components/RequireRole'
-import { AcessoNegado } from '@/shared/components/AcessoNegado'
+import { RequireRole } from '@shared/auth/RequireRole'
+import { AcessoNegado } from '@shared/components/AcessoNegado'
 import { LISTA_SECOES } from './colecoes'
 import { ColecaoPage } from './pages/ColecaoPage'
 import { TextosPage } from './pages/TextosPage'

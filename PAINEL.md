@@ -95,7 +95,12 @@ Só números, com DDD: `34988658518`.
 
 Só quem é **administrador** vê esta aba.
 
-- **Editor**: mexe em todo o conteúdo do site, mas não cria nem remove contas.
+A mesma conta serve para o painel do site e para o app de gestão da
+escolinha (app.patotina.com.br). O que muda é o **acesso** marcado:
+
+- **Painel do site**: mexe em todo o conteúdo do site.
+- **App de gestão — gestão da escolinha**: alunos, turmas, mensalidades.
+- **App de gestão — professor**: só a chamada e os alunos das turmas dele.
 - **Administrador**: faz tudo, inclusive criar acesso para outras pessoas.
 
 Ao criar uma pessoa, você define a **senha inicial** e passa para ela. Ela

@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
-import { prepararImagem } from '@/shared/lib/imagem'
-import { mensagemDeErro } from '@/shared/lib/erros'
-import { Botao } from '@/shared/components/ui/Botao'
-import { cn } from '@/shared/lib/utils'
+import { prepararImagem } from '@shared/lib/imagem'
+import { mensagemDeErro } from '@shared/lib/erros'
+import { Botao } from '@shared/components/ui/Botao'
+import { cn } from '@shared/lib/utils'
 import type { CampoDef } from '../colecoes'
 import { subirImagem } from '../repositories/siteRepository'
 

@@ -1,15 +1,22 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { AuthGate } from './AuthGate'
+import { AuthGate } from '@shared/auth/AuthGate'
 import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasSite } from '@/modules/site/routes'
-import { rotasContas } from '@/modules/contas/routes'
+import { rotasContas } from '@shared/modules/contas/routes'
 
 export const router = createBrowserRouter(
   [
     {
       path: '/',
       element: (
-        <AuthGate>
+        // Só quem edita o site entra aqui (Editor, ou Master). Um Gestor ou
+        // Professor sem Editor vê o aviso de "sem acesso" — a porta dele é o
+        // app de gestão, e as regras do Firestore barrariam a gravação mesmo.
+        <AuthGate
+          login={{ titulo: 'Painel', descricao: 'Área do site da escolinha. Use o e-mail e a senha que você recebeu.' }}
+          liberado={(a) => a.isEditor}
+          nomeDoApp="ao painel do site"
+        >
           <AppLayout />
         </AuthGate>
       ),

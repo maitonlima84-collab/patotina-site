@@ -11,7 +11,7 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
-import { db, storage } from '@/shared/lib/firebase'
+import { db, storage } from '@shared/lib/firebase'
 import type { ItemDoSite, Textos } from '../types'
 
 // Tudo que o painel grava passa por aqui. Quem lê SEM login é o site

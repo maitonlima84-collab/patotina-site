@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useState } from 'react'
-import { useAuth } from '@/app/providers/AuthProvider'
-import { MinhaSenhaDialog } from '@/app/components/MinhaSenhaDialog'
+import { useAuth } from '@shared/auth/AuthProvider'
+import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { ABAS } from '@/app/routes/abas'
-import { cn } from '@/shared/lib/utils'
+import { cn } from '@shared/lib/utils'
 
 export function AppLayout() {
   const { isMaster, signOut, usuarioDoc } = useAuth()
