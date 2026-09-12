@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
+import { ErroDaTela } from '@shared/components/ErroDaTela'
 import { AuthGate } from '@shared/auth/AuthGate'
 import { FamiliaPage } from './pages/FamiliaPage'
 
@@ -7,6 +8,7 @@ import { FamiliaPage } from './pages/FamiliaPage'
 export const rotasFamilia: RouteObject[] = [
   {
     path: '/familia',
+    errorElement: <ErroDaTela />,
     element: (
       <AuthGate
         login={{ titulo: 'Família', descricao: 'Área das famílias da escolinha: presença, mensalidades, agenda e avisos.' }}

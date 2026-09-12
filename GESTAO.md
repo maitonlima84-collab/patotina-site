@@ -61,7 +61,8 @@ continua sendo editado no painel do site.
 
 1. Abre já na turma que treina hoje. Troque a data para registrar um treino
    passado.
-2. Toque no aluno: **presente → falta → justificada**. Cada toque salva.
+2. Toque no aluno: **presente → falta → justificada → sem marcar**. Cada
+   toque salva; o quarto toque desfaz a marca. "Limpar" zera o treino inteiro.
 3. "Todos presentes" marca quem ainda não foi marcado; depois é só corrigir
    as faltas.
 4. Anote o que quiser sobre o treino no campo de observação.

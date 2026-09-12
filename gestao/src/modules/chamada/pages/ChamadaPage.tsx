@@ -1,4 +1,4 @@
-import { CheckCheck, ClipboardList } from 'lucide-react'
+import { CheckCheck, ClipboardList, Eraser } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
@@ -14,7 +14,7 @@ import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
 import { descreverHorario, turmasDoDia } from '@/modules/turmas/services/turmasService'
 import { PRESENCAS, type Presenca } from '../types'
 import { useChamada } from '../hooks/useChamada'
-import { anotarChamada, marcar, marcarTodosPresentes, proxima } from '../services/chamadaService'
+import { anotarChamada, limparChamada, marcar, marcarTodosPresentes, proxima } from '../services/chamadaService'
 
 const COR: Record<Presenca | '', string> = {
   P: 'border-green bg-green/20 text-green',
@@ -112,6 +112,15 @@ export function ChamadaPage() {
                 <Botao onClick={() => void marcarTodosPresentes(turmaId, data, daTurma, chamada, por).catch((e) => avisar(mensagemDeErro(e), true))} disabled={loading || contagem.nao === 0}>
                   <CheckCheck size={16} /> Todos presentes
                 </Botao>
+                <Botao
+                  variante="fantasma"
+                  disabled={loading || contagem.nao === daTurma.length}
+                  onClick={() => {
+                    if (confirm('Limpar a chamada deste treino? Todos voltam a "sem marcar".')) void limparChamada(turmaId, data, chamada).catch((e) => avisar(mensagemDeErro(e), true))
+                  }}
+                >
+                  <Eraser size={16} /> Limpar
+                </Botao>
                 <span className="ml-auto text-[0.85rem] text-gray">
                   <b className="text-green">{contagem.P}</b> presentes · <b className="text-red-200">{contagem.F}</b> faltas · <b className="text-gold">{contagem.J}</b> justif. · {contagem.nao} sem marcar
                 </span>
@@ -137,7 +146,7 @@ export function ChamadaPage() {
                   )
                 })}
               </ul>
-              <p className="mt-2 text-center text-[0.8rem] text-gray">Toque no aluno: presente → falta → justificada.</p>
+              <p className="mt-2 text-center text-[0.8rem] text-gray">Toque no aluno: presente → falta → justificada → sem marcar.</p>
 
               <div className="mt-4">
                 <AreaTexto

@@ -81,7 +81,8 @@ dia. Unificar exporia dados de gestão na leitura pública e amarraria o site
 
 ### 2.4 Chamada
 Tela de celular do professor. Abre na turma cujo horário é hoje, lista os
-alunos ativos com foto; toque alterna **presente → falta → justificada**.
+alunos ativos com foto; toque alterna **presente → falta → justificada → sem
+marcar**; "Limpar" zera o treino.
 Um documento por treino (`chamadas/{turmaId}_{AAAA-MM-DD}`): barato, e o
 Firestore offline segura sem sinal no campo.
 

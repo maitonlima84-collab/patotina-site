@@ -12,6 +12,16 @@
           "patotina-gestao"
         ]
       }
+    },
+    "demo-patotina": {
+      "hosting": {
+        "site": [
+          "demo-patotina"
+        ],
+        "gestao": [
+          "demo-patotina-gestao"
+        ]
+      }
     }
   }
 }

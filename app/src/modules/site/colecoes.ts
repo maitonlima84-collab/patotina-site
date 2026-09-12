@@ -136,7 +136,9 @@ export const PARCEIROS: SecaoDef<Parceiro> = {
   nomeItem: 'parceiro',
   ordenavel: true,
   ordenar: porOrdem,
-  nome: (p) => p.nome.replace('|', ' '),
+  // `?? ''` porque um documento gravado por fora do painel pode vir sem o campo
+  // — e isso não pode derrubar a lista inteira.
+  nome: (p) => (p.nome ?? '').replace('|', ' '),
   resumo: (p) => [p.rotulo, p.master && 'card grande'].filter(Boolean).join(' · '),
   miniatura: (p) => p.logoUrl,
   campos: [

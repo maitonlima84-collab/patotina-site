@@ -2,13 +2,15 @@ import { hojeIso } from '@shared/lib/utils'
 import type { Aluno } from '@/modules/alunos/types'
 import type { Turma } from '@/modules/turmas/types'
 import type { Chamada, Presenca } from '../types'
-import { salvarChamada } from '../repositories/chamadaRepository'
+import { apagarPresencas, salvarChamada } from '../repositories/chamadaRepository'
 
-// Toque no aluno: presente → falta → justificada → presente. Sem marcar é
-// "ainda não chamado" — diferente de falta.
-export function proxima(atual: Presenca | undefined): Presenca {
+// Toque no aluno: presente → falta → justificada → sem marcar → presente.
+// Sem marcar (null) é "ainda não chamado" — diferente de falta — e entra no
+// ciclo para dar como desfazer um toque errado.
+export function proxima(atual: Presenca | undefined): Presenca | null {
   if (atual === 'P') return 'F'
   if (atual === 'F') return 'J'
+  if (atual === 'J') return null
   return 'P'
 }
 
@@ -17,8 +19,17 @@ interface Quem {
   nome: string
 }
 
-export async function marcar(turmaId: string, data: string, alunoId: string, presenca: Presenca, por: Quem) {
+export async function marcar(turmaId: string, data: string, alunoId: string, presenca: Presenca | null, por: Quem) {
+  if (presenca === null) return apagarPresencas(turmaId, data, [alunoId])
   await salvarChamada(turmaId, data, { presencas: { [alunoId]: presenca }, registradoPor: por.uid, registradoPorNome: por.nome })
+}
+
+// Zera a chamada do treino: todo mundo volta a "sem marcar". A observação e
+// quem registrou ficam; a tela pede confirmação antes.
+export async function limparChamada(turmaId: string, data: string, atual: Chamada | null) {
+  const ids = Object.keys(atual?.presencas ?? {})
+  if (ids.length === 0) return
+  await apagarPresencas(turmaId, data, ids)
 }
 
 // Marca todo mundo que ainda não foi marcado como presente — o caso comum é

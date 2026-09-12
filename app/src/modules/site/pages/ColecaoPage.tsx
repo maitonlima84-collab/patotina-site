@@ -45,7 +45,7 @@ export function ColecaoPage({ secao }: { secao: SecaoDef }) {
         rows.map((item, i) => (
           <ItemLinha
             key={item.id}
-            nome={secao.nome(item)}
+            nome={secao.nome(item) || '(sem nome)'}
             resumo={secao.resumo(item)}
             miniatura={secao.miniatura?.(item)}
             visivel={item.visivel}

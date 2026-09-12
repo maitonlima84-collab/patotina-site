@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AuthGate } from '@shared/auth/AuthGate'
+import { ErroDaTela } from '@shared/components/ErroDaTela'
 import { rotasContas } from '@shared/modules/contas/routes'
 import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasInicio } from '@/modules/inicio/routes'
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
   ...rotasFamilia,
   {
     path: '/',
+    errorElement: <ErroDaTela />,
     element: (
       // Entra quem tem Gestor ou Professor (Master passa sempre). Um Editor
       // só do site vê o aviso de "sem acesso" — a porta dele é o painel.
