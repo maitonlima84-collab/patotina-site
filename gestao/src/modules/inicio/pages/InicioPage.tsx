@@ -1,24 +1,34 @@
-import { Cake } from 'lucide-react'
+import { AlertTriangle, Cake, CheckCircle2, Circle } from 'lucide-react'
 import { useMemo, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { PageHeader } from '@shared/components/PageHeader'
-import { DIAS_SEMANA } from '@shared/lib/utils'
+import { DIAS_SEMANA, hojeIso } from '@shared/lib/utils'
 import { Avatar } from '@/modules/alunos/components/AlunoLinha'
 import { useAlunos } from '@/modules/alunos/hooks/useAlunos'
 import { aniversariantes, idade } from '@/modules/alunos/services/alunosService'
 import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
 import { descreverHorario, turmasDoDia } from '@/modules/turmas/services/turmasService'
+import { useChamadasEntre } from '@/modules/chamada/hooks/useChamada'
+import { alunosEmAlerta, primeiroDiaDoMes, somarMeses } from '@/modules/chamada/services/chamadaService'
 
 // Os números do dia (docs/gestao.md, §2.1). Cada número é link para a lista
 // filtrada. Cresce conforme os módulos entram: chamada, mensalidades,
 // pré-matrículas, agenda.
 export function InicioPage() {
-  const { usuarioDoc, isGestor } = useAuth()
-  const { rows: alunos, loading } = useAlunos()
-  const { rows: turmas, porId } = useTurmas()
+  const { user, usuarioDoc, isGestor } = useAuth()
+  const { rows: todosAlunos, loading } = useAlunos()
+  const { rows: todasTurmas, porId } = useTurmas()
   const primeiroNome = usuarioDoc?.nome.split(' ')[0] ?? ''
   const hoje = new Date()
+  const hojeStr = hojeIso()
+  // Professor vê o Início das turmas dele; Gestor e Master, da escolinha.
+  const turmas = useMemo(() => todasTurmas.filter((t) => isGestor || t.professorUid === user?.uid), [todasTurmas, isGestor, user?.uid])
+  const minhasIds = useMemo(() => new Set(turmas.map((t) => t.id)), [turmas])
+  const alunos = useMemo(() => (isGestor ? todosAlunos : todosAlunos.filter((a) => minhasIds.has(a.turmaId))), [todosAlunos, isGestor, minhasIds])
+  const { chamadas } = useChamadasEntre(primeiroDiaDoMes(somarMeses(hojeStr.slice(0, 7), -1)), hojeStr)
+  const chamadasHoje = useMemo(() => new Set(chamadas.filter((c) => c.data === hojeStr).map((c) => c.turmaId)), [chamadas, hojeStr])
+  const alertas = useMemo(() => alunosEmAlerta(alunos, chamadas), [alunos, chamadas])
 
   const ativos = useMemo(() => alunos.filter((a) => a.situacao === 'ativo'), [alunos])
   const porTurma = useMemo(() => {
@@ -48,7 +58,8 @@ export function InicioPage() {
             <p className="text-gray">Nenhuma turma treina hoje.</p>
           ) : (
             doDia.map((t) => (
-              <Link key={t.id} to={`/turmas/${t.id}`} className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-navy-3">
+              <Link key={t.id} to={`/chamada?turma=${t.id}`} className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-navy-3">
+                {chamadasHoje.has(t.id) ? <CheckCircle2 size={20} className="shrink-0 text-green" /> : <Circle size={20} className="shrink-0 text-gray" />}
                 <div className="min-w-0 flex-1">
                   <div className="font-cond text-[1.05rem] font-bold tracking-wide">{t.nome}</div>
                   <div className="text-[0.85rem] text-gray">
@@ -63,6 +74,22 @@ export function InicioPage() {
             ))
           )}
         </Bloco>
+
+        {alertas.length > 0 && (
+          <Bloco titulo="Faltando seguido">
+            {alertas.map(({ aluno: a, freq }) => (
+              <Link key={a.id} to={`/alunos/${a.id}?aba=presenca`} className="flex items-center gap-3 rounded-lg px-2 py-1.5 hover:bg-navy-3">
+                <AlertTriangle size={18} className="shrink-0 text-red-200" />
+                <Avatar aluno={a} tamanho="h-9 w-9 text-xs" />
+                <div className="min-w-0 flex-1 truncate">
+                  {a.apelido || a.nome}
+                  <span className="text-[0.85rem] text-gray"> · {porId.get(a.turmaId)?.nome ?? 'sem turma'}</span>
+                </div>
+                <span className="text-red-200">{freq.faltasSeguidas} faltas seguidas</span>
+              </Link>
+            ))}
+          </Bloco>
+        )}
 
         <Bloco titulo="Aniversariantes do mês">
           {niver.length === 0 ? (

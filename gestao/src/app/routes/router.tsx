@@ -5,6 +5,7 @@ import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasInicio } from '@/modules/inicio/routes'
 import { rotasAlunos } from '@/modules/alunos/routes'
 import { rotasTurmas } from '@/modules/turmas/routes'
+import { rotasChamada } from '@/modules/chamada/routes'
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
       ...rotasInicio,
       ...rotasAlunos,
       ...rotasTurmas,
+      ...rotasChamada,
       ...rotasContas,
       { path: '*', element: <Navigate to="/inicio" replace /> },
     ],

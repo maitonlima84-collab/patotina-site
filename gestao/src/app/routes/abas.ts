@@ -1,4 +1,4 @@
-import { Home, Layers, UserRound, Users, type LucideIcon } from 'lucide-react'
+import { ClipboardCheck, Home, Layers, UserRound, Users, type LucideIcon } from 'lucide-react'
 import type { useAuth } from '@shared/auth/AuthProvider'
 
 // As abas do app, na ordem em que aparecem (docs/gestao.md, §3). No
@@ -18,6 +18,7 @@ export interface Aba {
 export const ABAS: Aba[] = [
   { caminho: '/inicio', titulo: 'Início', icone: Home, grupo: 'Escolinha', barra: true },
   { caminho: '/alunos', titulo: 'Alunos', icone: UserRound, grupo: 'Escolinha', barra: true },
-  { caminho: '/turmas', titulo: 'Turmas', icone: Layers, grupo: 'Escolinha', barra: true },
+  { caminho: '/chamada', titulo: 'Chamada', icone: ClipboardCheck, grupo: 'Escolinha', barra: true },
+  { caminho: '/turmas', titulo: 'Turmas', icone: Layers, grupo: 'Escolinha' },
   { caminho: '/contas', titulo: 'Contas', icone: Users, grupo: 'Administração', mostrar: (a) => a.isMaster },
 ]

@@ -14,9 +14,16 @@ import { AlunoLinha } from '../components/AlunoLinha'
 // Busca e filtros vivem na URL: voltar da ficha traz a lista como estava, e
 // o Início manda para cá já filtrado.
 export function AlunosPage() {
-  const { isGestor } = useAuth()
-  const { rows, loading, erro } = useAlunos()
-  const { porId: turmas, rows: listaTurmas } = useTurmas()
+  const { user, isGestor } = useAuth()
+  const { rows: todos, loading, erro } = useAlunos()
+  const { porId: turmas, rows: todasTurmas } = useTurmas()
+  // Professor só enxerga os alunos das turmas dele (docs/gestao.md, §3).
+  const listaTurmas = useMemo(() => todasTurmas.filter((t) => isGestor || t.professorUid === user?.uid), [todasTurmas, isGestor, user?.uid])
+  const rows = useMemo(() => {
+    if (isGestor) return todos
+    const ids = new Set(listaTurmas.map((t) => t.id))
+    return todos.filter((a) => ids.has(a.turmaId))
+  }, [todos, isGestor, listaTurmas])
   const [params, setParams] = useSearchParams()
   const busca = params.get('q') ?? ''
   const turmaId = params.get('turma') ?? ''

@@ -11,6 +11,7 @@ import { idade, valorMensal } from '../services/alunosService'
 import { Avatar } from '../components/AlunoLinha'
 import { SituacaoSelo } from '../components/SituacaoSelo'
 import { MovimentacaoDialog, type Movimentacao } from '../components/MovimentacaoDialog'
+import { PresencaDoAluno } from '@/modules/chamada/components/PresencaDoAluno'
 
 const ABAS = [
   { id: 'ficha', titulo: 'Ficha' },
@@ -79,7 +80,7 @@ export function AlunoPage() {
       {aba === 'historico' && (
         <Historico aluno={aluno} itens={historico} nomeTurma={(tid) => porId.get(tid)?.nome ?? ''} podeMover={isGestor} onMover={setMov} />
       )}
-      {aba === 'presenca' && <p className="rounded-xl border border-dashed border-line p-8 text-center text-gray">A frequência aparece aqui quando a chamada começar a ser feita.</p>}
+      {aba === 'presenca' && <PresencaDoAluno aluno={aluno} />}
       {aba === 'financeiro' && isGestor && <Financeiro aluno={aluno} />}
 
       <MovimentacaoDialog tipo={mov} aluno={aluno} turmas={turmas} onFechar={() => setMov(null)} />

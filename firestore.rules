@@ -91,6 +91,17 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Chamada: um documento por treino, gravado por quem chama (Professor
+    // também). Só cresce por merge; apagar não existe.
+    match /chamadas/{id} {
+      allow read: if isProfessor();
+      allow create, update: if isProfessor()
+        && request.resource.data.turmaId is string
+        && request.resource.data.data is string
+        && id == request.resource.data.turmaId + '_' + request.resource.data.data;
+      allow delete: if false;
+    }
+
     match /alunos/{id} {
       allow read: if isProfessor();
       allow create, update: if isGestor()
