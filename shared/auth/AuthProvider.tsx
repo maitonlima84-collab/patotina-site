@@ -24,9 +24,19 @@ export interface UsuarioDoc {
   papeis: string[]
 }
 
+// Conta de família (área do responsável): sem papéis, com os filhos.
+export interface ResponsavelDoc {
+  nome: string
+  email: string
+  telefone: string
+  alunoIds: string[]
+  ativo: boolean
+}
+
 interface AuthContextValue {
   user: User | null
   usuarioDoc: UsuarioDoc | null
+  responsavelDoc: ResponsavelDoc | null
   loading: boolean
   // Não deu para saber se a pessoa tem acesso — leitura recusada ou sem
   // resposta. Separado de "não tem permissão": a saída é outra (tentar de
@@ -46,8 +56,10 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [usuarioDoc, setUsuarioDoc] = useState<UsuarioDoc | null>(null)
+  const [responsavelDoc, setResponsavelDoc] = useState<ResponsavelDoc | null>(null)
   const [loadingAuth, setLoadingAuth] = useState(true)
   const [loadingDoc, setLoadingDoc] = useState(false)
+  const [loadingResp, setLoadingResp] = useState(false)
   const [falhaNoCadastro, setFalhaNoCadastro] = useState(false)
 
   useEffect(() => {
@@ -56,6 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoadingAuth(false)
       if (!u) {
         setUsuarioDoc(null)
+        setResponsavelDoc(null)
         setFalhaNoCadastro(false)
       }
     })
@@ -84,6 +97,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return parar
   }, [user])
 
+  // A mesma conta pode ser de família (responsaveis/{uid}): o app de gestão
+  // manda para a área da família quem só tem isso. Cada um lê o próprio.
+  useEffect(() => {
+    if (!user) return
+    setLoadingResp(true)
+    const parar = onSnapshot(
+      doc(db, 'responsaveis', user.uid),
+      (snap) => {
+        setResponsavelDoc(snap.exists() ? (snap.data() as ResponsavelDoc) : null)
+        setLoadingResp(false)
+      },
+      () => {
+        setResponsavelDoc(null)
+        setLoadingResp(false)
+      },
+    )
+    return parar
+  }, [user])
+
   const value = useMemo<AuthContextValue>(() => {
     const papeis = usuarioDoc?.ativo ? usuarioDoc.papeis : []
     const temPapel = (papel: Papel) => papeis.includes(papel)
@@ -91,7 +123,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {
       user,
       usuarioDoc,
-      loading: loadingAuth || loadingDoc,
+      responsavelDoc: responsavelDoc?.ativo ? responsavelDoc : null,
+      loading: loadingAuth || loadingDoc || loadingResp,
       falhaNoCadastro,
       temPapel,
       isMaster,
@@ -102,7 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       acessoLiberado: papeis.length > 0,
       signOut: () => firebaseSignOut(auth),
     }
-  }, [user, usuarioDoc, loadingAuth, loadingDoc, falhaNoCadastro])
+  }, [user, usuarioDoc, responsavelDoc, loadingAuth, loadingDoc, loadingResp, falhaNoCadastro])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

@@ -9,7 +9,7 @@ import { Dica, Entrada, Recado, Rotulo } from '@shared/components/ui/Campos'
 import { Janela } from '@shared/components/ui/Janela'
 
 export function MinhaSenhaDialog({ aberta, onFechar }: { aberta: boolean; onFechar: () => void }) {
-  const { user, usuarioDoc } = useAuth()
+  const { user, usuarioDoc, responsavelDoc } = useAuth()
   const avisar = useAviso()
   const [atual, setAtual] = useState('')
   const [nova, setNova] = useState('')
@@ -59,7 +59,7 @@ export function MinhaSenhaDialog({ aberta, onFechar }: { aberta: boolean; onFech
       }
     >
       <p className="mt-4 text-[0.9rem] text-gray">
-        Conectado como {usuarioDoc?.nome} ({user?.email}).
+        Conectado como {usuarioDoc?.nome ?? responsavelDoc?.nome} ({user?.email}).
       </p>
       <Rotulo htmlFor="senha-atual" className="mt-4">
         Senha atual

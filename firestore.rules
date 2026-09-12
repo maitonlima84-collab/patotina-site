@@ -80,10 +80,30 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ---------------- área da família ----------------
+    // responsaveis/{uid}: a conta de uma família e os filhos dela. Cada um
+    // lê o próprio; o Gestor cria e mexe. O que a família enxerga do resto
+    // (aluno, cobranças) passa por `ehResponsavelDe`.
+    function responsavel() {
+      return get(/databases/$(database)/documents/responsaveis/$(request.auth.uid)).data;
+    }
+    function ehResponsavel() {
+      return logado() && exists(/databases/$(database)/documents/responsaveis/$(request.auth.uid))
+        && responsavel().ativo == true;
+    }
+    function ehResponsavelDe(alunoId) {
+      return ehResponsavel() && alunoId in responsavel().alunoIds;
+    }
+    match /responsaveis/{uid} {
+      allow read: if logado() && (request.auth.uid == uid || isGestor());
+      allow create, update: if isGestor() && request.resource.data.alunoIds is list && request.resource.data.ativo is bool;
+      allow delete: if false;
+    }
+
     // ---------------- gestão da escolinha (docs/gestao.md, §5) ----------------
     // Nada disso é público. Professor lê para fazer a chamada; Gestor grava.
     match /turmas/{id} {
-      allow read: if isProfessor();
+      allow read: if isProfessor() || ehResponsavel();
       allow create, update: if isGestor()
         && request.resource.data.nome is string
         && request.resource.data.ativa is bool
@@ -94,7 +114,9 @@ service cloud.firestore {
     // Chamada: um documento por treino, gravado por quem chama (Professor
     // também). Só cresce por merge; apagar não existe.
     match /chamadas/{id} {
-      allow read: if isProfessor();
+      // A família lê as chamadas para ver a presença do filho: o documento
+      // traz só ids dos outros alunos, sem nome.
+      allow read: if isProfessor() || ehResponsavel();
       allow create, update: if isProfessor()
         && request.resource.data.turmaId is string
         && request.resource.data.data is string
@@ -103,7 +125,7 @@ service cloud.firestore {
     }
 
     match /alunos/{id} {
-      allow read: if isProfessor();
+      allow read: if isProfessor() || ehResponsavelDe(id);
       allow create, update: if isGestor()
         && request.resource.data.nome is string
         && request.resource.data.situacao in ['pre_matricula', 'ativo', 'trancado', 'desligado']
@@ -140,7 +162,7 @@ service cloud.firestore {
     // Agenda: quem entra no app lê; o site lê só o marcado para ele
     // (a consulta vem com where('visivelNoSite', '==', true)).
     match /eventos/{id} {
-      allow read: if isProfessor() || resource.data.visivelNoSite == true;
+      allow read: if isProfessor() || ehResponsavel() || resource.data.visivelNoSite == true;
       allow create, update: if isGestor()
         && request.resource.data.titulo is string
         && request.resource.data.data is string
@@ -150,14 +172,14 @@ service cloud.firestore {
 
     // Avisos enviados: histórico do que foi mandado por WhatsApp.
     match /avisos/{id} {
-      allow read: if isProfessor();
+      allow read: if isProfessor() || ehResponsavel();
       allow create: if isGestor();
       allow update, delete: if false;
     }
 
     // Mensalidades: só o Gestor. Cancelar é a saída; apagar não existe.
     match /cobrancas/{id} {
-      allow read: if isGestor();
+      allow read: if isGestor() || ehResponsavelDe(resource.data.alunoId);
       allow create, update: if isGestor()
         && request.resource.data.alunoId is string
         && request.resource.data.competencia is string
@@ -169,7 +191,7 @@ service cloud.firestore {
     // Configurações da escolinha: um documento, todo mundo do app lê (chave
     // Pix, locais), o Gestor escreve.
     match /configuracoes/{documento} {
-      allow read: if isProfessor();
+      allow read: if isProfessor() || ehResponsavel();
       allow write: if isGestor();
     }
 

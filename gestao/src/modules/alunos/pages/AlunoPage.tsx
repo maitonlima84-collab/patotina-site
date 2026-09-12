@@ -13,6 +13,7 @@ import { SituacaoSelo } from '../components/SituacaoSelo'
 import { MovimentacaoDialog, type Movimentacao } from '../components/MovimentacaoDialog'
 import { PresencaDoAluno } from '@/modules/chamada/components/PresencaDoAluno'
 import { FinanceiroDoAluno } from '@/modules/mensalidades/components/FinanceiroDoAluno'
+import { AcessoFamilia } from '@/modules/familia/components/AcessoFamilia'
 
 const ABAS = [
   { id: 'ficha', titulo: 'Ficha' },
@@ -77,7 +78,7 @@ export function AlunoPage() {
         ))}
       </nav>
 
-      {aba === 'ficha' && <Ficha aluno={aluno} />}
+      {aba === 'ficha' && <Ficha aluno={aluno} gestor={isGestor} />}
       {aba === 'historico' && (
         <Historico aluno={aluno} itens={historico} nomeTurma={(tid) => porId.get(tid)?.nome ?? ''} podeMover={isGestor} onMover={setMov} />
       )}
@@ -108,7 +109,7 @@ function Linha({ r, v }: { r: string; v: ReactNode }) {
   )
 }
 
-function Ficha({ aluno }: { aluno: Aluno }) {
+function Ficha({ aluno, gestor }: { aluno: Aluno; gestor: boolean }) {
   const e = aluno.endereco
   const s = aluno.saude
   return (
@@ -162,6 +163,8 @@ function Ficha({ aluno }: { aluno: Aluno }) {
           <p className="whitespace-pre-wrap text-[0.95rem]">{aluno.observacoes}</p>
         </Bloco>
       )}
+
+      {gestor && <AcessoFamilia aluno={aluno} />}
     </div>
   )
 }

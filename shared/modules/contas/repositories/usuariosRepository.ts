@@ -24,7 +24,7 @@ export function subscribeUsuarios(onChange: (usuarios: Usuario[], erro?: string)
 // está logado — por isso o cadastro roda num segundo app Firebase, isolado,
 // que é desconectado logo em seguida. Sem Cloud Functions (plano Blaze) este
 // é o caminho; quando o app de gestão tiver Functions, vira uma callable.
-function authParaCadastro() {
+export function authParaCadastro() {
   const nome = 'cadastro-de-contas'
   const appSecundario = getApps().find((a) => a.name === nome) ?? initializeApp(firebaseConfig, nome)
   const authSecundario = getAuth(appSecundario)
@@ -48,6 +48,15 @@ export async function criarUsuario(dados: { nome: string; email: string; senha: 
   } finally {
     await signOut(authSecundario)
   }
+  return cred.user.uid
+}
+
+// Cria só a conta no Auth (sem documento em usuarios): é o que a área da
+// família usa, gravando o vínculo em responsaveis/{uid} por conta própria.
+export async function criarContaNoAuth(email: string, senha: string): Promise<string> {
+  const authSecundario = authParaCadastro()
+  const cred = await createUserWithEmailAndPassword(authSecundario, email, senha)
+  await signOut(authSecundario)
   return cred.user.uid
 }
 

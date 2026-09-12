@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { LoginPage, type DadosDoLogin } from '@shared/auth/LoginPage'
 import { Botao } from '@shared/components/ui/Botao'
@@ -11,11 +12,15 @@ import { Botao } from '@shared/components/ui/Botao'
 export function AuthGate({
   login,
   liberado,
+  redirecionar,
   nomeDoApp,
   children,
 }: {
   login: DadosDoLogin
   liberado: (auth: ReturnType<typeof useAuth>) => boolean
+  // Quem entrou pela porta errada vai para a certa (família ↔ gestão) em
+  // vez de ver "sem acesso".
+  redirecionar?: (auth: ReturnType<typeof useAuth>) => string | null
   nomeDoApp: string
   children: ReactNode
 }) {
@@ -27,6 +32,9 @@ export function AuthGate({
   }
 
   if (!user) return <LoginPage {...login} />
+
+  const destino = redirecionar?.(auth)
+  if (destino) return <Navigate to={destino} replace />
 
   if (!liberado(auth)) {
     return (

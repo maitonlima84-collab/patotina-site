@@ -11,8 +11,10 @@ import { rotasConfiguracoes } from '@/modules/configuracoes/routes'
 import { rotasPreMatriculas } from '@/modules/prematriculas/routes'
 import { rotasAgenda } from '@/modules/agenda/routes'
 import { rotasAvisos } from '@/modules/avisos/routes'
+import { rotasFamilia } from '@/modules/familia/routes'
 
 export const router = createBrowserRouter([
+  ...rotasFamilia,
   {
     path: '/',
     element: (
@@ -21,6 +23,8 @@ export const router = createBrowserRouter([
       <AuthGate
         login={{ titulo: 'Gestão', descricao: 'Gestão da escolinha: alunos, turmas, chamada e mensalidades.' }}
         liberado={(a) => a.isProfessor}
+        // Conta só de família entra pela porta dela.
+        redirecionar={(a) => (!a.isProfessor && a.responsavelDoc ? '/familia' : null)}
         nomeDoApp="ao app de gestão"
       >
         <AppLayout />
