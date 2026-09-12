@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, LabelHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from 'react'
 import { cn } from '@shared/lib/utils'
 
 export function Rotulo({ className, ...props }: LabelHTMLAttributes<HTMLLabelElement>) {
@@ -51,5 +51,14 @@ export function Recado({ tipo = 'erro', children }: { tipo?: 'erro' | 'info'; ch
     >
       {children}
     </p>
+  )
+}
+
+/** Lista de opções com o mesmo visual do campo de texto. */
+export function Selecao({ className, children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
+  return (
+    <select className={cn('campo appearance-none', className)} {...props}>
+      {children}
+    </select>
   )
 }

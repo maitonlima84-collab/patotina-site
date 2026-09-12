@@ -34,6 +34,20 @@ service firebase.storage {
       allow delete: if edita();
     }
 
+    // Fotos dos alunos: quem entra no app de gestão vê; o Gestor grava.
+    function gestor() {
+      return logado() && usuario().ativo == true
+        && ('Gestor' in usuario().papeis || 'Master' in usuario().papeis);
+    }
+    function entraNaGestao() {
+      return gestor() || (logado() && usuario().ativo == true && 'Professor' in usuario().papeis);
+    }
+    match /gestao/{pasta}/{arquivo} {
+      allow read: if entraNaGestao();
+      allow create, update: if gestor() && ehImagemPequena();
+      allow delete: if gestor();
+    }
+
     match /{allPaths=**} {
       allow read, write: if false;
     }

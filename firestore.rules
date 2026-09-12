@@ -65,8 +65,9 @@ service cloud.firestore {
     // Cada pessoa lê o próprio registro (é o que diz ao painel quais papéis ela
     // tem); o Master lê e mexe em todos. Ninguém apaga: desligar `ativo` é o
     // caminho, para preservar quem editava o quê.
+    // O Gestor também lê a lista: é dela que escolhe o professor da turma.
     match /usuarios/{uid} {
-      allow read: if logado() && (request.auth.uid == uid || isMaster());
+      allow read: if logado() && (request.auth.uid == uid || isGestor());
       allow create: if isMaster()
         && request.resource.data.keys().hasAll(['nome', 'email', 'ativo', 'papeis'])
         && request.resource.data.papeis is list;
@@ -77,6 +78,34 @@ service cloud.firestore {
         && !(request.auth.uid == uid
              && (request.resource.data.ativo != true || !('Master' in request.resource.data.papeis)));
       allow delete: if false;
+    }
+
+    // ---------------- gestão da escolinha (docs/gestao.md, §5) ----------------
+    // Nada disso é público. Professor lê para fazer a chamada; Gestor grava.
+    match /turmas/{id} {
+      allow read: if isProfessor();
+      allow create, update: if isGestor()
+        && request.resource.data.nome is string
+        && request.resource.data.ativa is bool
+        && request.resource.data.horarios is list;
+      allow delete: if false;
+    }
+
+    match /alunos/{id} {
+      allow read: if isProfessor();
+      allow create, update: if isGestor()
+        && request.resource.data.nome is string
+        && request.resource.data.situacao in ['pre_matricula', 'ativo', 'trancado', 'desligado']
+        && request.resource.data.responsaveis is list;
+      // Desligar é o caminho: a ficha e o histórico ficam para sempre.
+      allow delete: if false;
+
+      // Linha do tempo do aluno: só cresce. Corrigir é registrar outra linha.
+      match /historico/{registro} {
+        allow read: if isProfessor();
+        allow create: if isGestor() && request.resource.data.tipo is string && request.resource.data.data is string;
+        allow update, delete: if false;
+      }
     }
 
     match /{document=**} {

@@ -3,6 +3,8 @@ import { AuthGate } from '@shared/auth/AuthGate'
 import { rotasContas } from '@shared/modules/contas/routes'
 import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasInicio } from '@/modules/inicio/routes'
+import { rotasAlunos } from '@/modules/alunos/routes'
+import { rotasTurmas } from '@/modules/turmas/routes'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,8 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/inicio" replace /> },
       ...rotasInicio,
+      ...rotasAlunos,
+      ...rotasTurmas,
       ...rotasContas,
       { path: '*', element: <Navigate to="/inicio" replace /> },
     ],

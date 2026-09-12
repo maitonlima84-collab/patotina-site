@@ -1,6 +1,6 @@
 import { getApps, initializeApp, type FirebaseOptions } from 'firebase/app'
 import { connectAuthEmulator, getAuth } from 'firebase/auth'
-import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
+import { connectFirestoreEmulator, getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
 import { connectStorageEmulator, getStorage } from 'firebase/storage'
 
 // Config de cliente do Firebase não é segredo: a segurança vem das regras do
@@ -20,7 +20,19 @@ export const usandoEmuladores = import.meta.env.VITE_USAR_EMULADORES === 'true'
 
 export const app = getApps()[0] ?? initializeApp(firebaseConfig)
 export const auth = getAuth(app)
-export const db = getFirestore(app)
+// Cache local persistente: o app de gestão precisa abrir a chamada sem sinal
+// no campo, e o painel não perde nada com isso. Várias abas compartilham o
+// mesmo cache em vez de brigar por ele.
+export const db = iniciarFirestore()
+
+function iniciarFirestore() {
+  try {
+    return initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) })
+  } catch {
+    // Já iniciado (recarga a quente do Vite reavalia este módulo): reaproveita.
+    return getFirestore(app)
+  }
+}
 export const storage = getStorage(app)
 
 if (usandoEmuladores) {
