@@ -12,8 +12,12 @@ https://patotina-gestao.web.app (site `patotina-gestao` criado, domínios
 `patotina-gestao.web.app` e `app.patotina.com.br` autorizados no Auth pela
 API — ver passo 6). Faltam os domínios (passo 7): `www.patotina.com.br` e
 `app.patotina.com.br` dependem do DNS.
-A chave de conta de serviço foi gerada com `gcloud iam service-accounts keys
-create` e está em `patotina-service-account.json` (ignorada pelo git).
+**13/09/2026:** roteiro de teste completo; a chave de conta de serviço
+usada no seed foi **revogada** (não há chave na máquina — gere outra pelo
+passo 5 se precisar rodar `seed`/`criar-acesso` em produção). Firestore
+com **recuperação pontual (7 dias)**, **proteção contra exclusão** e
+**backup diário com 14 dias de retenção** (seção "Backup"). Política de
+privacidade em `/privacidade`.
 
 ## Arquitetura
 
@@ -177,6 +181,29 @@ troca:
 Para o app de gestão, o mesmo caminho no site `patotina-gestao`:
 *Adicionar domínio personalizado* → `app.patotina.com.br`, e o CNAME/A que
 o Firebase pedir no DNS.
+
+## Backup do Firestore
+
+Ligado em 13/09/2026 pelo gcloud (conta do projeto):
+
+```bash
+gcloud firestore databases update --database="(default)" --project=patotina --enable-pitr --delete-protection
+gcloud firestore backups schedules create --database="(default)" --project=patotina --recurrence=daily --retention=14d
+```
+
+- **Recuperação pontual (PITR)**: qualquer documento pode ser lido como
+  estava em qualquer instante dos últimos 7 dias (`gcloud firestore
+  databases restore` ou leitura com `read_time`). É o que salva de uma
+  gravação errada em massa ou de uma importação torta.
+- **Backup diário**: cópia inteira do banco, guardada 14 dias. Para ver:
+  `gcloud firestore backups list --project=patotina`. Para restaurar, cria-se
+  um banco novo a partir do backup (`gcloud firestore databases restore
+  --source-backup=... --destination-database=...`) e copia-se de lá.
+- **Proteção contra exclusão**: o banco não pode ser apagado pelo console
+  sem antes desligar a proteção.
+
+Custo: centavos por mês no tamanho da Patotina (o backup cobra por GiB
+guardado).
 
 ## Se o upload de logo falhar em produção
 

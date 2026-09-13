@@ -226,6 +226,13 @@ export function AlunoForm({
             <Rotulo htmlFor="a-buscam">Quem pode buscar a criança</Rotulo>
             <Entrada id="a-buscam" placeholder="Nomes, se for diferente dos responsáveis" {...register('autorizacoes.buscam')} />
           </div>
+          <Dica>
+            Explique à família para que os dados servem e onde ficam: está escrito em{' '}
+            <a href="https://www.patotina.com.br/privacidade" target="_blank" rel="noopener" className="text-gold underline underline-offset-2">
+              patotina.com.br/privacidade
+            </a>
+            . Quem responde pela criança é quem dá cada autorização acima.
+          </Dica>
         </div>
       </section>
 
