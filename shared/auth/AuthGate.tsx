@@ -13,6 +13,7 @@ export function AuthGate({
   login,
   liberado,
   redirecionar,
+  outraPorta,
   nomeDoApp,
   children,
 }: {
@@ -21,6 +22,9 @@ export function AuthGate({
   // Quem entrou pela porta errada vai para a certa (família ↔ gestão) em
   // vez de ver "sem acesso".
   redirecionar?: (auth: ReturnType<typeof useAuth>) => string | null
+  // Conta válida, mas do OUTRO app (professor no painel do site, editor na
+  // gestão): em vez de "peça ao administrador", mostra o caminho certo.
+  outraPorta?: (auth: ReturnType<typeof useAuth>) => { url: string; nome: string } | null
   nomeDoApp: string
   children: ReactNode
 }) {
@@ -37,6 +41,25 @@ export function AuthGate({
   if (destino) return <Navigate to={destino} replace />
 
   if (!liberado(auth)) {
+    const porta = falhaNoCadastro ? null : outraPorta?.(auth)
+    if (porta) {
+      return (
+        <main className="grid min-h-dvh place-items-center p-6">
+          <div className="w-full max-w-[420px] rounded-[20px] border border-line bg-navy-2 p-8 text-center">
+            <h1 className="titulo-anton text-[1.4rem]">Sua porta é outra</h1>
+            <p className="mt-3 text-[0.95rem] text-gray">
+              Você entrou como {user.email}. Esta conta não mexe {nomeDoApp}, mas entra no {porta.nome} — é lá que você trabalha.
+            </p>
+            <Botao variante="principal" className="mt-6" onClick={() => window.location.assign(porta.url)}>
+              Ir para o {porta.nome}
+            </Botao>
+            <button type="button" onClick={() => void signOut()} className="mt-4 block w-full text-center text-[0.85rem] text-gray hover:text-gold">
+              Sair e entrar com outra conta
+            </button>
+          </div>
+        </main>
+      )
+    }
     return (
       <main className="grid min-h-dvh place-items-center p-6">
         <div className="w-full max-w-[420px] rounded-[20px] border border-line bg-navy-2 p-8 text-center">

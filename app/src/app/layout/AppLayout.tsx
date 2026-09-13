@@ -4,10 +4,7 @@ import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { ABAS } from '@/app/routes/abas'
 import { cn } from '@shared/lib/utils'
-
-// O app de gestão é outro site do Hosting (DEPLOY.md). Quando o DNS de
-// app.patotina.com.br estiver no ar, trocar aqui — o web.app segue valendo.
-const GESTAO = import.meta.env.DEV ? 'http://localhost:5174' : 'https://patotina-gestao.web.app'
+import { URL_GESTAO } from '@shared/lib/enderecos'
 
 export function AppLayout() {
   const { isMaster, isProfessor, signOut, usuarioDoc } = useAuth()
@@ -26,7 +23,7 @@ export function AppLayout() {
             Ver o site ↗
           </a>
           {isProfessor && (
-            <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href={GESTAO} target="_blank" rel="noopener">
+            <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href={URL_GESTAO} target="_blank" rel="noopener">
               Gestão ↗
             </a>
           )}

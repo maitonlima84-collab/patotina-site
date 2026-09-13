@@ -5,9 +5,9 @@ import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { Janela } from '@shared/components/ui/Janela'
 import { cn } from '@shared/lib/utils'
+import { URL_PAINEL } from '@shared/lib/enderecos'
 import { ABAS, type Aba } from '@/app/routes/abas'
 
-const SITE = 'https://www.patotina.com.br'
 const GRUPOS: Aba['grupo'][] = ['Escolinha', 'Administração']
 
 // Casca do app: sidebar no computador, barra inferior no celular (docs/gestao.md,
@@ -31,7 +31,7 @@ export function AppLayout() {
         <KeyRound size={18} /> Minha conta
       </button>
       {auth.isEditor && (
-        <a href={`${SITE}/app/`} target="_blank" rel="noopener" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
+        <a href={URL_PAINEL} target="_blank" rel="noopener" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
           <ExternalLink size={18} /> Painel do site
         </a>
       )}

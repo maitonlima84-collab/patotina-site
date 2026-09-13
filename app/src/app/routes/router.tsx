@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AuthGate } from '@shared/auth/AuthGate'
 import { ErroDaTela } from '@shared/components/ErroDaTela'
+import { URL_GESTAO } from '@shared/lib/enderecos'
 import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasSite } from '@/modules/site/routes'
 import { rotasContas } from '@shared/modules/contas/routes'
@@ -12,12 +13,13 @@ export const router = createBrowserRouter(
       errorElement: <ErroDaTela />,
       element: (
         // Só quem edita o site entra aqui (Editor, ou Master). Um Gestor ou
-        // Professor sem Editor vê o aviso de "sem acesso" — a porta dele é o
-        // app de gestão, e as regras do Firestore barrariam a gravação mesmo.
+        // Professor sem Editor é mandado para a porta dele, o app de gestão —
+        // as regras do Firestore barrariam a gravação aqui mesmo.
         <AuthGate
           login={{ titulo: 'Painel', descricao: 'Área do site da escolinha. Use o e-mail e a senha que você recebeu.' }}
           liberado={(a) => a.isEditor}
-          nomeDoApp="ao painel do site"
+          outraPorta={(a) => (a.isProfessor ? { url: URL_GESTAO, nome: 'app de gestão' } : null)}
+          nomeDoApp="no painel do site"
         >
           <AppLayout />
         </AuthGate>
