@@ -1,4 +1,5 @@
 import { Copy, MessageCircle } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { useAviso } from '@shared/components/Aviso'
@@ -44,17 +45,22 @@ export function AvisosPage() {
       const ev = eventos.find((e) => e.id === filtro.slice(7))
       lista = ativos.filter((a) => ev?.convocados.includes(a.id))
     }
-    // Uma família com dois filhos recebe uma vez só.
+    // Uma família com dois filhos recebe uma vez só. Quem está sem telefone
+    // continua na lista, marcado: sumir com a família faria a tela parecer
+    // errada (a Inadimplência mostra, Avisos não) e esconderia o cadastro
+    // incompleto, que é o que precisa ser corrigido.
     const vistos = new Set<string>()
     return lista
-      .map((a) => ({ aluno: a, r: responsavelPrincipal(a) }))
-      .filter(({ r }) => {
-        const d = r?.telefone.replace(/\D/g, '') ?? ''
-        if (!d || vistos.has(d)) return false
-        vistos.add(d)
+      .map((a) => ({ aluno: a, r: responsavelPrincipal(a), digitos: responsavelPrincipal(a)?.telefone.replace(/\D/g, '') ?? '' }))
+      .filter(({ digitos }) => {
+        if (!digitos) return true
+        if (vistos.has(digitos)) return false
+        vistos.add(digitos)
         return true
       })
   }, [alunos, filtro, devedores, eventos])
+  const comTelefone = destinatarios.filter(({ digitos }) => digitos)
+  const semTelefone = destinatarios.length - comTelefone.length
 
   const nomeDoFiltro = () => {
     if (filtro === 'todos') return 'Todas as famílias'
@@ -76,7 +82,7 @@ export function AvisosPage() {
     }
   }
 
-  const telefones = destinatarios.map(({ r }) => telefoneBonito(r!.telefone)).join('\n')
+  const telefones = comTelefone.map(({ r }) => telefoneBonito(r!.telefone)).join('\n')
 
   return (
     <>
@@ -109,8 +115,8 @@ export function AvisosPage() {
           <AreaTexto id="av-texto" rows={6} value={texto} onChange={(e) => setTexto(e.target.value)} placeholder="Olá! Aviso da Escolinha Patotina: …" />
           <Dica>O nome do responsável entra sozinho no início se você escrever {'{responsavel}'}.</Dica>
           <div className="mt-3 flex flex-wrap gap-2">
-            <Botao onClick={() => void navigator.clipboard?.writeText(telefones).then(() => avisar('Telefones copiados.'))} disabled={destinatarios.length === 0}>
-              <Copy size={15} /> Copiar {destinatarios.length} telefone(s)
+            <Botao onClick={() => void navigator.clipboard?.writeText(telefones).then(() => avisar('Telefones copiados.'))} disabled={comTelefone.length === 0}>
+              <Copy size={15} /> Copiar {comTelefone.length} telefone(s)
             </Botao>
             <Botao variante="principal" onClick={() => void registrar()} disabled={!texto.trim()}>
               Registrar envio
@@ -122,25 +128,38 @@ export function AvisosPage() {
           <h3 className="rotulo mb-2">
             {destinatarios.length} família(s) · {nomeDoFiltro()}
           </h3>
+          {semTelefone > 0 && (
+            <p className="mb-2 text-[0.85rem] text-gold">
+              {semTelefone} família(s) sem telefone no cadastro — abra a ficha do aluno e complete o responsável.
+            </p>
+          )}
           {destinatarios.length === 0 ? (
-            <p className="text-gray">Ninguém com telefone nesse filtro.</p>
+            <p className="text-gray">Ninguém nesse filtro.</p>
           ) : (
             <ul className="max-h-[420px] overflow-y-auto">
-              {destinatarios.map(({ aluno, r }) => (
+              {destinatarios.map(({ aluno, r, digitos }) => (
                 <li key={aluno.id} className="flex items-center gap-2 border-b border-line py-1.5 last:border-0">
                   <span className="min-w-0 flex-1 truncate text-[0.9rem]">
-                    {r!.nome} <span className="text-gray">· {aluno.apelido || aluno.nome}</span>
+                    {r?.nome || <span className="text-gray">(sem responsável)</span>} <span className="text-gray">· {aluno.apelido || aluno.nome}</span>
                   </span>
-                  <span className="text-[0.8rem] text-gray">{telefoneBonito(r!.telefone)}</span>
-                  <a
-                    href={linkWhatsApp(r!.telefone, texto.replace(/\{responsavel\}/g, r!.nome.split(' ')[0] ?? ''))}
-                    target="_blank"
-                    rel="noopener"
-                    className="grid h-8 w-8 place-items-center rounded-lg border border-line text-green hover:border-green"
-                    aria-label="WhatsApp"
-                  >
-                    <MessageCircle size={15} />
-                  </a>
+                  {digitos ? (
+                    <>
+                      <span className="text-[0.8rem] text-gray">{telefoneBonito(r!.telefone)}</span>
+                      <a
+                        href={linkWhatsApp(r!.telefone, texto.replace(/\{responsavel\}/g, r!.nome.split(' ')[0] ?? ''))}
+                        target="_blank"
+                        rel="noopener"
+                        className="grid h-8 w-8 place-items-center rounded-lg border border-line text-green hover:border-green"
+                        aria-label="WhatsApp"
+                      >
+                        <MessageCircle size={15} />
+                      </a>
+                    </>
+                  ) : (
+                    <Link to={`/alunos/${aluno.id}`} className="text-[0.8rem] text-gold hover:underline">
+                      sem telefone
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

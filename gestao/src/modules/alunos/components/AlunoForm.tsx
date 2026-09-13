@@ -9,7 +9,7 @@ import { cn, idadeEm, moeda } from '@shared/lib/utils'
 import type { Turma } from '@/modules/turmas/types'
 import { faixaEtaria, sugerirTurma } from '@/modules/turmas/services/turmasService'
 import type { Aluno } from '../types'
-import { PASSOS, esquemaAluno, responsavelVazio, valoresIniciais, type AlunoForm as Valores } from '../services/alunosService'
+import { PASSOS, esquemaAlunoFormulario, responsavelVazio, valoresIniciais, type AlunoForm as Valores } from '../services/alunosService'
 import { CampoFoto } from './CampoFoto'
 
 // O formulário do aluno em passos: matrícula (aluno nulo) e edição da ficha
@@ -38,7 +38,7 @@ export function AlunoForm({
   const editando = aluno !== null
 
   const form = useForm<Valores>({
-    resolver: zodResolver(esquemaAluno),
+    resolver: zodResolver(esquemaAlunoFormulario),
     defaultValues: { ...valoresIniciais(aluno, { mensalidade: turmaSugerida?.mensalidade }), turmaId: turmaSugerida?.id ?? '', ...inicial },
     mode: 'onTouched',
   })

@@ -58,6 +58,17 @@ export const esquemaAluno = z.object({
 
 export type AlunoForm = z.input<typeof esquemaAluno>
 
+// O formulário exige o telefone do contato principal: WhatsApp, lembrete de
+// mensalidade e Avisos dependem dele. A importação de planilha não passa por
+// aqui — ela aceita a linha sem telefone e avisa, para completar na ficha.
+export const esquemaAlunoFormulario = esquemaAluno.superRefine((v, ctx) => {
+  const i = Math.max(0, v.responsaveis.findIndex((r) => r.principal))
+  const digitos = v.responsaveis[i]?.telefone.replace(/\D/g, '') ?? ''
+  if (digitos.length < 10) {
+    ctx.addIssue({ code: 'custom', path: ['responsaveis', i, 'telefone'], message: 'Telefone com DDD do contato principal.' })
+  }
+})
+
 // Os campos de cada passo da matrícula — a validação roda passo a passo.
 export const PASSOS: { titulo: string; campos: (keyof AlunoForm)[] }[] = [
   { titulo: 'Criança', campos: ['nome', 'apelido', 'nascimento', 'sexo', 'foto', 'escola', 'endereco', 'uniforme'] },
