@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Como usar · Gestão Patotina</title>
+    <link rel="icon" href="/img/favicon-32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="ajuda.css" />
+  </head>
+  <body>
+    <header class="topo">
+      <div class="miolo">
+        <a class="marca" href="/"><img src="/img/escudo.webp" alt="" width="44" height="44" /> <span>GESTÃO <b>PATOTINA</b></span></a>
+        <h1>Como usar o app de gestão</h1>
+        <p class="sub">
+          Um passo a passo com a tela na frente: cada número na imagem é explicado logo abaixo dela. Vale para o computador e para o celular —
+          o app é o mesmo, só muda de lugar o menu.
+        </p>
+        <nav class="indice" aria-label="Seções do guia">
+          <a href="#comecar">Antes de começar</a>
+          <a href="#entrar">Entrar</a>
+          <a href="#inicio">Início</a>
+          <a href="#alunos">Alunos</a>
+          <a href="#matricula">Matrícula</a>
+          <a href="#ficha">Ficha</a>
+          <a href="#chamada">Chamada</a>
+          <a href="#frequencia">Frequência</a>
+          <a href="#mensalidades">Mensalidades</a>
+          <a href="#prematriculas">Pré-matrículas</a>
+          <a href="#turmas">Turmas</a>
+          <a href="#agenda">Agenda</a>
+          <a href="#avisos">Avisos</a>
+          <a href="#familia">Família</a>
+          <a href="#configuracoes">Configurações</a>
+          <a href="#contas">Contas</a>
+          <a href="#duvidas">Dúvidas</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="miolo">
+      <!-- ============================================================ -->
+      <section id="comecar">
+        <h2><span class="num">0</span> Antes de começar</h2>
+        <div class="cartoes">
+          <div class="cartao">
+            <h3>Endereço</h3>
+            <p><a href="https://app.patotina.com.br">app.patotina.com.br</a></p>
+            <p class="mini">É diferente do painel do site (que muda o que aparece em www.patotina.com.br), mas a conta é a mesma.</p>
+          </div>
+          <div class="cartao">
+            <h3>No celular, vira aplicativo</h3>
+            <p>Abra o endereço no navegador e use <b>“Adicionar à tela de início”</b>. Vira um ícone, como qualquer app.</p>
+            <p class="mini">A chamada funciona mesmo sem sinal no campo: fica guardada no celular e sobe quando a internet voltar.</p>
+          </div>
+          <div class="cartao">
+            <h3>Nada se apaga</h3>
+            <p>Aluno, cobrança e chamada nunca são excluídos: trancar, desligar, cancelar e reabrir são os caminhos. Pode mexer sem medo.</p>
+          </div>
+        </div>
+
+        <h3 class="sub-h3">Quem vê o quê</h3>
+        <table class="tabela">
+          <thead>
+            <tr><th>Acesso</th><th>Vê</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><b>Professor</b></td><td>Início, Alunos (só das turmas dele, sem financeiro), Chamada, Agenda.</td></tr>
+            <tr><td><b>Gestão</b></td><td>Tudo da escolinha: alunos, turmas, chamada, mensalidades, pré-matrículas, agenda, avisos, configurações.</td></tr>
+            <tr><td><b>Administrador</b></td><td>Tudo, e ainda a aba <b>Contas</b>, onde dá e tira acesso.</td></tr>
+            <tr><td><b>Família</b></td><td>A área própria em <code>/familia</code>: presença, mensalidades, agenda e avisos dos filhos.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="entrar">
+        <h2><span class="num">1</span> Entrar</h2>
+        <figure class="cena" data-cena="login">
+          <div class="quadro"><img src="img/login.png" alt="Tela de entrada do app" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="email">Digite o <b>e-mail</b> que você recebeu da escolinha.</li>
+          <li data-alvo="senha">A <b>senha</b>. Se for a primeira vez, é a senha inicial que te passaram — troque depois em “Minha conta”.</li>
+          <li data-alvo="entrar"><b>Entrar</b>. Você cai no Início e fica conectado neste aparelho até clicar em “Sair”.</li>
+          <li data-alvo="esqueci">Esqueceu? <b>Esqueci minha senha</b> manda um e-mail com o link para criar outra.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="inicio">
+        <h2><span class="num">2</span> Início — os números do dia</h2>
+        <p class="intro">É a primeira tela depois de entrar. Cada número é um atalho: toque nele e a lista abre já filtrada.</p>
+        <figure class="cena" data-cena="inicio">
+          <div class="quadro"><img src="img/inicio.png" alt="Tela Início" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="menu">O <b>menu</b>: no computador fica na lateral; no celular, na barra de baixo (o resto em “Mais”).</li>
+          <li data-alvo="numeros">Os <b>números do dia</b>: alunos ativos, turmas, quem está sem turma, pré-matrículas que chegaram pelo site, mensalidades em aberto e atrasadas. Em dourado é o que pede atenção.</li>
+          <li data-alvo="treinos"><b>Treinos de hoje</b>, com ✓ quando a chamada já foi feita. Toque na turma para abrir a chamada dela.</li>
+          <li data-alvo="faltando"><b>Faltando seguido</b>: quem tem três faltas seguidas ou mais. É a hora de ligar para a família.</li>
+          <li data-alvo="eventos">Os <b>próximos eventos</b> da agenda.</li>
+          <li data-alvo="aniversarios"><b>Aniversariantes do mês</b>, com o bolo no dia certo.</li>
+          <li data-alvo="conta"><b>Minha conta</b> troca a sua senha; <b>Sair</b> desconecta deste aparelho.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="alunos">
+        <h2><span class="num">3</span> Alunos — a lista</h2>
+        <figure class="cena" data-cena="alunos">
+          <div class="quadro"><img src="img/alunos.png" alt="Lista de alunos" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="busca"><b>Busca</b> pelo nome da criança <i>ou do responsável</i>. Vai filtrando enquanto você digita.</li>
+          <li data-alvo="turma">Filtro por <b>turma</b> (ou “Sem turma”, para achar quem ainda não foi encaixado).</li>
+          <li data-alvo="situacao">Filtro por <b>situação</b>. A lista abre em “Ativo”; troque para “Trancado” ou “Desligado” para ver quem saiu.</li>
+          <li data-alvo="matricular"><b>+ Matricular</b> abre o formulário de matrícula (próximo passo).</li>
+          <li data-alvo="importar"><b>Importar</b>: cole a planilha (ou abra o CSV), confira o que é cada coluna e importe de uma vez. O que faltar (nascimento, telefone) vira um aviso na lista e se completa depois na ficha.</li>
+          <li data-alvo="linha">Cada linha mostra idade, turma e o responsável com telefone. Toque para abrir a <b>ficha</b>.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="matricula">
+        <h2><span class="num">4</span> Matricular uma criança</h2>
+        <p class="intro">
+          Quatro passos: <b>criança → responsáveis → saúde e autorizações → turma e mensalidade</b>. Só o nome e o telefone de um responsável
+          são obrigatórios; o resto pode ser completado depois na ficha.
+        </p>
+        <figure class="cena" data-cena="matricula-1">
+          <div class="quadro"><img src="img/matricula-1.png" alt="Matrícula, passo 1" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="passos">Os <b>quatro passos</b>. Dá para voltar a qualquer um já preenchido.</li>
+          <li data-alvo="nome"><b>Nome completo</b> — o único campo obrigatório deste passo.</li>
+          <li data-alvo="nascimento">O <b>nascimento</b> é o que faz o app sugerir a turma certa no último passo.</li>
+          <li data-alvo="continuar"><b>Continuar</b> confere o passo e avança. No passo 2, o telefone do responsável é obrigatório: é ele que vira o botão de WhatsApp.</li>
+          <li data-alvo="cancelar"><b>Cancelar</b> sai sem gravar nada.</li>
+        </ol>
+
+        <figure class="cena" data-cena="matricula-4">
+          <div class="quadro"><img src="img/matricula-4.png" alt="Matrícula, passo 4: turma e mensalidade" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="turma">No passo 4, toque na <b>turma</b> da criança.</li>
+          <li data-alvo="sugerida">“<b>Sugerida pela idade</b>”: a faixa etária cadastrada em Turmas bateu com o nascimento. Pode escolher outra.</li>
+          <li data-alvo="valor">Ao tocar na turma, a <b>mensalidade</b> vem preenchida com o valor sugerido dela — mas o valor é da família, não da turma: ajuste aqui.</li>
+          <li data-alvo="desconto"><b>Desconto</b>, se houver (irmão, bolsa, acordo…).</li>
+          <li data-alvo="motivo">Desconto pede um <b>motivo</b>. Sem ele, não salva — é o que deixa registrado por que aquela família paga diferente.</li>
+          <li data-alvo="matricular"><b>Matricular</b> grava e abre a ficha da criança.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="ficha">
+        <h2><span class="num">5</span> A ficha do aluno</h2>
+        <figure class="cena" data-cena="ficha">
+          <div class="quadro"><img src="img/ficha.png" alt="Ficha do aluno" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="selo">O <b>selo</b> diz a situação: ativo, trancado, desligado.</li>
+          <li data-alvo="editar"><b>Editar</b> muda os dados cadastrais (escola, endereço, saúde…). A turma <i>não</i> se edita aqui — é pelo Histórico, para ficar registrado.</li>
+          <li data-alvo="abas">As <b>abas</b>: Ficha, Histórico, Presença e Financeiro (só para a gestão).</li>
+          <li data-alvo="ligar">O telefone do responsável vira botão de <b>ligar</b>…</li>
+          <li data-alvo="whatsapp">…e de <b>WhatsApp</b>, que abre direto a conversa com a família.</li>
+          <li data-alvo="familia"><b>Acesso da família</b>: crie o acesso com o e-mail do responsável e uma senha inicial. Família com dois filhos usa uma conta só — o segundo aluno é <b>vinculado</b> ao mesmo e-mail. Veja a <a href="#familia">área da família</a>.</li>
+        </ol>
+
+        <figure class="cena" data-cena="historico">
+          <div class="quadro"><img src="img/historico.png" alt="Aba Histórico da ficha" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="mudar"><b>Mudar de turma</b>: escolha a nova e, se quiser, a data. A turma no cabeçalho muda e fica uma linha no histórico.</li>
+          <li data-alvo="trancar"><b>Trancar</b> tira a criança das listas do dia a dia (chamada, cobranças), mas guarda tudo. “Reativar” traz de volta.</li>
+          <li data-alvo="desligar"><b>Desligar</b> é a saída definitiva — e mesmo assim nada se apaga. Pede um motivo.</li>
+          <li data-alvo="anotar"><b>Anotar</b> registra uma observação com data (conversa com a família, lesão, elogio…).</li>
+          <li data-alvo="linha">A <b>linha do tempo</b>: tudo o que aconteceu, com data e quem fez.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="chamada">
+        <h2><span class="num">6</span> Chamada</h2>
+        <p class="intro">Feita para o celular, no intervalo do treino. Abre já na turma que treina hoje.</p>
+        <figure class="cena" data-cena="chamada">
+          <div class="quadro"><img src="img/chamada.png" alt="Tela de chamada" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="data">A <b>data</b>. Troque para registrar um treino passado.</li>
+          <li data-alvo="turmas">As <b>turmas</b>: a dourada é a que está aberta; com borda dourada, as que treinam neste dia.</li>
+          <li data-alvo="todos"><b>Todos presentes</b> marca quem ainda não foi marcado. Depois é só corrigir as faltas.</li>
+          <li data-alvo="limpar"><b>Limpar</b> zera o treino inteiro (pede confirmação).</li>
+          <li data-alvo="contagem">O <b>placar</b> do treino: presentes, faltas, justificadas e quem ainda não foi marcado.</li>
+          <li data-alvo="aluno">Toque no <b>aluno</b> para marcar. Cada toque salva na hora.</li>
+          <li data-alvo="marca">A marca gira: <b>P</b> presente → <b>F</b> falta → <b>J</b> justificada → sem marcar. O quarto toque desfaz.</li>
+          <li data-alvo="observacao"><b>Observação</b> do treino: chuva, jogo-treino, quem chegou atrasado. Salva ao sair do campo.</li>
+          <li data-alvo="frequencia"><b>Frequência</b> abre a grade do mês (próximo passo).</li>
+        </ol>
+
+        <div class="lado-a-lado">
+          <figure class="cena celular" data-cena="chamada-celular">
+            <div class="quadro"><img src="img/chamada-celular.png" alt="Chamada no celular" loading="lazy" /></div>
+          </figure>
+          <div>
+            <h3 class="sub-h3">No celular</h3>
+            <ol class="passos">
+              <li data-alvo="menu">O <b>menu</b> (☰) abre as seções que não cabem na barra.</li>
+              <li data-alvo="aluno">A linha do aluno é grande de propósito: dá para tocar com o polegar, sem mirar.</li>
+              <li data-alvo="marca">A <b>marca</b> à direita mostra o estado atual.</li>
+              <li data-alvo="barra">A <b>barra de baixo</b> tem só o que se usa todo dia: Início, Alunos, Chamada, Mensalidades.</li>
+              <li data-alvo="mais">O resto (Turmas, Agenda, Avisos…) está em <b>Mais</b>.</li>
+            </ol>
+            <p class="dica"><b>Sem sinal no campo?</b> Marque normalmente. A chamada fica guardada no celular e sobe quando a internet voltar — só não feche o app antes disso.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="frequencia">
+        <h2><span class="num">7</span> Frequência do mês</h2>
+        <figure class="cena" data-cena="frequencia">
+          <div class="quadro"><img src="img/frequencia.png" alt="Grade de frequência" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="mes">Navegue pelos <b>meses</b>.</li>
+          <li data-alvo="turmas">Troque de <b>turma</b>.</li>
+          <li data-alvo="grade">A <b>grade</b>: um aluno por linha, um treino por coluna. P, F e J nas cores da chamada.</li>
+          <li data-alvo="semChamada">Treino previsto <b>sem chamada</b> aparece apagado — é um lembrete de que ninguém chamou naquele dia.</li>
+          <li data-alvo="percentual">O <b>percentual</b> de presença de cada um no mês. Toque no nome para ver a presença completa na ficha.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="mensalidades">
+        <h2><span class="num">8</span> Mensalidades</h2>
+        <p class="intro">
+          A rotina do mês: <b>gerar</b> as cobranças no começo, dar <b>baixa</b> conforme o dinheiro entra, e <b>cobrar</b> quem atrasou. Nada
+          é cobrado automaticamente — o app organiza, você conversa com a família.
+        </p>
+        <figure class="cena" data-cena="mensalidades">
+          <div class="quadro"><img src="img/mensalidades.png" alt="Tela de mensalidades" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="mes">O <b>mês</b> que você está vendo.</li>
+          <li data-alvo="gerar"><b>Gerar cobranças</b> cria uma para cada aluno ativo, com o valor do plano dele. Pode clicar de novo sem medo: quem já tem cobrança no mês não é tocado (o botão só aparece enquanto falta alguém).</li>
+          <li data-alvo="resumo">O <b>resumo</b>: previsto, recebido, em aberto e atrasado. Em aberto e atrasado são botões que filtram a lista.</li>
+          <li data-alvo="filtro"><b>Filtro</b> por situação.</li>
+          <li data-alvo="pagar">Recebeu? <b>Pagar</b> abre a janela de baixa (abaixo).</li>
+          <li data-alvo="lembrete">O botão verde abre o <b>lembrete no WhatsApp</b>, já escrito com nome, valor, vencimento e Pix.</li>
+          <li data-alvo="recibo">Cobrança paga ganha o <b>recibo</b>: número automático, para copiar ou mandar no WhatsApp.</li>
+          <li data-alvo="mais">No <b>“…”</b>: isentar este mês, cancelar a cobrança, ou reabrir (que desfaz um pagamento — o recibo antigo fica anotado).</li>
+          <li data-alvo="inadimplencia"><b>Inadimplência</b> lista quem está com mensalidade vencida (abaixo).</li>
+        </ol>
+
+        <div class="lado-a-lado inverso">
+          <figure class="cena" data-cena="pagamento">
+            <div class="quadro"><img src="img/pagamento.png" alt="Janela de pagamento" loading="lazy" /></div>
+          </figure>
+          <div>
+            <h3 class="sub-h3">Dar baixa</h3>
+            <ol class="passos">
+              <li data-alvo="data">A <b>data</b> em que o dinheiro entrou.</li>
+              <li data-alvo="forma">A <b>forma</b>: Pix, dinheiro ou transferência.</li>
+              <li data-alvo="valor">O <b>valor</b> vem preenchido com o devido; ajuste se a família pagou diferente.</li>
+              <li data-alvo="confirmar"><b>Confirmar</b>. O recibo ganha número sozinho.</li>
+            </ol>
+          </div>
+        </div>
+
+        <figure class="cena" data-cena="inadimplencia">
+          <div class="quadro"><img src="img/inadimplencia.png" alt="Tela de inadimplência" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="linha">Cada família com <b>mensalidade vencida</b>: quem paga, o telefone, quanto deve e há quantos meses.</li>
+          <li data-alvo="whatsapp"><b>Lembrar</b> abre o WhatsApp com o lembrete pronto — o texto se ajusta em Configurações.</li>
+          <li data-alvo="meses">Os <b>meses devidos</b>, um a um. Acertou um deles? Toque no mês para registrar o pagamento direto daqui.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="prematriculas">
+        <h2><span class="num">9</span> Pré-matrículas do site</h2>
+        <p class="intro">O que a família preenche no formulário de www.patotina.com.br cai aqui como <b>nova</b>.</p>
+        <figure class="cena" data-cena="prematriculas">
+          <div class="quadro"><img src="img/prematriculas.png" alt="Lista de pré-matrículas" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="situacao">Filtro por <b>situação</b>: nova, em contato, matriculada, recusada.</li>
+          <li data-alvo="whatsapp"><b>Chamar no WhatsApp</b> abre a conversa com a família e já marca “em contato”.</li>
+          <li data-alvo="contato"><b>Em contato</b> marca manualmente, se você falou por outro caminho.</li>
+          <li data-alvo="matricular"><b>Matricular</b> abre a matrícula já preenchida com o que a família escreveu. Ao salvar, a pré-matrícula fecha sozinha.</li>
+          <li data-alvo="recusar"><b>Recusar</b>, se não vai dar (sem vaga, idade fora da faixa…). Dá para reabrir depois.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="turmas">
+        <h2><span class="num">10</span> Turmas</h2>
+        <figure class="cena" data-cena="turmas">
+          <div class="quadro"><img src="img/turmas.png" alt="Lista de turmas" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="nova"><b>+ Nova turma</b>: nome, professor, treinos (dia, horário, local), faixa etária, vagas e mensalidade sugerida.</li>
+          <li data-alvo="card">Cada <b>card</b> mostra a faixa etária, o professor, os treinos e quantos alunos estão nela. Toque para editar.</li>
+        </ol>
+        <p class="dica">
+          A faixa etária é o que faz a matrícula <b>sugerir a turma pela idade</b>, e os treinos são o que faz a chamada abrir na turma certa
+          e a grade de frequência saber quais dias eram de treino. O card que aparece no site é outra coisa — edita-se no painel do site.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="agenda">
+        <h2><span class="num">11</span> Agenda e convocação</h2>
+        <figure class="cena" data-cena="agenda">
+          <div class="quadro"><img src="img/agenda.png" alt="Agenda" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="novo"><b>+ Novo evento</b>: jogo, festival, viagem, reunião ou dia sem treino. Com data, hora, local e as turmas envolvidas.</li>
+          <li data-alvo="evento">Toque no <b>evento</b> para abrir a convocação.</li>
+          <li data-alvo="site">O globo marca o evento com <b>“Mostrar no site”</b>: ele aparece em “Próximos compromissos” em www.patotina.com.br.</li>
+        </ol>
+
+        <figure class="cena" data-cena="evento">
+          <div class="quadro"><img src="img/evento.png" alt="Evento com convocação" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="editar"><b>Editar</b> o evento (a lixeira ao lado apaga — o único lugar do app em que algo se apaga, porque evento não é histórico).</li>
+          <li data-alvo="verTodos"><b>Ver todos</b> mostra todos os alunos das turmas do evento, para convocar um a um.</li>
+          <li data-alvo="convocarTodos"><b>Convocar todos</b> de uma vez.</li>
+          <li data-alvo="telefones"><b>Telefones</b> copia a lista para colar numa lista de transmissão do WhatsApp.</li>
+          <li data-alvo="convocado">Toque no <b>aluno</b> para convocar ou desconvocar. Em viagem, o ✓ ao lado marca quem já trouxe a <b>autorização assinada</b>.</li>
+          <li data-alvo="whatsapp">O <b>WhatsApp</b> de cada família já com a convocação escrita (dia, hora, local).</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="avisos">
+        <h2><span class="num">12</span> Avisos para as famílias</h2>
+        <figure class="cena" data-cena="avisos">
+          <div class="quadro"><img src="img/avisos.png" alt="Tela de avisos" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="publico">Escolha o <b>público</b>: todas as famílias, uma turma, quem está com mensalidade atrasada, ou os convocados de um evento.</li>
+          <li data-alvo="assunto">O <b>assunto</b> é só para o histórico.</li>
+          <li data-alvo="mensagem">A <b>mensagem</b>. Escreva <code>{responsavel}</code> e o nome de cada um entra sozinho.</li>
+          <li data-alvo="destinatarios">A lista de quem <b>recebe</b>. Família sem telefone aparece marcada — complete na ficha.</li>
+          <li data-alvo="whatsapp">Mande <b>um a um</b> pelo botão de cada família…</li>
+          <li data-alvo="copiar">…ou <b>copie os telefones</b> para uma lista de transmissão.</li>
+          <li data-alvo="registrar"><b>Registrar envio</b> guarda o aviso no histórico — e ele aparece na área da família.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="familia">
+        <h2><span class="num">13</span> Área da família</h2>
+        <p class="intro">
+          O responsável entra em <b>app.patotina.com.br/familia</b> com o acesso criado na ficha do aluno. Ele vê só os filhos dele.
+        </p>
+        <div class="lado-a-lado">
+          <figure class="cena celular" data-cena="familia">
+            <div class="quadro"><img src="img/familia.png" alt="Área da família no celular" loading="lazy" /></div>
+          </figure>
+          <div>
+            <ol class="passos">
+              <li data-alvo="filho">Cada <b>filho</b> tem o seu bloco, com turma e treinos. Família com dois filhos vê os dois, um embaixo do outro.</li>
+              <li data-alvo="presenca"><b>Presença</b> dos últimos três meses.</li>
+              <li data-alvo="mensalidades"><b>Mensalidades</b> em aberto, com vencimento e valor.</li>
+              <li data-alvo="pix"><b>Pix copia-e-cola</b> já com o valor. Depois de pagar, a família manda o comprovante no WhatsApp e você dá baixa.</li>
+              <li data-alvo="agenda"><b>Agenda</b>, com “convocado” quando for o caso.</li>
+              <li data-alvo="avisos">Os <b>avisos</b> que você registrou.</li>
+            </ol>
+            <p class="dica">
+              <b>A família não consegue entrar?</b> Na ficha do aluno, “Link de senha” manda um e-mail para ela criar uma senha nova. Confira
+              também se o acesso não está “desligado”.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="configuracoes">
+        <h2><span class="num">14</span> Configurações</h2>
+        <figure class="cena" data-cena="configuracoes">
+          <div class="quadro"><img src="img/configuracoes.png" alt="Tela de configurações" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="mensalidade">A <b>mensalidade padrão</b> e…</li>
+          <li data-alvo="vencimento">…o <b>dia de vencimento</b> que as turmas e as cobranças novas usam.</li>
+          <li data-alvo="pix">A <b>chave Pix</b> e o titular: entram no lembrete e no Pix copia-e-cola da família.</li>
+          <li data-alvo="locais">Os <b>locais de treino</b>, um por linha — viram opções ao cadastrar os treinos de uma turma.</li>
+          <li data-alvo="textos">Os <b>modelos de mensagem</b> do WhatsApp (lembrete de mensalidade, convocação, recibo). Entre chaves — <code>{responsavel}</code>, <code>{aluno}</code>, <code>{valor}</code>… — entra o dado certo na hora.</li>
+          <li data-alvo="salvar"><b>Salvar</b>. Vale para a escolinha inteira.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="contas">
+        <h2><span class="num">15</span> Contas (só o administrador)</h2>
+        <figure class="cena" data-cena="contas">
+          <div class="quadro"><img src="img/contas.png" alt="Tela de contas" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="nova"><b>Nova conta</b>: nome, e-mail, senha inicial e o <b>nível na escolinha</b> — Professor (chamada e alunos das turmas dele), Gestão (tudo) ou Administrador (tudo + Contas). “Edita o site” é um extra, para quem também cuida do painel.</li>
+          <li data-alvo="linha">Cada <b>linha</b> mostra o nível. Toque para mudar o nível, trocar a senha ou desligar o acesso.</li>
+        </ol>
+      </section>
+
+      <!-- ============================================================ -->
+      <section id="duvidas">
+        <h2><span class="num">?</span> Perguntas que sempre aparecem</h2>
+        <dl class="faq">
+          <dt>A chamada não salvou.</dt>
+          <dd>Sem sinal, ela fica guardada no celular e sobe quando a internet voltar — não feche o app antes disso.</dd>
+          <dt>Gerei as cobranças e um aluno ficou de fora.</dt>
+          <dd>Ele não estava ativo (pré-matrícula, trancado ou desligado). Reative e clique em “Gerar para N sem cobrança”.</dd>
+          <dt>Errei o pagamento.</dt>
+          <dd>No “…” da cobrança, “Reabrir” desfaz; o recibo antigo fica anotado na observação, para não sumir número.</dd>
+          <dt>A família não consegue entrar.</dt>
+          <dd>Na ficha do aluno, “Link de senha” manda um e-mail para ela criar uma senha nova. Confira se o acesso não está “desligado”.</dd>
+          <dt>Quero mudar o texto do lembrete / a chave Pix / o dia de vencimento.</dt>
+          <dd>Tudo em <a href="#configuracoes">Configurações</a>.</dd>
+          <dt>Preciso apagar um aluno que foi cadastrado errado.</dt>
+          <dd>Não se apaga: desligue-o (Histórico → Desligar). Ele some das listas do dia a dia e o registro fica.</dd>
+        </dl>
+      </section>
+    </main>
+
+    <footer class="rodape miolo">
+      <p>Escolinha de Futebol Patotina · Matutina/MG · <a href="/">voltar ao app</a></p>
+      <p class="mini">As telas deste guia usam nomes de exemplo, não dados reais.</p>
+    </footer>
+
+    <script src="ajuda.js"></script>
+  </body>
+</html>

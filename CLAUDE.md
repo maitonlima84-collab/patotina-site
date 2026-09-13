@@ -63,10 +63,18 @@ publicar.
 
 `npm run emulators` (Java 21 via `JAVA_HOME`), `npm run seed -- --emulador`,
 `npm run criar-acesso -- --emulador ...`, `npm run dev` (site + painel, 5173)
-e `npm run dev:gestao` (gestão, 5174). Contas de teste locais, senha
+e `npm run dev:gestao` (gestão, 5174). `npm run seed:gestao -- --emulador`
+cria as contas de teste e dados de demonstração da gestão (turmas, alunos,
+chamadas, cobranças, agenda…). Contas de teste locais, senha
 `patotina123`, só em `.emulator-data`: `maiton@patotina.dev` (master),
 `lucas@patotina.dev` (editor), `gestora@patotina.dev` (gestor),
-`professor@patotina.dev` (professor).
+`professor@patotina.dev` (professor), `familia@patotina.dev` (família).
+
+O guia visual da gestão (`gestao/public/ajuda/`, servido em `/ajuda/`) é
+gerado: `npm run ajuda:capturar` tira as screenshots com o Chrome da máquina
+e grava a posição dos elementos apontados em `cenas.json`. Mudou uma tela
+da gestão, rode de novo (cenas em `scripts/capturar-ajuda.mts`, texto em
+`public/ajuda/index.html`).
 
 O emulador de Hosting no Windows não aplica redirects/headers (bug do
 `glob-slasher`); em produção funcionam.

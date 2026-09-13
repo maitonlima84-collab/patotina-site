@@ -38,9 +38,12 @@ export default defineConfig({
       // é ela que segura a chamada sem sinal no campo, não o cache do SW.
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,webp,svg,woff2}'],
+        // O guia "Como usar" (public/ajuda/) é página estática com muitas
+        // screenshots: não entra no precache nem cai no fallback do SPA.
+        globIgnores: ['ajuda/**'],
         navigateFallback: '/index.html',
         // Firebase e fontes nunca passam pelo SW: o SDK cuida do próprio cache.
-        navigateFallbackDenylist: [/^\/__\//],
+        navigateFallbackDenylist: [/^\/__\//, /^\/ajuda/],
       },
       devOptions: { enabled: false },
     }),

@@ -1,4 +1,4 @@
-import { ExternalLink, KeyRound, LogOut, Menu } from 'lucide-react'
+import { CircleHelp, ExternalLink, KeyRound, LogOut, Menu } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
@@ -35,6 +35,12 @@ export function AppLayout() {
           <ExternalLink size={18} /> Painel do site
         </a>
       )}
+      {/* O guia é página estática (gestao/public/ajuda/), fora do React: abre em
+          outra aba. No Hosting, /ajuda/ serve o index.html da pasta; o servidor
+          do Vite mandaria para o SPA, por isso o nome do arquivo em dev. */}
+      <a href={import.meta.env.DEV ? '/ajuda/index.html' : '/ajuda/'} target="_blank" rel="noopener" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
+        <CircleHelp size={18} /> Como usar
+      </a>
       <button type="button" onClick={() => void signOut()} className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
         <LogOut size={18} /> Sair
       </button>

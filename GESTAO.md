@@ -6,6 +6,9 @@ aparece em www.patotina.com.br), mas a conta é a mesma.
 
 **Endereço:** [app.patotina.com.br](https://app.patotina.com.br)
 **Entrada:** o e-mail e a senha que você recebeu.
+**Guia com as telas:** [app.patotina.com.br/ajuda](https://app.patotina.com.br/ajuda/)
+— o mesmo conteúdo deste arquivo, com a tela na frente e cada botão
+apontado. Também está em "Como usar", no menu do app.
 
 No celular, abra o endereço no navegador e use "Adicionar à tela de início":
 vira um ícone, como um aplicativo, e a chamada funciona mesmo sem sinal no

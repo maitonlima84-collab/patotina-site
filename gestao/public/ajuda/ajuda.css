@@ -1,0 +1,406 @@
+/* Guia visual da gestão. Mesma paleta do app (shared/styles/tema.css), mas
+   fundo mais claro que o navy do app, para as screenshots (escuras) se
+   destacarem do resto da página. */
+:root {
+  --navy: #002838;
+  --navy-2: #03202e;
+  --navy-3: #0b3446;
+  --gold: #e8b018;
+  --gold-2: #f5c93e;
+  --cream: #f4f1e8;
+  --gray: #9fb3bb;
+  --line: #164257;
+  --green: #3ea36a;
+  --red: #b8121a;
+  --fundo: #f3f0e6;
+  --papel: #ffffff;
+  --tinta: #1a2a33;
+  --tinta-2: #4a5c66;
+  --borda: #dcd6c4;
+  --anton: 'Anton', Impact, sans-serif;
+  --cond: 'Barlow Condensed', sans-serif;
+  --sans: 'Barlow', ui-sans-serif, system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 1rem;
+}
+body {
+  margin: 0;
+  /* As bolinhas podem sair um pouco da imagem; nunca viram barra de rolagem. */
+  overflow-x: hidden;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+a {
+  color: #0b5a8a;
+}
+code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.9em;
+  background: #e8e3d3;
+  padding: 0.05em 0.35em;
+  border-radius: 4px;
+}
+.miolo {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------- topo ---------- */
+.topo {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 2rem 0 1.5rem;
+  border-bottom: 4px solid var(--gold);
+}
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--cream);
+  text-decoration: none;
+  font-family: var(--anton);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+}
+.marca b {
+  color: var(--gold);
+  font-weight: 400;
+}
+.topo h1 {
+  font-family: var(--anton);
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  margin: 1rem 0 0.5rem;
+}
+.topo .sub {
+  color: var(--gray);
+  max-width: 60ch;
+  margin: 0 0 1.25rem;
+}
+.indice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.indice a {
+  font-family: var(--cond);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--cream);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  background: var(--navy-2);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+}
+.indice a:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ---------- seções ---------- */
+main {
+  padding-top: 1rem;
+}
+section {
+  padding: 2.5rem 0 1.5rem;
+  border-bottom: 1px solid var(--borda);
+}
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--anton);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  letter-spacing: 0.02em;
+  margin: 0 0 0.75rem;
+  color: var(--navy);
+}
+h2 .num {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+.intro {
+  margin: 0 0 1.25rem;
+  max-width: 70ch;
+  color: var(--tinta-2);
+}
+.sub-h3 {
+  font-family: var(--cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.95rem;
+  color: var(--tinta-2);
+  margin: 1.75rem 0 0.75rem;
+}
+.dica {
+  background: #fff6d6;
+  border-left: 4px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0 0;
+}
+.mini {
+  font-size: 0.9rem;
+  color: var(--tinta-2);
+}
+
+/* ---------- antes de começar ---------- */
+.cartoes {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+.cartao {
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 1rem 1.15rem;
+}
+.cartao h3 {
+  margin: 0 0 0.4rem;
+  font-family: var(--cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.95rem;
+  color: var(--navy);
+}
+.cartao p {
+  margin: 0 0 0.4rem;
+}
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.tabela th,
+.tabela td {
+  text-align: left;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--borda);
+  vertical-align: top;
+}
+.tabela th {
+  font-family: var(--cond);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  color: var(--tinta-2);
+  background: #faf8f1;
+}
+.tabela tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ---------- a cena: screenshot + marcadores ---------- */
+.cena {
+  margin: 0 0 1rem;
+}
+/* Sem overflow hidden: a bolinha de um elemento na beirada pode sair um
+   pouco da imagem, como um balão de destaque. */
+.quadro {
+  position: relative;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 40, 56, 0.25);
+  border: 1px solid #0b3446;
+  background: var(--navy);
+}
+.quadro img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 13px;
+}
+.quadro .marcas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.quadro svg.setas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.quadro .alvo {
+  position: absolute;
+  border: 3px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 0 0 3px rgba(0, 40, 56, 0.55), 0 0 18px rgba(232, 176, 24, 0.55);
+  transition: box-shadow 0.15s, border-color 0.15s;
+}
+.quadro .alvo.grande {
+  border-style: dashed;
+  border-width: 2px;
+  box-shadow: none;
+}
+.quadro .alvo.aceso {
+  border-color: var(--gold-2);
+  box-shadow: 0 0 0 4px rgba(245, 201, 62, 0.35), 0 0 24px rgba(245, 201, 62, 0.8);
+}
+.quadro .bola {
+  position: absolute;
+  width: var(--bola, 30px);
+  height: var(--bola, 30px);
+  margin: calc(var(--bola, 30px) / -2) 0 0 calc(var(--bola, 30px) / -2);
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--anton);
+  font-size: calc(var(--bola, 30px) * 0.55);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35), 0 0 0 3px var(--navy);
+  pointer-events: auto;
+  cursor: default;
+  transition: transform 0.15s;
+}
+.quadro .bola.acesa {
+  transform: scale(1.25);
+  background: var(--gold-2);
+}
+.setas path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 3;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px rgba(0, 20, 30, 0.9));
+}
+.setas .ponta {
+  fill: var(--gold);
+  stroke: none;
+}
+
+/* Cenas do celular: a imagem é estreita, então fica ao lado do texto. */
+.cena.celular .quadro {
+  max-width: 330px;
+  margin: 0 auto;
+  border-radius: 28px;
+  border: 8px solid #0b1c26;
+}
+.cena.celular .quadro img {
+  border-radius: 20px;
+}
+.lado-a-lado {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+@media (min-width: 760px) {
+  .lado-a-lado {
+    grid-template-columns: 360px 1fr;
+  }
+  .lado-a-lado.inverso {
+    grid-template-columns: 1.4fr 1fr;
+  }
+}
+.lado-a-lado .sub-h3 {
+  margin-top: 0;
+}
+
+/* ---------- a lista de passos ---------- */
+.passos {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  counter-reset: passo;
+}
+@media (min-width: 900px) {
+  section > .passos {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.passos li {
+  position: relative;
+  padding: 0.55rem 0.9rem 0.55rem 3rem;
+  background: var(--papel);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.passos li::before {
+  counter-increment: passo;
+  content: counter(passo);
+  position: absolute;
+  left: 0.7rem;
+  top: 0.55rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: var(--anton);
+  font-size: 0.95rem;
+  display: grid;
+  place-items: center;
+}
+.passos li:hover,
+.passos li.aceso {
+  border-color: var(--gold);
+  background: #fffaf0;
+}
+/* Passo cujo alvo não foi encontrado na captura: a lista continua numerada,
+   só não há marcador na imagem. */
+.passos li.sem-alvo::before {
+  background: var(--gray);
+}
+
+/* ---------- perguntas ---------- */
+.faq {
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.faq dt {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--navy);
+}
+.faq dd {
+  margin: 0.15rem 0 0.5rem;
+  color: var(--tinta-2);
+}
+
+/* ---------- rodapé ---------- */
+.rodape {
+  padding: 2rem 1.25rem 3rem;
+  color: var(--tinta-2);
+  text-align: center;
+}
+.rodape p {
+  margin: 0.25rem 0;
+}
