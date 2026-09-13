@@ -13,7 +13,7 @@ export type Papel = (typeof PAPEIS)[number]
 export const DESCRICAO_PAPEL: Record<Papel, string> = {
   Master: 'cria contas e acessa tudo',
   Editor: 'edita o site',
-  Gestor: 'gestão da escolinha: alunos, turmas, mensalidades',
+  Gestor: 'alunos, turmas, mensalidades, agenda',
   Professor: 'chamada e alunos das turmas dele',
 }
 

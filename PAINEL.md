@@ -96,17 +96,24 @@ Só números, com DDD: `34988658518`.
 Só quem é **administrador** vê esta aba.
 
 A mesma conta serve para o painel do site e para o app de gestão da
-escolinha (app.patotina.com.br). O que muda é o **acesso** marcado:
+escolinha (app.patotina.com.br). O que muda é o que está marcado:
 
-- **Painel do site**: mexe em todo o conteúdo do site.
-- **App de gestão — gestão da escolinha**: alunos, turmas, mensalidades.
-- **App de gestão — professor**: só a chamada e os alunos das turmas dele.
+**Nível na escolinha** (escolha um, do maior para o menor):
+
 - **Administrador**: faz tudo, inclusive criar acesso para outras pessoas.
+- **Gestor**: alunos, turmas, mensalidades, agenda — o app de gestão inteiro.
+- **Professor**: só a chamada e os alunos das turmas dele.
+- **Nenhum**: a pessoa não entra no app de gestão (só no site, se marcado).
+
+**Site**: "Edita o site" dá entrada no painel. Pode ir junto com qualquer
+nível — um professor que também cuida do site marca os dois. Administrador
+já edita o site sempre.
 
 Ao criar uma pessoa, você define a **senha inicial** e passa para ela. Ela
 troca depois em **Minha conta**, no topo da tela.
 
-Quando alguém sai, **desligue "Acesso liberado"** em vez de apagar — apagar
+Quando alguém sai, **desligue a conta** (em "Conta", desmarque "Ativa") em
+vez de apagar — apagar
 não existe de propósito, para o histórico ficar preservado. Desligar derruba a
 pessoa na hora, mesmo que ela esteja com o painel aberto.
 

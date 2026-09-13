@@ -10,11 +10,15 @@ import { UsuarioFormDialog } from '../components/UsuarioFormDialog'
 import { enviarLinkDeSenha } from '../repositories/usuariosRepository'
 import { mensagemDeErro } from '@shared/lib/erros'
 
-// "administrador" já diz tudo; para os outros, lista as portas que a pessoa tem.
+// "administrador" já diz tudo; para os outros, o nível na escolinha e, se
+// houver, o site — na mesma ordem do formulário (do maior para o menor).
 function resumoDosPapeis(papeis: string[]) {
   if (papeis.includes('Master')) return 'administrador'
-  const nomes = { Editor: 'site', Gestor: 'gestão', Professor: 'professor' } as const
-  return papeis.map((p) => nomes[p as keyof typeof nomes] ?? p).join(' + ') || 'sem acesso'
+  const partes = [
+    papeis.includes('Gestor') ? 'gestor' : papeis.includes('Professor') ? 'professor' : null,
+    papeis.includes('Editor') ? 'site' : null,
+  ].filter(Boolean)
+  return partes.join(' + ') || 'sem acesso'
 }
 
 export function ContasPage() {

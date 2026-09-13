@@ -2,12 +2,29 @@ import { useEffect, useState } from 'react'
 import { DESCRICAO_PAPEL, useAuth, type Papel } from '@shared/auth/AuthProvider'
 import { useAviso } from '@shared/components/Aviso'
 import { Botao } from '@shared/components/ui/Botao'
-import { Dica, Entrada, LinhaSim, Recado, Rotulo } from '@shared/components/ui/Campos'
+import { Dica, Entrada, LinhaEscolha, LinhaSim, Recado, Rotulo } from '@shared/components/ui/Campos'
 import { Janela } from '@shared/components/ui/Janela'
 import { mensagemDeErro } from '@shared/lib/erros'
 import { senhaFraca } from '@shared/lib/senha'
 import type { Usuario } from '../types'
 import { criarUsuario, editarUsuario } from '../repositories/usuariosRepository'
+
+type Nivel = 'Master' | 'Gestor' | 'Professor' | 'nenhum'
+
+// Do maior para o menor: é a ordem em que a pessoa pensa ("quem manda mais").
+const NIVEIS: [Nivel, string, string][] = [
+  ['Master', 'Administrador', DESCRICAO_PAPEL.Master],
+  ['Gestor', 'Gestor', DESCRICAO_PAPEL.Gestor],
+  ['Professor', 'Professor', DESCRICAO_PAPEL.Professor],
+  ['nenhum', 'Nenhum', 'só o site'],
+]
+
+function nivelDosPapeis(papeis: string[]): Nivel {
+  if (papeis.includes('Master')) return 'Master'
+  if (papeis.includes('Gestor')) return 'Gestor'
+  if (papeis.includes('Professor')) return 'Professor'
+  return 'nenhum'
+}
 
 export function UsuarioFormDialog({
   item,
@@ -25,10 +42,10 @@ export function UsuarioFormDialog({
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
-  const [master, setMaster] = useState(false)
+  // Os papéis da gestão são uma escada (Master > Gestor > Professor), então
+  // na tela é UMA escolha; o site é um extra que qualquer degrau pode ter.
+  const [nivel, setNivel] = useState<Nivel>('nenhum')
   const [editor, setEditor] = useState(false)
-  const [gestor, setGestor] = useState(false)
-  const [professor, setProfessor] = useState(false)
   const [ativo, setAtivo] = useState(true)
   const [erro, setErro] = useState<string | null>(null)
   const [ocupado, setOcupado] = useState(false)
@@ -38,12 +55,9 @@ export function UsuarioFormDialog({
     setNome(item?.nome ?? '')
     setEmail(item?.email ?? '')
     setSenha('')
-    const tem = (p: Papel) => item?.papeis.includes(p) ?? false
-    setMaster(tem('Master'))
     // Conta nova nasce sem nada marcado: quem cria escolhe a porta.
-    setEditor(tem('Editor'))
-    setGestor(tem('Gestor'))
-    setProfessor(tem('Professor'))
+    setNivel(nivelDosPapeis(item?.papeis ?? []))
+    setEditor(item?.papeis.includes('Editor') ?? false)
     setAtivo(item?.ativo ?? true)
     setErro(null)
   }, [aberta, item])
@@ -56,11 +70,12 @@ export function UsuarioFormDialog({
     if (!nomeLimpo) return setErro('Informe o nome da pessoa.')
     // Master leva Editor e Gestor junto: as regras já deixam o Master passar
     // em tudo, mas gravar explícito mantém a lista legível para quem olha o
-    // banco. Professor é o papel menor — quem é Gestor não precisa dele.
-    const papeis: Papel[] = master
-      ? ['Master', 'Editor', 'Gestor']
-      : ([editor && 'Editor', gestor && 'Gestor', professor && 'Professor'].filter(Boolean) as Papel[])
-    if (papeis.length === 0) return setErro('Marque pelo menos um acesso para a pessoa.')
+    // banco. Professor é o degrau menor — quem é Gestor não precisa dele.
+    const papeis: Papel[] =
+      nivel === 'Master'
+        ? ['Master', 'Editor', 'Gestor']
+        : ([nivel !== 'nenhum' && nivel, editor && 'Editor'].filter(Boolean) as Papel[])
+    if (papeis.length === 0) return setErro('Escolha um nível na escolinha ou marque o site — senão a pessoa não entra em nada.')
 
     setOcupado(true)
     try {
@@ -118,13 +133,51 @@ export function UsuarioFormDialog({
           <Dica>Mínimo 8 caracteres, com letra e número. Passe para a pessoa; ela troca em "Minha conta".</Dica>
         </div>
       )}
-      <Rotulo className="mt-5">Acessos</Rotulo>
-      <LinhaSim id="u-editor" rotulo={`Painel do site — ${DESCRICAO_PAPEL.Editor}`} className="mt-2" checked={master || editor} disabled={master} onChange={(e) => setEditor(e.target.checked)} />
-      <LinhaSim id="u-gestor" rotulo={`App de gestão — ${DESCRICAO_PAPEL.Gestor}`} className="mt-2" checked={master || gestor} disabled={master} onChange={(e) => setGestor(e.target.checked)} />
-      <LinhaSim id="u-professor" rotulo={`App de gestão — ${DESCRICAO_PAPEL.Professor}`} className="mt-2" checked={professor} disabled={master || gestor} onChange={(e) => setProfessor(e.target.checked)} />
-      <LinhaSim id="u-master" rotulo={`Administrador — ${DESCRICAO_PAPEL.Master}`} className="mt-2" checked={master} disabled={souEu} onChange={(e) => setMaster(e.target.checked)} />
-      <LinhaSim id="u-ativo" rotulo="Acesso liberado" className="mt-5" checked={ativo} disabled={souEu} onChange={(e) => setAtivo(e.target.checked)} />
+      <Rotulo className="mt-5">Nível na escolinha</Rotulo>
+      {NIVEIS.map(([valor, rotulo, descricao]) => (
+        <LinhaEscolha
+          key={valor}
+          id={`u-nivel-${valor}`}
+          name="u-nivel"
+          rotulo={rotulo}
+          descricao={descricao}
+          className="mt-2"
+          checked={nivel === valor}
+          disabled={souEu}
+          onChange={() => setNivel(valor)}
+        />
+      ))}
       {souEu && <Dica>Você não pode tirar o próprio acesso de administrador.</Dica>}
+
+      <Rotulo className="mt-5">Site</Rotulo>
+      <LinhaSim
+        id="u-editor"
+        rotulo={
+          <>
+            Edita o site <span className="text-gray">— entra no painel</span>
+          </>
+        }
+        className="mt-2"
+        checked={nivel === 'Master' || editor}
+        disabled={nivel === 'Master'}
+        onChange={(e) => setEditor(e.target.checked)}
+      />
+      {nivel === 'Master' && <Dica>Administrador sempre edita o site.</Dica>}
+
+      <Rotulo className="mt-5">Conta</Rotulo>
+      <LinhaSim
+        id="u-ativo"
+        rotulo={
+          <>
+            Ativa <span className="text-gray">— a pessoa consegue entrar</span>
+          </>
+        }
+        className="mt-2"
+        checked={ativo}
+        disabled={souEu}
+        onChange={(e) => setAtivo(e.target.checked)}
+      />
+      {!ativo && <Dica>Desligada, a conta não entra em nada, mas os papéis ficam guardados para religar.</Dica>}
       <Recado>{erro}</Recado>
     </Janela>
   )

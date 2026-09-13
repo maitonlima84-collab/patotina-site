@@ -22,6 +22,25 @@ export function ErroCampo({ children }: { children?: ReactNode }) {
   return <p className="mt-1.5 text-[0.82rem] text-red-300">{children}</p>
 }
 
+/** Uma opção de escolha única (rádio), rótulo em texto normal e descrição em cinza. */
+export function LinhaEscolha({
+  id,
+  rotulo,
+  descricao,
+  className,
+  ...props
+}: InputHTMLAttributes<HTMLInputElement> & { id: string; rotulo: ReactNode; descricao?: ReactNode }) {
+  return (
+    <div className={cn('flex items-center gap-3', className)}>
+      <input id={id} type="radio" className="h-5 w-5 accent-gold" {...props} />
+      <label htmlFor={id} className="text-[0.95rem] text-cream">
+        {rotulo}
+        {descricao && <span className="text-gray"> — {descricao}</span>}
+      </label>
+    </div>
+  )
+}
+
 /** Caixa de marcar com o rótulo ao lado, em texto normal. */
 export function LinhaSim({
   id,
