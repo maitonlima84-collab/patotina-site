@@ -4,7 +4,7 @@ import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { ABAS } from '@/app/routes/abas'
 import { cn } from '@shared/lib/utils'
-import { URL_GESTAO } from '@shared/lib/enderecos'
+import { URL_GESTAO, URL_SITE } from '@shared/lib/enderecos'
 
 export function AppLayout() {
   const { isMaster, isProfessor, signOut, usuarioDoc } = useAuth()
@@ -19,12 +19,14 @@ export function AppLayout() {
           PAINEL <span className="text-gold">PATOTINA</span>
         </div>
         <nav className="ml-auto flex flex-wrap gap-1" aria-label="Conta">
-          <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href="/" target="_blank" rel="noopener">
+          <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href={URL_SITE} target="_blank" rel="noopener">
             Ver o site ↗
           </a>
+          {/* Na mesma aba: o login é o mesmo, e no app instalado do iPhone
+              uma aba nova abriria o Safari, que não divide a sessão. */}
           {isProfessor && (
-            <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href={URL_GESTAO} target="_blank" rel="noopener">
-              Gestão ↗
+            <a className="rotulo rounded-md px-2.5 py-2 hover:bg-navy-3 hover:text-gold" href={URL_GESTAO}>
+              Gestão
             </a>
           )}
           <button

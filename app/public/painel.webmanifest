@@ -1,8 +1,8 @@
 {
   "name": "Painel Patotina",
   "short_name": "Patotina",
-  "start_url": "/app/",
-  "scope": "/app/",
+  "start_url": "/painel/",
+  "scope": "/painel/",
   "display": "standalone",
   "background_color": "#002838",
   "theme_color": "#002838",

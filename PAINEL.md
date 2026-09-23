@@ -3,7 +3,7 @@
 O site da escolinha tem uma área de administração. O que você mudar lá aparece
 **na hora** em www.patotina.com.br. Não existe botão de "publicar": salvou, está no ar.
 
-**Endereço:** [www.patotina.com.br/app](https://www.patotina.com.br/app)
+**Endereço:** [app.patotina.com.br/painel](https://app.patotina.com.br/painel/) (o antigo www.patotina.com.br/app leva para lá)
 **Entrada:** o e-mail e a senha que você recebeu.
 
 Funciona no celular. Vale a pena abrir uma vez pelo navegador do telefone e usar

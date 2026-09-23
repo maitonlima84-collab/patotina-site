@@ -1,6 +1,6 @@
 # App de gestão da escolinha — desenho
 
-Decidido em 12/09/2026. O painel em `/app` continua sendo **só do site**. A
+Decidido em 12/09/2026. O painel (hoje em `app.patotina.com.br/painel`) continua sendo **só do site**. A
 gestão da escolinha é um **app próprio**: pasta `gestao/` neste repositório,
 mesmo projeto Firebase (Auth, Firestore, Storage), publicado como segundo site
 do Hosting em **app.patotina.com.br**. Web/PWA instalável — abre no navegador
@@ -160,8 +160,8 @@ Alunos, Chamada, Mensalidades** e um "mais" com o resto.
 
 - **Escolinha**: Início · Alunos · Turmas · Chamada · Mensalidades ·
   Pré-matrículas · Agenda · Avisos
-- **Administração**: Configurações · Contas (Master) · Site ↗ (link para
-  `/app` de www.patotina.com.br)
+- **Administração**: Configurações · Contas (Master) · Painel do site (link
+  para `/painel/`, no mesmo endereço — ver §6)
 
 Professor vê Início, Alunos (só das turmas dele, sem aba Financeiro) e
 Chamada. Ordem das abas em `gestao/src/app/routes/abas.ts`, como no painel.
@@ -285,8 +285,13 @@ shared/                 ← sai de app/src/shared: firebase, ui, utils, senha,
 
 - **Camadas por módulo** iguais ao painel: `pages → hooks → services →
   repositories`. Tela não fala com o Firestore; repositório não decide regra.
-- **Build**: `vite.config.ts` (painel, `/app/`, `dist/app`) e
-  `vite.gestao.config.ts` (root `gestao`, base `/`, `dist-gestao/`).
+- **Build**: `vite.gestao.config.ts` (root `gestao`, base `/`,
+  `dist-gestao/`) e `vite.config.ts` (painel, `/painel/`,
+  `dist-gestao/painel/`). *(mudou em 23/09/2026:)* o painel saiu de
+  www.patotina.com.br/app e foi morar no endereço da gestão, porque o
+  Firebase guarda a sessão por endereço e quem trocava de app tinha de
+  entrar de novo; `/app` e `/admin` do site redirecionam. Em dev, a 5174
+  repassa `/painel` ao Vite do painel (5173).
   `firebase.json` passa a ter dois sites com targets `site` e `gestao`;
   `app.patotina.com.br` aponta para o segundo. `npm run dev:gestao` na
   porta 5174.

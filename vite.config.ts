@@ -22,19 +22,21 @@ const TIPOS: Record<string, string> = {
 }
 
 // No `npm run dev` o mesmo servidor entrega o site público (site/, em `/`) e o
-// painel (app/, em `/app/`) — o mesmo desenho do Hosting em produção, sem
-// precisar de build nem de um segundo servidor para ver o site.
+// painel (app/, em `/painel/`), sem precisar de build para ver o site. Em
+// produção o painel mora no endereço da gestão (shared/lib/enderecos.ts): o
+// jeito de usar em dev é por http://localhost:5174/painel/, que repassa para
+// cá e divide o login com a gestão. /app e /admin levam para lá, como no ar.
 function servirSite(): Plugin {
   return {
     name: 'patotina-site-estatico',
     configureServer(servidor) {
       servidor.middlewares.use((req, res, next) => {
         const url = new URL(req.url ?? '/', 'http://localhost')
-        if (url.pathname.startsWith('/app') || url.pathname.startsWith('/@') || url.pathname.startsWith('/node_modules')) {
+        if (url.pathname.startsWith('/painel') || url.pathname.startsWith('/@') || url.pathname.startsWith('/node_modules')) {
           return next()
         }
-        if (url.pathname === '/admin' || url.pathname === '/admin/') {
-          res.writeHead(302, { location: '/app/' })
+        if (/^\/(app|admin)(\/|$)/.test(url.pathname)) {
+          res.writeHead(302, { location: 'http://localhost:5174/painel/' })
           return res.end()
         }
         let arquivo = path.join(SITE, decodeURIComponent(url.pathname))
@@ -51,7 +53,7 @@ function servirSite(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   root: 'app',
-  base: '/app/',
+  base: '/painel/',
   // Os .env ficam na raiz do repositório, não em app/.
   envDir: RAIZ,
   publicDir: 'public',
@@ -66,9 +68,10 @@ export default defineConfig({
   server: { port: 5173 },
   build: {
     target: 'es2022',
-    // O site/ já foi copiado para dist/ por scripts/montar-dist.mjs antes
-    // deste build; o painel entra em dist/app/ sem apagar o resto.
-    outDir: path.join(RAIZ, 'dist/app'),
+    // O painel é publicado dentro do site da gestão. Este build roda DEPOIS
+    // do da gestão (package.json), que esvazia dist-gestao/ inteiro; este só
+    // esvazia a própria pasta.
+    outDir: path.join(RAIZ, 'dist-gestao/painel'),
     emptyOutDir: true,
     rollupOptions: {
       output: {

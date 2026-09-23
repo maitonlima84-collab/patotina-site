@@ -1,7 +1,7 @@
 /* ================================================================
    PATOTINA — conteúdo vindo do painel (Firestore) 💙🤍❤️
 
-   O que a escolinha edita em /app aparece aqui. A página já vem com o
+   O que a escolinha edita no painel aparece aqui. A página já vem com o
    conteúdo escrito no próprio index.html; este módulo troca o miolo das
    seções pelo que está no banco assim que a leitura termina. Se o banco
    não responder, nada é trocado — o site nunca fica vazio.

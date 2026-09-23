@@ -12,7 +12,7 @@ conteúdo do Firestore.
 ```
 site/            ← site público (www.patotina.com.br), sem build
   js/conteudo.js ← lê o Firestore e troca o miolo das seções
-app/             ← painel do site (/app): Vite + React + TS, padrão OnTrac
+app/             ← painel do site (app.patotina.com.br/painel): Vite + React + TS
   src/app/       ← rotas e layout do painel
   src/modules/   ← site (conteúdo)
 gestao/          ← app de gestão (app.patotina.com.br): segundo app Vite, PWA
@@ -27,7 +27,7 @@ scripts/         ← seed do conteúdo, criação de acesso, montagem do dist/,
                    dados de demonstração da gestão e captura das screenshots do guia
 firestore.rules  ← quem lê e escreve o quê
 storage.rules    ← logos dos parceiros
-firebase.json    ← Hosting (site "patotina": raiz + /app; site "patotina-gestao") e emuladores
+firebase.json    ← Hosting (site "patotina": o site; "patotina-gestao": gestão + /painel) e emuladores
 docs/gestao.md   ← desenho do app de gestão (gestao/, app.patotina.com.br)
 docs/comercial.md ← venda para outras escolinhas: preço low cost, custo, mercado
 PAINEL.md        ← manual do painel do site, escrito para a escolinha
@@ -45,8 +45,8 @@ npm install
 npm run emulators          # Auth, Firestore, Storage e Hosting locais (UI em http://localhost:4000)
 npm run seed -- --emulador # grava o conteúdo atual do site no Firestore local
 npm run criar-acesso -- --emulador --nome "Seu Nome" --email voce@exemplo.com --senha "SenhaForte123" --papel master
-npm run dev                # site em http://localhost:5173/ e painel em http://localhost:5173/app/
-npm run dev:gestao         # app de gestão em http://localhost:5174/
+npm run dev                # site em http://localhost:5173/ (e o painel, que se usa pela 5174)
+npm run dev:gestao         # gestão em http://localhost:5174/ e painel em http://localhost:5174/painel/
 npm run seed:gestao -- --emulador  # turmas, alunos, chamadas, cobranças… de mentira, para testar
 ```
 

@@ -1,4 +1,4 @@
-import { ChevronRight, CircleHelp, ExternalLink, KeyRound, LogOut, Menu, Smartphone } from 'lucide-react'
+import { ChevronRight, CircleHelp, Globe, KeyRound, LogOut, Menu, Smartphone } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
@@ -33,9 +33,11 @@ export function AppLayout() {
       <button type="button" onClick={() => setTrocandoSenha(true)} className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
         <KeyRound size={18} /> Minha conta
       </button>
+      {/* Na mesma aba, como no painel: mesmo endereço, mesmo login — e no
+          app instalado do iPhone uma aba nova cairia no Safari, sem sessão. */}
       {auth.isEditor && (
-        <a href={URL_PAINEL} target="_blank" rel="noopener" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
-          <ExternalLink size={18} /> Painel do site
+        <a href={URL_PAINEL} className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
+          <Globe size={18} /> Painel do site
         </a>
       )}
       {/* O guia é página estática (gestao/public/ajuda/), fora do React: abre em

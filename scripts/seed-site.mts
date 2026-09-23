@@ -1,5 +1,5 @@
 // Grava no Firestore o conteúdo que hoje está escrito em site/index.html.
-// A partir daí, quem manda nesses textos é o painel (/app).
+// A partir daí, quem manda nesses textos é o painel do site.
 //
 //   npm run seed -- --emulador
 //   npm run seed -- --projeto patotina --chave conta-de-servico.json

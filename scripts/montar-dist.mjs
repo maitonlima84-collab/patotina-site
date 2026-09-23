@@ -1,6 +1,6 @@
-// Monta a pasta publicada no Hosting: o site público (site/) vai para a raiz
-// de dist/, e em seguida o `vite build` grava o painel em dist/app/.
-// Uma pasta só, um deploy só — www.patotina.com.br e /app no mesmo lugar.
+// Monta a pasta publicada no site "patotina" do Hosting: o site público
+// (site/) é tudo o que vai em dist/. O painel não entra aqui — é publicado
+// com a gestão, em dist-gestao/painel/ (shared/lib/enderecos.ts diz por quê).
 import fs from 'node:fs'
 import path from 'node:path'
 

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:gestao": "vite --config vite.gestao.config.ts",
-    "build": "tsc -b && node scripts/montar-dist.mjs && vite build && vite build --config vite.gestao.config.ts",
+    "build": "tsc -b && node scripts/montar-dist.mjs && vite build --config vite.gestao.config.ts && vite build",
     "preview": "node scripts/emuladores.mjs --only hosting",
     "emulators": "node scripts/emuladores.mjs",
     "seed": "tsx scripts/seed-site.mts",

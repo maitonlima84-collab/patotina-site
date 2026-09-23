@@ -25,13 +25,14 @@ privacidade em `/privacidade`.
 Firebase Hosting — site "patotina" (target `site`, dist/)
 ├── /            → site público (site/), HTML/CSS/JS puro
 │                  lê o Firestore sem login (só o que está visível)
-├── /app         → painel do site (app/), Vite + React + TS
-│                  Auth (e-mail/senha) + papéis em usuarios/{uid}
-└── /admin       → redireciona para /app
+└── /app, /admin → redirecionam para app.patotina.com.br/painel/
 Firebase Hosting — site "patotina-gestao" (target `gestao`, dist-gestao/)
 ├── /            → app de gestão (gestao/), PWA; app.patotina.com.br
-│                  mesma Auth e os mesmos usuarios/{uid} (papéis Gestor/Professor)
-└── /familia     → área da família (responsaveis/{uid}), mesmo app
+│                  Auth (e-mail/senha) + papéis em usuarios/{uid} (Gestor/Professor)
+├── /familia     → área da família (responsaveis/{uid}), mesmo app
+└── /painel      → painel do site (app/), Vite + React + TS (papel Editor)
+                   no mesmo endereço da gestão para os dois dividirem o
+                   login — o Firebase guarda a sessão por endereço
 
 Firestore   + alunos, turmas, chamadas, cobrancas, pre_matriculas, eventos,
             avisos, configuracoes/escolinha, responsaveis (ver docs/gestao.md)
@@ -131,9 +132,11 @@ chave em lugar seguro ou apague-a: com ela se faz qualquer coisa no projeto.
 firebase deploy
 ```
 
-O `predeploy` roda `npm run build` (site copiado para `dist/`, painel em
-`dist/app/`, app de gestão em `dist-gestao/`). Saem também as regras. Ao
-fim, o site responde em `patotina.web.app`. Confira `/app` (login) e o site
+O `predeploy` roda `npm run build` (site copiado para `dist/`, app de
+gestão em `dist-gestao/`, painel em `dist-gestao/painel/` — nessa ordem,
+porque o build da gestão esvazia a pasta). Saem também as regras. Ao fim,
+o site responde em `patotina.web.app` e a gestão em
+`patotina-gestao.web.app`. Confira `/painel/` na gestão (login) e o site
 com o conteúdo do banco.
 
 ### O segundo site (app de gestão)

@@ -32,6 +32,6 @@ export const router = createBrowserRouter(
       ],
     },
   ],
-  // O painel vive em /app/ dentro do mesmo Hosting do site.
-  { basename: '/app' },
+  // O painel vive em /painel/ no endereço da gestão (shared/lib/enderecos.ts).
+  { basename: '/painel' },
 )

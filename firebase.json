@@ -14,13 +14,23 @@
       "cleanUrls": true,
       "redirects": [
         {
+          "source": "/app",
+          "destination": "https://app.patotina.com.br/painel/",
+          "type": 302
+        },
+        {
+          "source": "/app/**",
+          "destination": "https://app.patotina.com.br/painel/",
+          "type": 302
+        },
+        {
           "source": "/admin",
-          "destination": "/app/",
+          "destination": "https://app.patotina.com.br/painel/",
           "type": 302
         },
         {
           "source": "/admin/",
-          "destination": "/app/",
+          "destination": "https://app.patotina.com.br/painel/",
           "type": 302
         },
         {
@@ -47,12 +57,6 @@
           "source": "/facebook",
           "destination": "https://www.facebook.com/patotina.patotina",
           "type": 302
-        }
-      ],
-      "rewrites": [
-        {
-          "source": "/app/**",
-          "destination": "/app/index.html"
         }
       ],
       "headers": [
@@ -82,15 +86,6 @@
           ]
         },
         {
-          "source": "/app/assets/**",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "public, max-age=31536000, immutable"
-            }
-          ]
-        },
-        {
           "source": "/img/**",
           "headers": [
             {
@@ -98,18 +93,9 @@
               "value": "public, max-age=604800"
             }
           ]
-        },
-        {
-          "source": "/app/**",
-          "headers": [
-            {
-              "key": "X-Robots-Tag",
-              "value": "noindex, nofollow"
-            }
-          ]
         }
       ],
-      "//": "HTML nunca cacheado: o index.html do site e o do painel são os únicos arquivos sem hash no nome, e são eles que apontam para os bundles. no-cache e não no-store — guarda a entrada e revalida a cada navegação (mesma lição do OnTrac em 10/08/2026). | Bundles do painel: nome com hash do conteúdo, cache de um ano. | Imagens do site raramente mudam; css/js do site têm ?v= no HTML, então uma semana basta. | Painel fora do Google. | Dois sites no mesmo projeto: \"site\" (www + /app) e \"gestao\" (app.patotina.com.br); o build de ambos sai do mesmo npm run build."
+      "//": "HTML nunca cacheado: no-cache e não no-store — guarda a entrada e revalida a cada navegação (mesma lição do OnTrac em 10/08/2026). | Imagens do site raramente mudam; css/js do site têm ?v= no HTML, então uma semana basta. | Dois sites no mesmo projeto: \"site\" (www) e \"gestao\" (app.patotina.com.br, com o painel em /painel/); o build de ambos sai do mesmo npm run build. /app e /admin são os endereços antigos do painel: levam para o novo, que mora com a gestão para dividir o login com ela (23/09/2026)."
     },
     {
       "target": "gestao",
@@ -120,6 +106,10 @@
         "**/node_modules/**"
       ],
       "rewrites": [
+        {
+          "source": "/painel/**",
+          "destination": "/painel/index.html"
+        },
         {
           "source": "**",
           "destination": "/index.html"
@@ -165,6 +155,15 @@
           ]
         },
         {
+          "source": "/painel/assets/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31536000, immutable"
+            }
+          ]
+        },
+        {
           "source": "/sw.js",
           "headers": [
             {
@@ -174,7 +173,7 @@
           ]
         }
       ],
-      "//": "App de gestão (gestao/): SPA na raiz do segundo site. O sw.js nunca cacheado, senão a versão nova demora um ciclo a mais para chegar; os bundles têm hash e vivem um ano."
+      "//": "App de gestão (gestao/): SPA na raiz do segundo site; painel do site (app/) em /painel/, no mesmo endereço para os dois dividirem o login (o Firebase guarda a sessão por endereço). O sw.js nunca cacheado, senão a versão nova demora um ciclo a mais para chegar; os bundles dos dois têm hash e vivem um ano. Tudo fora do Google (X-Robots-Tag)."
     }
   ],
   "firestore": {

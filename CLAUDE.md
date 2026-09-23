@@ -13,8 +13,14 @@ publicar.
 - O site público é **HTML/CSS/JS puro** em `site/` e lê o Firestore no
   navegador (`site/js/conteudo.js`). O HTML traz o conteúdo inicial escrito, e
   é o que o visitante vê se o banco não responder — nunca uma página vazia.
-- Um Hosting só: site na raiz, painel em `/app`, `/admin` redireciona.
-- **O painel `/app` é só do site.** A gestão da escolinha é um app próprio,
+- **Painel mora no endereço da gestão**: `app.patotina.com.br/painel/`
+  (build em `dist-gestao/painel/`), decidido em 23/09/2026 — o Firebase
+  guarda a sessão por endereço, e com o painel em www quem trocava de app
+  tinha de entrar de novo. `www.patotina.com.br/app` e `/admin`
+  redirecionam. Links entre os dois apps abrem na mesma aba (no app
+  instalado do iPhone, aba nova = Safari, sem sessão). O SW da gestão não
+  responde por `/painel` (`navigateFallbackDenylist`).
+- **O painel é só do site.** A gestão da escolinha é um app próprio,
   decidido em 12/09/2026: pasta `gestao/`, mesmo projeto Firebase (uma conta,
   mesmos `usuarios`/papéis), publicado como segundo site do Hosting em
   app.patotina.com.br, Web/PWA. O desenho completo (módulos, telas, modelo
@@ -62,9 +68,10 @@ publicar.
 ## Rodar
 
 `npm run emulators` (Java 21 via `JAVA_HOME`), `npm run seed -- --emulador`,
-`npm run criar-acesso -- --emulador ...`, `npm run dev` (site + painel, 5173)
-e `npm run dev:gestao` (gestão, 5174). `npm run seed:gestao -- --emulador`
-cria as contas de teste e dados de demonstração da gestão (turmas, alunos,
+`npm run criar-acesso -- --emulador ...`, `npm run dev` (site em 5173, e
+o Vite do painel) e `npm run dev:gestao` (gestão em 5174; o painel se usa
+por `localhost:5174/painel/`, que repassa à 5173 e divide o login).
+`npm run seed:gestao -- --emulador` cria as contas de teste e dados de demonstração da gestão (turmas, alunos,
 chamadas, cobranças, agenda…). Contas de teste locais, senha
 `patotina123`, só em `.emulator-data`: `maiton@patotina.dev` (master),
 `lucas@patotina.dev` (editor), `gestora@patotina.dev` (gestor),

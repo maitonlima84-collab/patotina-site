@@ -39,11 +39,13 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,webp,svg,woff2}'],
         // O guia "Como usar" (public/ajuda/) é página estática com muitas
-        // screenshots: não entra no precache nem cai no fallback do SPA.
-        globIgnores: ['ajuda/**'],
+        // screenshots: não entra no precache nem cai no fallback do SPA. O
+        // painel do site (/painel/) é outro app no mesmo endereço: o SW não
+        // pode responder por ele com o index.html da gestão.
+        globIgnores: ['ajuda/**', 'painel/**'],
         navigateFallback: '/index.html',
         // Firebase e fontes nunca passam pelo SW: o SDK cuida do próprio cache.
-        navigateFallbackDenylist: [/^\/__\//, /^\/ajuda/],
+        navigateFallbackDenylist: [/^\/__\//, /^\/ajuda/, /^\/painel/],
       },
       devOptions: { enabled: false },
     }),
@@ -54,7 +56,13 @@ export default defineConfig({
       '@shared': path.resolve(RAIZ, './shared'),
     },
   },
-  server: { port: 5174 },
+  server: {
+    port: 5174,
+    // O painel mora em /painel/ deste endereço (shared/lib/enderecos.ts). Em
+    // dev ele roda no próprio Vite (npm run dev, 5173) e passa por aqui para
+    // dividir o login com a gestão; ws leva junto a recarga a quente.
+    proxy: { '/painel': { target: 'http://localhost:5173', ws: true } },
+  },
   build: {
     target: 'es2022',
     outDir: path.join(RAIZ, 'dist-gestao'),
