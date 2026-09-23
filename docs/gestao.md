@@ -292,7 +292,11 @@ shared/                 ← sai de app/src/shared: firebase, ui, utils, senha,
   porta 5174.
 - **PWA**: `vite-plugin-pwa` com service worker só para o shell; os dados
   ficam com a persistência offline do próprio Firestore. A chamada é o caso
-  que precisa disso.
+  que precisa disso. *(feito assim:)* o convite para instalar
+  (`gestao/src/app/instalar/`) desce do topo na gestão e na área da
+  família: botão próprio no Android (`beforeinstallprompt`), passo a passo
+  no iPhone e no Android sem o evento; "agora não" vale uma semana, e o
+  menu "Mais" traz de volta.
 - **Login**: o mesmo `AuthProvider` do painel (conta única). Quem entra sem
   `Gestor`/`Professor`/`Master` vê "sem acesso a este app".
 - **Auth com dois domínios**: `authDomain` continua o do projeto; só

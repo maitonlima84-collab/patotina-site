@@ -29,7 +29,9 @@ export function AvisoProvider({ children }: { children: ReactNode }) {
         aria-live="polite"
         hidden={!aviso}
         className={cn(
-          'cond-maiusc fixed bottom-6 left-1/2 z-60 -translate-x-1/2 rounded-full px-5 py-2.5 text-[0.85rem] shadow-2xl',
+          // w-max: preso em left-1/2, o aviso só teria meia tela de largura e
+          // quebraria em três linhas no celular.
+          'cond-maiusc fixed bottom-6 left-1/2 z-60 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-full px-5 py-2.5 text-center text-[0.85rem] shadow-2xl',
           aviso?.erro ? 'bg-red-2 text-white' : 'bg-green text-[#04240f]',
         )}
       >

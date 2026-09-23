@@ -1,4 +1,4 @@
-import { CircleHelp, ExternalLink, KeyRound, LogOut, Menu } from 'lucide-react'
+import { ChevronRight, CircleHelp, ExternalLink, KeyRound, LogOut, Menu, Smartphone } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
@@ -7,6 +7,8 @@ import { Janela } from '@shared/components/ui/Janela'
 import { cn } from '@shared/lib/utils'
 import { URL_PAINEL } from '@shared/lib/enderecos'
 import { ABAS, type Aba } from '@/app/routes/abas'
+import { ConviteInstalar } from '@/app/instalar/ConviteInstalar'
+import { abrirConvite, useInstalacao } from '@/app/instalar/instalacao'
 
 const GRUPOS: Aba['grupo'][] = ['Escolinha', 'Administração']
 
@@ -19,6 +21,7 @@ export function AppLayout() {
   const [trocandoSenha, setTrocandoSenha] = useState(false)
   const [maisAberto, setMaisAberto] = useState(false)
   const { pathname } = useLocation()
+  const instalacao = useInstalacao()
 
   const abas = ABAS.filter((a) => !a.mostrar || a.mostrar(auth))
   const naBarra = abas.filter((a) => a.barra)
@@ -119,6 +122,22 @@ export function AppLayout() {
 
       <Janela aberta={maisAberto} titulo="Menu" onFechar={() => setMaisAberto(false)}>
         <div className="mt-3 flex flex-col" onClick={() => setMaisAberto(false)}>
+          {instalacao.disponivel && (
+            <button
+              type="button"
+              onClick={abrirConvite}
+              className="mb-3 flex items-center gap-3 rounded-xl border border-gold/40 bg-gold/10 px-3 py-2.5 text-left transition hover:bg-gold/15"
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-gold text-navy">
+                <Smartphone size={19} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold leading-tight text-cream">Instalar no celular</span>
+                <span className="block text-[0.8rem] text-gray">Abre com um toque, como um app</span>
+              </span>
+              <ChevronRight size={18} className="text-gold" />
+            </button>
+          )}
           {noMais.map((aba) => (
             <LinkDaAba key={aba.caminho} aba={aba} />
           ))}
@@ -129,6 +148,7 @@ export function AppLayout() {
       </Janela>
 
       <MinhaSenhaDialog aberta={trocandoSenha} onFechar={() => setTrocandoSenha(false)} />
+      <ConviteInstalar descricao="Abra a gestão com um toque, em tela cheia. A chamada funciona até sem sinal no campo." />
     </div>
   )
 }

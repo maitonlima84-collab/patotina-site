@@ -1,4 +1,4 @@
-import { Copy, KeyRound, LogOut } from 'lucide-react'
+import { Copy, KeyRound, LogOut, Smartphone } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
@@ -19,6 +19,8 @@ import { descreverHorario } from '@/modules/turmas/services/turmasService'
 import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
 import { useCobrancasDosFilhos, useFilhos } from '../hooks/useFamilia'
 import { pixCopiaECola } from '../services/pix'
+import { ConviteInstalar } from '@/app/instalar/ConviteInstalar'
+import { abrirConvite, useInstalacao } from '@/app/instalar/instalacao'
 
 // A área da família (docs/gestao.md, §2.10): um filho por bloco — turma e
 // treinos, presença dos últimos meses, mensalidades com Pix pronto — mais
@@ -34,6 +36,7 @@ export function FamiliaPage() {
   const { rows: eventos } = useEventos()
   const [avisos, setAvisos] = useState<Aviso[]>([])
   const [trocandoSenha, setTrocandoSenha] = useState(false)
+  const instalacao = useInstalacao()
   useEffect(() => subscribeAvisos(setAvisos), [])
 
   const hoje = hojeIso()
@@ -55,6 +58,11 @@ export function FamiliaPage() {
           FAMÍLIA <span className="text-gold">PATOTINA</span>
         </h1>
         <span className="flex-1" />
+        {instalacao.disponivel && (
+          <button type="button" onClick={abrirConvite} className="rounded-md p-2 text-gold hover:text-gold-2" aria-label="Instalar no celular" title="Instalar no celular">
+            <Smartphone size={20} />
+          </button>
+        )}
         <button type="button" onClick={() => setTrocandoSenha(true)} className="rounded-md p-2 text-gray hover:text-cream" aria-label="Minha senha" title="Minha senha">
           <KeyRound size={20} />
         </button>
@@ -171,6 +179,7 @@ export function FamiliaPage() {
       </main>
 
       <MinhaSenhaDialog aberta={trocandoSenha} onFechar={() => setTrocandoSenha(false)} />
+      <ConviteInstalar descricao="Presença, mensalidades e avisos dos seus filhos a um toque, como um app." />
     </div>
   )
 }
