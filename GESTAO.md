@@ -12,8 +12,8 @@ apontado. Também está em "Como usar", no menu do app.
 
 No celular, vira um ícone, como um aplicativo. Logo depois de entrar, o
 próprio app desce um convite do topo da tela: no Android é só tocar em
-"Instalar o app"; no iPhone ele mostra o caminho pelo Compartilhar
-("Adicionar à Tela de Início"). Se dispensar, o convite volta em uma semana,
+"Instalar o app"; no iPhone ele mostra o caminho do Safari (··· ›
+Compartilhar › Ver Mais › "Adicionar à Tela de Início"). Se dispensar, o convite volta em uma semana,
 e fica sempre em "Instalar no celular", no menu "Mais". Instalado, a chamada
 funciona mesmo sem sinal no campo (envia quando a internet voltar).
 

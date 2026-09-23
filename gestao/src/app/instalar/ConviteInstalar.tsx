@@ -1,4 +1,4 @@
-import { Download, EllipsisVertical, Plus, Share, SquarePlus, X } from 'lucide-react'
+import { ChevronDown, Download, Ellipsis, EllipsisVertical, Plus, Share, SquarePlus, X } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useAviso } from '@shared/components/Aviso'
 import { Botao } from '@shared/components/ui/Botao'
@@ -97,7 +97,9 @@ export function ConviteInstalar({ descricao }: { descricao: string }) {
               <h2 id="convite-instalar-titulo" className="titulo-anton text-[1.4rem] leading-[1.15]">
                 Patotina na <span className="whitespace-nowrap text-gold">tela inicial</span>
               </h2>
-              <p className="mt-1 text-[0.92rem] leading-snug text-sand">{descricao}</p>
+              {/* Em tela baixa (iPhone SE) a frase sai, para os passos e o
+                  botão caberem sem rolar — a folha não rola, ela arrasta. */}
+              <p className="mt-1 text-[0.92rem] leading-snug text-sand [@media(max-height:600px)]:hidden">{descricao}</p>
             </div>
             <button type="button" onClick={fecharConvite} aria-label="Fechar" className="-mr-2 -mt-2 rounded-full p-2 text-gray hover:text-cream">
               <X size={20} />
@@ -119,9 +121,12 @@ export function ConviteInstalar({ descricao }: { descricao: string }) {
             <Passos
               aberto={aberto}
               passos={[
-                { icone: <Share size={20} />, titulo: 'Toque em Compartilhar', detalhe: 'Na barra do Safari. No iOS 26, fica dentro do botão ···' },
-                { icone: <SquarePlus size={20} />, titulo: 'Adicionar à Tela de Início', detalhe: 'Role a lista. Se não aparecer, toque em "Ver Mais".' },
-                { icone: <IconeDoApp />, titulo: 'Toque em "Adicionar"', detalhe: 'O escudo aparece junto dos seus apps.' },
+                // O caminho do Safari no iOS 26: o Compartilhar mora no ··· e a
+                // tela de início só aparece depois do "Ver Mais".
+                { icone: <Ellipsis size={20} />, titulo: 'Toque no botão ···', detalhe: 'Embaixo, ao lado do endereço do site.' },
+                { icone: <Share size={20} />, titulo: 'Toque em Compartilhar', detalhe: 'É o primeiro item do menu.' },
+                { icone: <ChevronDown size={22} />, titulo: 'Toque em Ver Mais', detalhe: 'O último botão redondo, da setinha.', redondo: true },
+                { icone: <SquarePlus size={20} />, titulo: 'Adicionar à Tela de Início', detalhe: 'Role até ele e toque em "Adicionar".' },
               ]}
               dica="Abriu pelo WhatsApp ou Instagram? Abra no Safari antes."
             />
@@ -159,6 +164,8 @@ interface Passo {
   icone: ReactNode
   titulo: string
   detalhe: string
+  // O "Ver Mais" do iPhone é um botão redondo; o ícone imita o formato.
+  redondo?: boolean
 }
 
 // Os passos entram um depois do outro, logo atrás da folha. O ícone vem num
@@ -172,7 +179,7 @@ function Passos({ aberto, passos, dica }: { aberto: boolean; passos: Passo[]; di
             key={p.titulo}
             style={{ transitionDelay: aberto ? `${200 + i * 90}ms` : '0ms' }}
             className={cn(
-              'flex items-center gap-3 rounded-2xl border border-line bg-navy/70 p-3 transition duration-500 motion-reduce:transition-none',
+              'flex items-center gap-3 rounded-2xl border border-line bg-navy/70 px-3 py-2.5 transition duration-500 motion-reduce:transition-none',
               aberto ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0',
             )}
           >
@@ -181,7 +188,7 @@ function Passos({ aberto, passos, dica }: { aberto: boolean; passos: Passo[]; di
               <p className="font-semibold leading-tight text-cream">{p.titulo}</p>
               <p className="mt-0.5 text-[0.82rem] leading-snug text-gray">{p.detalhe}</p>
             </div>
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-cream text-navy shadow-md">{p.icone}</span>
+            <span className={cn('grid h-10 w-10 shrink-0 place-items-center bg-cream text-navy shadow-md', p.redondo ? 'rounded-full' : 'rounded-xl')}>{p.icone}</span>
           </li>
         ))}
       </ol>
