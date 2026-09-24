@@ -1,9 +1,10 @@
-import { ChevronRight, CircleHelp, Globe, KeyRound, LogOut, Menu, Smartphone } from 'lucide-react'
+import { ChevronRight, CircleHelp, Globe, KeyRound, LogOut, Menu, MessageSquareText, Smartphone } from 'lucide-react'
 import { useState } from 'react'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { Janela } from '@shared/components/ui/Janela'
+import { abrirFeedback } from '@shared/lib/feedback'
 import { cn } from '@shared/lib/utils'
 import { URL_PAINEL } from '@shared/lib/enderecos'
 import { ABAS, type Aba } from '@/app/routes/abas'
@@ -46,6 +47,14 @@ export function AppLayout() {
       <a href={import.meta.env.DEV ? '/ajuda/index.html' : '/ajuda/'} target="_blank" rel="noopener" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
         <CircleHelp size={18} /> Como usar
       </a>
+      {/* Vai para a Horizonte Tech, que desenvolve o sistema — não para a escolinha. */}
+      <button
+        type="button"
+        onClick={() => abrirFeedback('gestao', auth.user?.uid, usuarioDoc).catch((e: Error) => alert(e.message))}
+        className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream"
+      >
+        <MessageSquareText size={18} /> Sugestão ou problema
+      </button>
       <button type="button" onClick={() => void signOut()} className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[0.9rem] text-gray hover:bg-navy-3 hover:text-cream">
         <LogOut size={18} /> Sair
       </button>
