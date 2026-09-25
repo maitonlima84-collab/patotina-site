@@ -104,6 +104,9 @@ export function podeConvidarSozinho() {
   return !convidouNestaVisita && PLATAFORMA !== 'outra' && !estado.instalado && !estado.aberto && !dispensadoHaPouco()
 }
 
+/** Outros pedidos que aparecem sozinhos (o lembrete de feedback) esperam outra visita. */
+export const jaConvidouNestaVisita = () => convidouNestaVisita
+
 export function convidarSozinho() {
   if (!podeConvidarSozinho()) return
   convidouNestaVisita = true

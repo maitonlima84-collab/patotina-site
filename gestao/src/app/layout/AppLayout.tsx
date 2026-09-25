@@ -8,6 +8,7 @@ import { abrirFeedback } from '@shared/lib/feedback'
 import { cn } from '@shared/lib/utils'
 import { URL_PAINEL } from '@shared/lib/enderecos'
 import { ABAS, type Aba } from '@/app/routes/abas'
+import { LembreteFeedback } from '@/app/feedback/LembreteFeedback'
 import { ConviteInstalar } from '@/app/instalar/ConviteInstalar'
 import { abrirConvite, useInstalacao } from '@/app/instalar/instalacao'
 
@@ -160,6 +161,7 @@ export function AppLayout() {
 
       <MinhaSenhaDialog aberta={trocandoSenha} onFechar={() => setTrocandoSenha(false)} />
       <ConviteInstalar descricao="Abra a gestão com um toque, em tela cheia. A chamada funciona até sem sinal no campo." />
+      <LembreteFeedback />
     </div>
   )
 }
