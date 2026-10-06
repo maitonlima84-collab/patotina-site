@@ -21,6 +21,7 @@ export interface Aluno {
   nome: string
   apelido: string
   nascimento: string // AAAA-MM-DD
+  cpf: string // só dígitos; vazio se a família não informou
   sexo: '' | 'M' | 'F'
   foto: { caminho: string; url: string }
   situacao: Situacao

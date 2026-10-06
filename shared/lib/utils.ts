@@ -62,5 +62,25 @@ export function telefoneBonito(telefone: string): string {
   return telefone
 }
 
+// Confere os dois dígitos verificadores: CPF digitado errado é pior que CPF
+// nenhum, porque vai parar em documento de terceiros (recibo, inscrição).
+export function cpfValido(cpf: string): boolean {
+  const d = cpf.replace(/\D/g, '')
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false
+  const digito = (n: number) => {
+    let soma = 0
+    for (let i = 0; i < n; i++) soma += Number(d[i]) * (n + 1 - i)
+    return ((soma * 10) % 11) % 10
+  }
+  return digito(9) === Number(d[9]) && digito(10) === Number(d[10])
+}
+
+// "12345678909" -> "123.456.789-09"; devolve como veio se não tiver 11 dígitos.
+export function cpfBonito(cpf: string): string {
+  const d = cpf.replace(/\D/g, '')
+  if (d.length !== 11) return cpf
+  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`
+}
+
 export const DIAS_SEMANA = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'] as const
 export const DIAS_CURTOS = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'] as const

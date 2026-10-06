@@ -3,7 +3,7 @@ import { useState, type ReactNode } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { Botao } from '@shared/components/ui/Botao'
-import { cn, dataBr, linkWhatsApp, moeda, telefoneBonito } from '@shared/lib/utils'
+import { cn, cpfBonito, dataBr, linkWhatsApp, moeda, telefoneBonito } from '@shared/lib/utils'
 import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
 import { TIPOS_HISTORICO, type Aluno, type Historico } from '../types'
 import { useAluno, useHistorico } from '../hooks/useAluno'
@@ -138,6 +138,7 @@ function Ficha({ aluno, gestor }: { aluno: Aluno; gestor: boolean }) {
 
       <Bloco titulo="Dados">
         <Linha r="Nascimento" v={dataBr(aluno.nascimento)} />
+        <Linha r="CPF" v={aluno.cpf && cpfBonito(aluno.cpf)} />
         <Linha r="Escola" v={aluno.escola} />
         <Linha r="Endereço" v={[e?.rua && `${e.rua}${e.numero ? `, ${e.numero}` : ''}`, e?.bairro, e?.cidade].filter(Boolean).join(' · ')} />
         <Linha r="Uniforme" v={[aluno.uniforme?.camisa && `camisa ${aluno.uniforme.camisa}`, aluno.uniforme?.calcao && `calção ${aluno.uniforme.calcao}`].filter(Boolean).join(', ')} />

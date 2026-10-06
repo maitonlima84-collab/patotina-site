@@ -51,7 +51,7 @@ Professor vê só a parte dele (turmas, chamada de hoje, aniversariantes).
   (`pre_matricula`, `ativo`, `trancado`, `desligado`). A lista é pequena:
   carrega todos os não-desligados e filtra no navegador.
 - **Ficha** em abas:
-  - *Dados*: nome, apelido, nascimento, foto, escola, endereço, uniforme
+  - *Dados*: nome, apelido, nascimento, CPF (opcional), foto, escola, endereço, uniforme
     (tamanho de camisa/calção).
   - *Responsáveis*: 1..n — nome, parentesco, telefone (vira botão WhatsApp),
     CPF (opcional), quem é o principal e quem paga.
@@ -175,7 +175,7 @@ Coleções novas, sem prefixo `site_` (nada disso é público). `criadoEm`,
 
 ```
 alunos/{id}
-  nome, apelido?, nascimento (AAAA-MM-DD), foto?, sexo?
+  nome, apelido?, nascimento (AAAA-MM-DD), cpf? (só dígitos), foto?, sexo?
   situacao: 'pre_matricula' | 'ativo' | 'trancado' | 'desligado'
   turmaId?, entrouEm?, saiuEm?
   escola?, endereco?: { rua, numero, bairro, cidade }

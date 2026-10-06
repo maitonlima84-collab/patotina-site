@@ -135,9 +135,14 @@ export function AlunoForm({
             {idade != null && <Dica>{idade} anos</Dica>}
           </div>
           <div>
-            <Rotulo htmlFor="a-escola">Escola</Rotulo>
-            <Entrada id="a-escola" {...register('escola')} />
+            <Rotulo htmlFor="a-cpf">CPF</Rotulo>
+            <Entrada id="a-cpf" placeholder="Opcional" inputMode="numeric" autoComplete="off" {...register('cpf')} />
+            <ErroCampo>{erros.cpf?.message}</ErroCampo>
           </div>
+        </div>
+        <div>
+          <Rotulo htmlFor="a-escola">Escola</Rotulo>
+          <Entrada id="a-escola" {...register('escola')} />
         </div>
         <div>
           <Rotulo>Endereço</Rotulo>

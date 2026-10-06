@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { hojeIso, idadeEm, normalizar } from '@shared/lib/utils'
+import { cpfValido, hojeIso, idadeEm, normalizar } from '@shared/lib/utils'
 import type { Aluno, AlunoDados, Situacao } from '../types'
 import { criarAluno, editarAluno, movimentarAluno, registrarHistorico } from '../repositories/alunosRepository'
 
@@ -23,6 +23,11 @@ export const esquemaAluno = z.object({
   apelido: texto(30),
   // Vazio é permitido: a importação de planilha nem sempre traz a data.
   nascimento: z.string().regex(DATA, 'Data de nascimento.').or(z.literal('')),
+  // Opcional; guardado só com os dígitos, a ficha formata para mostrar.
+  cpf: z
+    .string()
+    .transform((v) => v.replace(/\D/g, ''))
+    .refine((v) => v === '' || cpfValido(v), 'CPF inválido — confira os números.'),
   sexo: z.enum(['', 'M', 'F']),
   foto: z.object({ caminho: z.string(), url: z.string() }),
   turmaId: z.string(),
@@ -71,7 +76,7 @@ export const esquemaAlunoFormulario = esquemaAluno.superRefine((v, ctx) => {
 
 // Os campos de cada passo da matrícula — a validação roda passo a passo.
 export const PASSOS: { titulo: string; campos: (keyof AlunoForm)[] }[] = [
-  { titulo: 'Criança', campos: ['nome', 'apelido', 'nascimento', 'sexo', 'foto', 'escola', 'endereco', 'uniforme'] },
+  { titulo: 'Criança', campos: ['nome', 'apelido', 'nascimento', 'cpf', 'sexo', 'foto', 'escola', 'endereco', 'uniforme'] },
   { titulo: 'Responsáveis', campos: ['responsaveis'] },
   { titulo: 'Saúde e autorizações', campos: ['saude', 'autorizacoes'] },
   { titulo: 'Turma e mensalidade', campos: ['turmaId', 'plano', 'observacoes'] },
@@ -84,6 +89,7 @@ export function valoresIniciais(aluno: Aluno | null, sugestao?: { mensalidade?: 
     nome: aluno?.nome ?? '',
     apelido: aluno?.apelido ?? '',
     nascimento: aluno?.nascimento ?? '',
+    cpf: aluno?.cpf ?? '',
     sexo: aluno?.sexo ?? '',
     foto: aluno?.foto ?? { caminho: '', url: '' },
     turmaId: aluno?.turmaId ?? '',

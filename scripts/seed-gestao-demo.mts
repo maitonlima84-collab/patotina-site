@@ -182,6 +182,7 @@ for (const a of ALUNOS) {
     nome: a.nome,
     apelido: a.apelido ?? '',
     nascimento: a.nascimento,
+    cpf: '',
     sexo: a.sexo,
     foto: { caminho: '', url: '' },
     situacao,
