@@ -141,6 +141,23 @@ service cloud.firestore {
       }
     }
 
+    // Carteirinha do aluno: a cópia mínima que o QR abre no site
+    // (/carteirinha?c=CODIGO). Qualquer um lê UM documento pelo código —
+    // listar não, para ninguém varrer as crianças da escolinha. Só o Gestor
+    // emite; a ficha do aluno é a fonte, isto é espelho. Nada se apaga:
+    // a via perdida vira 'substituida'.
+    match /carteirinhas/{codigo} {
+      allow get: if true;
+      allow list: if isGestor();
+      allow create, update: if isGestor()
+        && request.resource.data.keys().hasOnly(['alunoId', 'nome', 'foto', 'turma', 'matricula', 'validade', 'situacao', 'alunoSituacao', 'criadoEm', 'atualizadoEm'])
+        && request.resource.data.alunoId is string
+        && request.resource.data.nome is string
+        && request.resource.data.validade is string
+        && request.resource.data.situacao in ['ativa', 'substituida'];
+      allow delete: if false;
+    }
+
     // Pré-matrícula: o formulário do site grava SEM login, só com os campos
     // dele e já como 'nova'. Ler e mexer é do Gestor. Nada se apaga.
     match /pre_matriculas/{id} {

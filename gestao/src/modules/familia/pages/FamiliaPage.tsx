@@ -1,12 +1,16 @@
-import { Copy, KeyRound, LogOut, Smartphone } from 'lucide-react'
+import { Copy, IdCard, KeyRound, LogOut, Smartphone } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from '@shared/auth/AuthProvider'
 import { MinhaSenhaDialog } from '@shared/auth/MinhaSenhaDialog'
 import { useAviso } from '@shared/components/Aviso'
 import { Botao } from '@shared/components/ui/Botao'
+import { Janela } from '@shared/components/ui/Janela'
 import { cn, dataBr, hojeIso, moeda } from '@shared/lib/utils'
 import { Avatar } from '@/modules/alunos/components/AlunoLinha'
 import { idade } from '@/modules/alunos/services/alunosService'
+import { CarteirinhaDigital } from '@/modules/alunos/components/Carteirinha'
+import { ESTADOS, estadoDaCarteirinha } from '@/modules/alunos/services/carteirinhaService'
+import type { Aluno } from '@/modules/alunos/types'
 import { useEventos } from '@/modules/agenda/hooks/useEventos'
 import { TIPOS_EVENTO } from '@/modules/agenda/types'
 import { subscribeAvisos, type Aviso } from '@/modules/avisos/repositories/avisosRepository'
@@ -17,6 +21,7 @@ import { atrasada } from '@/modules/mensalidades/services/mensalidadesService'
 import { valorDevido, type Cobranca } from '@/modules/mensalidades/types'
 import { descreverHorario } from '@/modules/turmas/services/turmasService'
 import { useTurmas } from '@/modules/turmas/hooks/useTurmas'
+import type { Turma } from '@/modules/turmas/types'
 import { useCobrancasDosFilhos, useFilhos } from '../hooks/useFamilia'
 import { pixCopiaECola } from '../services/pix'
 import { ConviteInstalar } from '@/app/instalar/ConviteInstalar'
@@ -36,6 +41,7 @@ export function FamiliaPage() {
   const { rows: eventos } = useEventos()
   const [avisos, setAvisos] = useState<Aviso[]>([])
   const [trocandoSenha, setTrocandoSenha] = useState(false)
+  const [cartao, setCartao] = useState<string | null>(null)
   const instalacao = useInstalacao()
   useEffect(() => subscribeAvisos(setAvisos), [])
 
@@ -43,6 +49,7 @@ export function FamiliaPage() {
   const de = primeiroDiaDoMes(somarMeses(hoje.slice(0, 7), -2))
   const { chamadas } = useChamadasEntre(de, hoje)
   const proximos = eventos.filter((e) => e.data >= hoje).slice(0, 6)
+  const comCartao = filhos.find((f) => f.id === cartao)
 
   const copiarPix = (c: Cobranca, aluno: { nome: string }) => {
     const codigo = pixCopiaECola({ chave: config.chavePix, nome: config.titularPix || config.nome, cidade: 'Matutina', valor: valorDevido(c), txid: `PAT${c.competencia.replace('-', '')}` })
@@ -92,6 +99,11 @@ export function FamiliaPage() {
                   </p>
                 </div>
               </div>
+              {a.carteirinha && (
+                <Botao className="mt-3 w-full" onClick={() => setCartao(a.id)}>
+                  <IdCard size={17} /> Carteirinha {a.sexo === 'F' ? 'da' : 'do'} {a.apelido || a.nome.split(' ')[0]}
+                </Botao>
+              )}
               {turma && (
                 <p className="mt-2 text-[0.9rem]">
                   <span className="text-gray">Treinos: </span>
@@ -178,8 +190,28 @@ export function FamiliaPage() {
         )}
       </main>
 
+      <CarteirinhaDoFilho aluno={comCartao} turma={turmas.get(comCartao?.turmaId ?? '')} onFechar={() => setCartao(null)} />
       <MinhaSenhaDialog aberta={trocandoSenha} onFechar={() => setTrocandoSenha(false)} />
       <ConviteInstalar descricao="Presença, mensalidades e avisos dos seus filhos a um toque, como um app." />
     </div>
+  )
+}
+
+// A carteirinha no celular da família: mostrar na entrada do campeonato,
+// no ônibus da viagem. Quem confere escaneia o QR.
+function CarteirinhaDoFilho({ aluno, turma, onFechar }: { aluno?: Aluno; turma?: Turma; onFechar: () => void }) {
+  const c = aluno?.carteirinha
+  const estado = c && aluno ? estadoDaCarteirinha({ situacao: 'ativa', alunoSituacao: aluno.situacao, validade: c.validade }) : null
+  return (
+    <Janela aberta={!!(aluno && c)} titulo="Carteirinha" onFechar={onFechar}>
+      {aluno && c && estado && (
+        <div className="mx-auto max-w-[360px] pt-4">
+          <p className={cn('mb-3 rounded-full px-3 py-1.5 text-center font-cond text-[0.95rem] font-bold tracking-wide', estado === 'valida' ? 'bg-green/15 text-green' : 'bg-red-2/15 text-red-200')}>
+            {estado === 'valida' ? `Válida até ${dataBr(c.validade)}` : `${ESTADOS[estado].titulo} — fale com a escolinha`}
+          </p>
+          <CarteirinhaDigital dados={{ aluno, carteirinha: c, turma }} />
+        </div>
+      )}
+    </Janela>
   )
 }

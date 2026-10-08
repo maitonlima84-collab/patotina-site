@@ -30,6 +30,7 @@
           <a href="#alunos">Alunos</a>
           <a href="#matricula">Matrícula</a>
           <a href="#ficha">Ficha</a>
+          <a href="#carteirinha">Carteirinha</a>
           <a href="#chamada">Chamada</a>
           <a href="#frequencia">Frequência</a>
           <a href="#mensalidades">Mensalidades</a>
@@ -124,6 +125,7 @@
           <li data-alvo="situacao">Filtro por <b>situação</b>. A lista abre em “Ativo”; troque para “Trancado” ou “Desligado” para ver quem saiu.</li>
           <li data-alvo="matricular"><b>+ Matricular</b> abre o formulário de matrícula (próximo passo).</li>
           <li data-alvo="importar"><b>Importar</b>: cole a planilha (ou abra o CSV), confira o que é cada coluna e importe de uma vez. O que faltar (nascimento, telefone) vira um aviso na lista e se completa depois na ficha.</li>
+          <li data-alvo="carteirinhas"><b>Carteirinhas</b>: imprime as carteirinhas da turma escolhida no filtro (ou de todos os ativos). Veja a <a href="#carteirinha">carteirinha do aluno</a>.</li>
           <li data-alvo="linha">Cada linha mostra idade, turma e o responsável com telefone. Toque para abrir a <b>ficha</b>.</li>
         </ol>
       </section>
@@ -168,7 +170,7 @@
         <ol class="passos">
           <li data-alvo="selo">O <b>selo</b> diz a situação: ativo, trancado, desligado.</li>
           <li data-alvo="editar"><b>Editar</b> muda os dados cadastrais (escola, endereço, saúde…). A turma <i>não</i> se edita aqui — é pelo Histórico, para ficar registrado.</li>
-          <li data-alvo="abas">As <b>abas</b>: Ficha, Histórico, Presença e Financeiro (só para a gestão).</li>
+          <li data-alvo="abas">As <b>abas</b>: Ficha, Histórico, Presença, Carteirinha e Financeiro (só para a gestão).</li>
           <li data-alvo="ligar">O telefone do responsável vira botão de <b>ligar</b>…</li>
           <li data-alvo="whatsapp">…e de <b>WhatsApp</b>, que abre direto a conversa com a família.</li>
           <li data-alvo="familia"><b>Acesso da família</b>: crie o acesso com o e-mail do responsável e uma senha inicial. Família com dois filhos usa uma conta só — o segundo aluno é <b>vinculado</b> ao mesmo e-mail. Veja a <a href="#familia">área da família</a>.</li>
@@ -183,6 +185,34 @@
           <li data-alvo="desligar"><b>Desligar</b> é a saída definitiva — e mesmo assim nada se apaga. Pede um motivo.</li>
           <li data-alvo="anotar"><b>Anotar</b> registra uma observação com data (conversa com a família, lesão, elogio…).</li>
           <li data-alvo="linha">A <b>linha do tempo</b>: tudo o que aconteceu, com data e quem fez.</li>
+        </ol>
+
+        <h3 class="sub-h3" id="carteirinha">Carteirinha do aluno</h3>
+        <p class="intro">
+          Digital no celular da família e impressa para o bolso, com os dados da ficha. O QR leva ao site, que diz se ela vale — quem
+          escaneia vê só nome, foto, turma e matrícula, nunca nascimento, saúde ou família.
+        </p>
+        <figure class="cena" data-cena="carteirinha">
+          <div class="quadro"><img src="img/carteirinha.png" alt="Aba Carteirinha da ficha" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="estado">Se ela <b>vale</b>: número de matrícula, validade e data de emissão. Aluno trancado ou desligado aparece aqui (e no QR) como inativo, sozinho. Sem carteirinha ainda, esta aba mostra o botão <b>Emitir carteirinha</b> — cadastre a foto antes.</li>
+          <li data-alvo="frente">A <b>frente</b>, como vai sair: foto, nome, categoria (a turma), matrícula, validade e o QR.</li>
+          <li data-alvo="verso">O <b>verso</b>: nome completo, nascimento, turma, professor, data da matrícula e o responsável com telefone.</li>
+          <li data-alvo="imprimir"><b>Imprimir</b> abre a folha de impressão desta carteirinha (abaixo). Vale até 31/12; no ano seguinte aparece <b>Renovar</b> ao lado.</li>
+          <li data-alvo="validar"><b>Ver validação</b> abre a página que o QR abre, para você conferir.</li>
+          <li data-alvo="segunda"><b>Segunda via</b>, para quando a família perde a carteirinha: o QR antigo passa a dizer “substituída”, e a matrícula continua a mesma.</li>
+        </ol>
+
+        <figure class="cena" data-cena="carteirinhas-impressao">
+          <div class="quadro"><img src="img/carteirinhas-impressao.png" alt="Impressão das carteirinhas" loading="lazy" /></div>
+        </figure>
+        <ol class="passos">
+          <li data-alvo="turma">A <b>turma</b> a imprimir (vindo da ficha, é só aquele aluno).</li>
+          <li data-alvo="modo">O <b>jeito de imprimir</b>: <i>dobrar e plastificar</i> serve em qualquer impressora (frente e verso lado a lado, recorte a tira e dobre no meio); <i>frente e verso</i> é para impressora que imprime dos dois lados; <i>cartão PVC</i> é o tamanho exato do cartão de banco, para impressora de cartão ou para mandar à gráfica.</li>
+          <li data-alvo="faltam">Quem da turma ainda <b>não tem carteirinha</b>: um toque emite todas de uma vez.</li>
+          <li data-alvo="imprimir"><b>Imprimir</b>. Na janela que abre, deixe a escala em <b>100%</b> e marque <b>gráficos de fundo</b> — sem isso o cartão sai branco.</li>
+          <li data-alvo="folha">A <b>folha</b> como vai sair do papel, com o cartão no tamanho real.</li>
         </ol>
       </section>
 
@@ -374,6 +404,7 @@
               <li data-alvo="filho">Cada <b>filho</b> tem o seu bloco, com turma e treinos. Família com dois filhos vê os dois, um embaixo do outro.</li>
               <li data-alvo="presenca"><b>Presença</b> dos últimos três meses.</li>
               <li data-alvo="mensalidades"><b>Mensalidades</b> em aberto, com vencimento e valor.</li>
+              <li data-alvo="carteirinha">A <b>carteirinha</b> de cada filho, quando já foi emitida.</li>
               <li data-alvo="pix"><b>Pix copia-e-cola</b> já com o valor. Depois de pagar, a família manda o comprovante no WhatsApp e você dá baixa.</li>
               <li data-alvo="agenda"><b>Agenda</b>, com “convocado” quando for o caso.</li>
               <li data-alvo="avisos">Os <b>avisos</b> que você registrou.</li>
@@ -382,6 +413,20 @@
               <b>A família não consegue entrar?</b> Na ficha do aluno, “Link de senha” manda um e-mail para ela criar uma senha nova. Confira
               também se o acesso não está “desligado”.
             </p>
+          </div>
+        </div>
+
+        <div class="lado-a-lado inverso">
+          <figure class="cena celular" data-cena="familia-carteirinha">
+            <div class="quadro"><img src="img/familia-carteirinha.png" alt="Carteirinha no celular da família" loading="lazy" /></div>
+          </figure>
+          <div>
+            <h3 class="sub-h3">A carteirinha no celular</h3>
+            <ol class="passos">
+              <li data-alvo="estado">Se ela <b>vale</b> e até quando.</li>
+              <li data-alvo="cartao">A <b>carteirinha</b>, em pé como cartão de banco. Um toque vira para o verso, com os dados e o QR maior.</li>
+              <li data-alvo="qr">O <b>QR</b>: na entrada do campeonato ou da viagem, quem confere escaneia com a câmera do celular.</li>
+            </ol>
           </div>
         </div>
       </section>

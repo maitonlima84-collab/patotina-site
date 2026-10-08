@@ -5,7 +5,7 @@ import { URL_PAINEL } from '@shared/lib/enderecos'
 import { rotasContas } from '@shared/modules/contas/routes'
 import { AppLayout } from '@/app/layout/AppLayout'
 import { rotasInicio } from '@/modules/inicio/routes'
-import { rotasAlunos } from '@/modules/alunos/routes'
+import { rotasAlunos, rotasImpressaoAlunos } from '@/modules/alunos/routes'
 import { rotasTurmas } from '@/modules/turmas/routes'
 import { rotasChamada } from '@/modules/chamada/routes'
 import { rotasMensalidades } from '@/modules/mensalidades/routes'
@@ -17,6 +17,7 @@ import { rotasFamilia } from '@/modules/familia/routes'
 
 export const router = createBrowserRouter([
   ...rotasFamilia,
+  ...rotasImpressaoAlunos,
   {
     path: '/',
     errorElement: <ErroDaTela />,

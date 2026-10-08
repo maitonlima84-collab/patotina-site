@@ -101,6 +101,7 @@ const CENAS: Cena[] = [
       situacao: aria('Situação'),
       matricular: 'a[href="/alunos/novo"]',
       importar: 'a[href="/alunos/importar"]',
+      carteirinhas: 'a[href^="/imprimir/carteirinhas"]',
       linha: xpath("//main//a[contains(., 'Laura Martins')]"),
     },
   },
@@ -164,6 +165,34 @@ const CENAS: Cena[] = [
       desligar: xpath("//main//button[normalize-space(.)='Desligar']"),
       anotar: xpath("//main//button[normalize-space(.)='Anotar']"),
       linha: xpath("//main//ol | //main//ul[.//li[contains(., 'Matrícula')]]"),
+    },
+  },
+  {
+    nome: 'carteirinha',
+    conta: 'gestora',
+    url: '/alunos/a01?aba=carteirinha',
+    viewport: { ...DESKTOP, height: 900 },
+    esperar: 'Carteirinha válida',
+    alvos: {
+      estado: xpath("//main//div[contains(., 'Carteirinha válida')][contains(@class,'rounded-xl')]"),
+      frente: xpath("(//main//figure)[1]"),
+      verso: xpath("(//main//figure)[2]"),
+      imprimir: 'a[href^="/imprimir/carteirinhas"]',
+      validar: xpath("//main//a[contains(., 'Ver validação')]"),
+      segunda: xpath("//main//button[contains(., 'Segunda via')]"),
+    },
+  },
+  {
+    nome: 'carteirinhas-impressao',
+    conta: 'gestora',
+    url: '/imprimir/carteirinhas?turma=sub9',
+    esperar: 'Imprimir carteirinhas',
+    alvos: {
+      turma: aria('Turma'),
+      modo: aria('Jeito de imprimir'),
+      imprimir: xpath("//header//button[contains(., 'Imprimir')]"),
+      faltam: xpath("//header//button[contains(., 'Emitir')]"),
+      folha: '.folha',
     },
   },
   {
@@ -358,9 +387,28 @@ const CENAS: Cena[] = [
       filho: xpath("//main//h2[contains(., 'Miguel')]/ancestor::section[1]/div[1]"),
       presenca: xpath("(//main//h3[contains(., 'Presença')])[1]/following-sibling::p[1]"),
       mensalidades: xpath("(//main//h3[contains(., 'Mensalidades')])[2]/following-sibling::div[1]"),
+      carteirinha: xpath("(//main//button[contains(., 'Carteirinha d')])[1]"),
       pix: xpath("(//main//button[contains(., 'Copiar Pix')])[1]"),
       agenda: xpath("//main//h3[contains(., 'Agenda')]/parent::section"),
       avisos: xpath("//main//h3[contains(., 'Avisos')]/parent::section"),
+    },
+  },
+  {
+    nome: 'familia-carteirinha',
+    conta: 'familia',
+    url: '/familia',
+    viewport: { ...CELULAR, height: 860 },
+    esperar: 'Mensalidades',
+    preparar: async (page) => {
+      // O convite de instalar desce sozinho no celular; aqui ele atrapalha.
+      await page.evaluate(() => [...document.querySelectorAll('button')].find((b) => b.textContent?.trim() === 'Entendi')?.click())
+      await page.click("::-p-xpath((//main//button[contains(., 'Carteirinha d')])[1])")
+      await page.waitForSelector('dialog[open] .cart')
+    },
+    alvos: {
+      estado: xpath("//dialog[@open]//p[contains(., 'Válida até')]"),
+      cartao: 'dialog[open] .cart-virar',
+      qr: 'dialog[open] .cart__qr',
     },
   },
 ]

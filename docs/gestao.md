@@ -64,6 +64,8 @@ Professor vê só a parte dele (turmas, chamada de hoje, aniversariantes).
   - *Presença*: frequência por mês, faltas recentes.
   - *Financeiro*: plano (valor, vencimento, desconto, isenção) e cobranças.
     Escondido do Professor.
+  - *Carteirinha* *(acrescentada em 07/10/2026)*: o cartão do aluno, digital e
+    impresso — ver 2.11.
 - **Matrícula** = fluxo em passos: dados → responsável → turma → plano.
   Cria o aluno com situação `ativo` e o primeiro registro do histórico.
 - **Importação** por CSV na primeira carga (a lista de hoje, seja planilha
@@ -146,6 +148,32 @@ recibos, agenda com "convocado" e avisos. Só leitura — quem quer mudar
 algo fala no WhatsApp. Conta só de família que entra pela gestão é levada
 para `/familia`; equipe que cai em `/familia` volta para `/inicio`.
 
+### 2.11 Carteirinha do aluno (07/10/2026)
+Vinculada à ficha: os dados do cartão saem do aluno (nome, foto, turma,
+nascimento, responsável principal, professor da turma). O Gestor **emite**
+na aba Carteirinha; o aluno ganha matrícula `PT-AAAA-NNNN` (ano de entrada +
+contador em `configuracoes/carteirinhas`, numa transação) e um código de 8
+caracteres que vai no QR.
+
+- **Digital**: área da família, botão por filho; cartão em pé, toque vira.
+- **Física**: `/imprimir/carteirinhas` (`?ids=` da ficha, `?turma=` da
+  lista), fora do layout do app. Cartão em 85,6 × 54 mm (CR80); três modos:
+  dobrar e plastificar (A4, frente e verso lado a lado), duplex (A4, versos
+  espelhados para virar pela borda longa) e PVC (`@page` do tamanho do
+  cartão). O desenho é um só, em unidades `cqw`
+  (`alunos/components/carteirinha.css`).
+- **Validação**: o QR abre `www.patotina.com.br/carteirinha?c=CODIGO`
+  (`site/carteirinha.html`), que lê `carteirinhas/{codigo}` sem login. O
+  documento é um espelho mínimo (nome, foto, turma, matrícula, validade,
+  situação do aluno) — a ficha não é pública. A foto só entra no espelho
+  com `autorizacoes.imagem`; o cartão impresso leva sempre. Sem Cloud Functions, o app
+  mantém o espelho: a ficha aberta pelo Gestor compara e regrava
+  (`useCarteirinhaPublica`). Estados: válida, vencida, aluno inativo,
+  substituída (segunda via), não encontrada.
+- Validade até 31/12 do ano de emissão; **Renovar** estende para o fim do
+  ano corrente sem trocar o QR; **Segunda via** troca o código e marca o
+  antigo como `substituida`, mantendo a matrícula.
+
 ### Mais tarde, se houver dor
 Avaliação de desenvolvimento (observações do professor, medidas, avaliação
 periódica), pedidos de uniforme, caixa geral (entradas/saídas além da
@@ -186,6 +214,7 @@ alunos/{id}
   plano: { valor, vencimentoDia, desconto?: { valor, motivo }, isento: bool, motivoIsencao? }
   observacoes?
   nomeBusca: string   // nome + responsáveis, minúsculo, sem acento — filtro no navegador
+  carteirinha?: { codigo, matricula: 'PT-AAAA-NNNN', emitidaEm, validade }
 alunos/{id}/historico/{id}
   tipo: 'matricula' | 'mudanca_turma' | 'trancamento' | 'retorno' | 'desligamento' | 'observacao'
   data, de?, para?, texto?, por (uid)
@@ -222,6 +251,11 @@ configuracoes/escolinha
   nome, temporada, mensalidadePadrao, vencimentoDia, chavePix?, locais: []
   textos: { lembreteMensalidade, convocacao }, proximoRecibo
 
+carteirinhas/{codigo}   // espelho público da carteirinha (2.11)
+  alunoId, nome, foto (url), turma (nome), matricula, validade
+  situacao: 'ativa' | 'substituida', alunoSituacao
+configuracoes/carteirinhas   proximaMatricula
+
 usuarios/{uid}.papeis  += 'Gestor' | 'Professor'
 responsaveis/{uid}     nome, email, telefone, alunoIds: [], ativo
 ```
@@ -254,6 +288,7 @@ pre_matriculas      create: público, só com os campos do formulário e situaca
 eventos             read: isProfessor() || resource.data.visivelNoSite == true   write: isGestor()
 avisos              read: isProfessor()   write: isGestor()
 configuracoes       read: isProfessor()   write: isGestor()
+carteirinhas        get: público   list/write: isGestor()   delete: false
 ```
 
 O Professor lê todos os alunos (o Firestore não filtra campos): o app

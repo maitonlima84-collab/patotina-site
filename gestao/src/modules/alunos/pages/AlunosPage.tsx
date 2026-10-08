@@ -1,4 +1,4 @@
-import { Search, Upload } from 'lucide-react'
+import { IdCard, Search, Upload } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@shared/auth/AuthProvider'
@@ -43,6 +43,13 @@ export function AlunosPage() {
       <PageHeader titulo="Alunos" ajuda={loading ? undefined : `${rows.filter((a) => a.situacao === 'ativo').length} ativos`}>
         {isGestor && (
           <div className="flex gap-2">
+            <Link
+              to={`/imprimir/carteirinhas${turmaId && turmaId !== 'sem' ? `?turma=${turmaId}` : ''}`}
+              className="cond-maiusc inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-[0.85rem] text-gray hover:text-gold"
+              title="Imprimir carteirinhas"
+            >
+              <IdCard size={16} /> <span className="max-sm:hidden">Carteirinhas</span>
+            </Link>
             <Link to="/alunos/importar" className="cond-maiusc inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-[0.85rem] text-gray hover:text-gold" title="Importar planilha">
               <Upload size={16} /> <span className="max-sm:hidden">Importar</span>
             </Link>

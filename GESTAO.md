@@ -57,6 +57,26 @@ lista já filtrada.
   o que é cada coluna e importe. O que faltar (nascimento, telefone) vira um
   aviso na lista e se completa na ficha.
 
+### Carteirinha do aluno
+
+- Na ficha, aba **Carteirinha** → **Emitir carteirinha**. O aluno ganha número
+  de matrícula (PT-2026-0001…) e um **QR** que confere a carteirinha no site.
+  Cadastre a foto antes: ela vai no cartão.
+- **Digital**: a família vê a carteirinha no celular, na área da família
+  (botão "Carteirinha do…"); um toque vira para o verso.
+- **Física**: **Imprimir** na ficha (um aluno) ou o botão **Carteirinhas** na
+  lista de alunos (a turma inteira, com "emitir as que faltam"). Três jeitos:
+  *dobrar e plastificar* (qualquer impressora, 5 por folha A4), *impressora
+  frente e verso* (10 por folha) e *cartão PVC* (tamanho exato do cartão de
+  banco, também é o arquivo para a gráfica). Na janela de impressão: escala
+  100% e "gráficos de fundo" marcado.
+- Quem escaneia o QR (campeonato, viagem) vê **só** nome, foto, turma,
+  matrícula e se a carteirinha vale — nunca nascimento, saúde ou família.
+- Vale até **31/12**. No ano seguinte, **Renovar** e imprimir de novo.
+- Trancou ou desligou o aluno? O QR passa a dizer "aluno inativo" sozinho.
+- Perdeu a carteirinha? **Segunda via**: o QR antigo deixa de valer, a
+  matrícula continua a mesma.
+
 ## Turmas
 
 Turma real: professor, treinos (dia, horário, local), faixa etária, vagas e
@@ -124,7 +144,8 @@ filhos usa uma conta só — o segundo aluno é **vinculado** ao mesmo e-mail.
 
 A família entra em **app.patotina.com.br/familia** e vê: turma e treinos,
 presença dos últimos três meses, mensalidades em aberto com **Pix
-copia-e-cola** já com o valor, recibos, agenda (com "convocado") e avisos.
+copia-e-cola** já com o valor, recibos, agenda (com "convocado"), avisos e a
+**carteirinha** de cada filho.
 Depois de pagar, ela manda o comprovante no WhatsApp e você dá baixa.
 
 ## Configurações

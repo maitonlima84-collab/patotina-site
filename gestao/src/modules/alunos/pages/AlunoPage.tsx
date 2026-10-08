@@ -14,11 +14,14 @@ import { MovimentacaoDialog, type Movimentacao } from '../components/Movimentaca
 import { PresencaDoAluno } from '@/modules/chamada/components/PresencaDoAluno'
 import { FinanceiroDoAluno } from '@/modules/mensalidades/components/FinanceiroDoAluno'
 import { AcessoFamilia } from '@/modules/familia/components/AcessoFamilia'
+import { CarteirinhaDoAluno } from '../components/CarteirinhaDoAluno'
+import { useCarteirinhaPublica, useNomesDosProfessores } from '../hooks/useCarteirinha'
 
 const ABAS = [
   { id: 'ficha', titulo: 'Ficha' },
   { id: 'historico', titulo: 'Histórico' },
   { id: 'presenca', titulo: 'Presença' },
+  { id: 'carteirinha', titulo: 'Carteirinha' },
   { id: 'financeiro', titulo: 'Financeiro', soGestor: true },
 ] as const
 
@@ -26,16 +29,20 @@ export function AlunoPage() {
   const { id } = useParams()
   const { aluno, loading, erro } = useAluno(id)
   const historico = useHistorico(id)
-  const { rows: turmas, porId } = useTurmas()
+  const { rows: turmas, porId, loading: carregandoTurmas } = useTurmas()
   const { isGestor } = useAuth()
   const [params, setParams] = useSearchParams()
   const aba = params.get('aba') ?? 'ficha'
   const [mov, setMov] = useState<Movimentacao | null>(null)
+  const turma = aluno ? porId.get(aluno.turmaId) : undefined
+  // Fica fora da aba de propósito: com a ficha aberta pelo Gestor, a cópia
+  // pública da carteirinha se corrige sozinha, em qualquer aba.
+  const publica = useCarteirinhaPublica(aluno, turma?.nome ?? '', isGestor && !carregandoTurmas)
+  const professores = useNomesDosProfessores(isGestor)
 
   if (loading) return <p className="py-10 text-center text-gray">Carregando…</p>
   if (!aluno) return <p className="py-10 text-center text-gray">{erro ?? 'Aluno não encontrado.'}</p>
 
-  const turma = porId.get(aluno.turmaId)
   const anos = idade(aluno)
   const abas = ABAS.filter((a) => !('soGestor' in a && a.soGestor) || isGestor)
 
@@ -83,6 +90,7 @@ export function AlunoPage() {
         <Historico aluno={aluno} itens={historico} nomeTurma={(tid) => porId.get(tid)?.nome ?? ''} podeMover={isGestor} onMover={setMov} />
       )}
       {aba === 'presenca' && <PresencaDoAluno aluno={aluno} />}
+      {aba === 'carteirinha' && <CarteirinhaDoAluno aluno={aluno} turma={turma} professor={professores.get(turma?.professorUid ?? '')} publica={publica} />}
       {aba === 'financeiro' && isGestor && <Financeiro aluno={aluno} />}
 
       <MovimentacaoDialog tipo={mov} aluno={aluno} turmas={turmas} onFechar={() => setMov(null)} />

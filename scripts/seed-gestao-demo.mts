@@ -175,8 +175,18 @@ const ALUNOS: AlunoDemo[] = [
   { id: 'a14', nome: 'Théo Mendes Correia', nascimento: nascimento(9, 3, 27), sexo: 'M', turmaId: '', responsavel: { nome: 'Vanessa Mendes', parentesco: 'Mãe', telefone: '(34) 98833-4455' }, valor: 80 },
 ]
 
+// Carteirinha emitida para quase todos; Laura (a04), Bernardo (a10) e Théo
+// (a14, sem turma) ficam sem, para testar a emissão. O Enzo (a13, trancado)
+// tem, e o QR dele diz "aluno inativo". Código fixo: DEMO + id.
+const SEM_CARTEIRINHA = ['a04', 'a10', 'a14']
+const turmaNome = (id: string) => TURMAS.find((t) => t.id === id)?.nome ?? ''
+let matriculas = 0
+
 for (const a of ALUNOS) {
   const situacao = a.situacao ?? 'ativo'
+  const carteirinha = SEM_CARTEIRINHA.includes(a.id)
+    ? null
+    : { codigo: `DEMO${a.id.toUpperCase()}`, matricula: `PT-${agora.getFullYear()}-${String(++matriculas).padStart(4, '0')}`, emitidaEm: iso(diasAtras(30)), validade: `${agora.getFullYear()}-12-31` }
   const responsaveis = [{ ...a.responsavel, cpf: '', principal: true, pagador: true }]
   const dados = {
     nome: a.nome,
@@ -198,12 +208,27 @@ for (const a of ALUNOS) {
     plano: { valor: a.valor, vencimentoDia: 10, desconto: a.desconto ?? { valor: 0, motivo: '' }, isento: false, motivoIsencao: '' },
     observacoes: '',
     nomeBusca: normalizar([a.nome, a.apelido ?? '', a.responsavel.nome].join(' ')),
+    ...(carteirinha ? { carteirinha } : {}),
     criadoEm: agora,
     criadoPor: uidGestora,
     atualizadoEm: agora,
   }
   const ref = db.doc(`alunos/${a.id}`)
   await ref.set(dados)
+  if (carteirinha) {
+    await db.doc(`carteirinhas/${carteirinha.codigo}`).set({
+      alunoId: a.id,
+      nome: a.nome,
+      foto: '',
+      turma: turmaNome(a.turmaId),
+      matricula: carteirinha.matricula,
+      validade: carteirinha.validade,
+      situacao: 'ativa',
+      alunoSituacao: situacao,
+      criadoEm: agora,
+      atualizadoEm: agora,
+    })
+  }
   // Histórico recomeça a cada seed, para não acumular linhas.
   const antigos = await ref.collection('historico').get()
   for (const h of antigos.docs) await h.ref.delete()
@@ -216,6 +241,8 @@ for (const a of ALUNOS) {
     await ref.collection('historico').add({ tipo: 'trancamento', data: iso(diasAtras(15)), de: 'ativo', para: 'trancado', texto: 'Viagem da família até novembro', ...por, criadoEm: diasAtras(15) })
   }
 }
+
+await db.doc('configuracoes/carteirinhas').set({ proximaMatricula: matriculas + 1, atualizadoEm: agora })
 
 // ---------- chamadas (últimas 5 semanas) ----------
 // Lorenzo (a09) falta nos três últimos treinos → acende "Faltando seguido".

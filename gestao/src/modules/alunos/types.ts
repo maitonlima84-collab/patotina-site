@@ -44,6 +44,31 @@ export interface Aluno {
   observacoes: string
   // nome + responsáveis, normalizado — a busca da lista é no navegador.
   nomeBusca: string
+  // Só existe depois que o Gestor emite a carteirinha. O código é o do QR
+  // (carteirinhas/{codigo}); a matrícula nunca muda, nem na reemissão.
+  carteirinha?: Carteirinha
+}
+
+export interface Carteirinha {
+  codigo: string
+  matricula: string // PT-AAAA-NNNN
+  emitidaEm: string // AAAA-MM-DD
+  validade: string // AAAA-MM-DD
+}
+
+// O que a página pública de validação lê (carteirinhas/{codigo}): o mínimo
+// para conferir quem é a criança, nada de nascimento, saúde ou família.
+export interface CarteirinhaPublica {
+  alunoId: string
+  nome: string
+  foto: string
+  turma: string
+  matricula: string
+  validade: string
+  // 'substituida' quando a família perdeu a carteirinha e outra foi emitida:
+  // o QR antigo passa a dizer que não vale mais.
+  situacao: 'ativa' | 'substituida'
+  alunoSituacao: Situacao
 }
 
 export type AlunoDados = Omit<Aluno, 'id'>

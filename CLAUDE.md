@@ -55,7 +55,9 @@ publicar.
   `visivelNoSite` e a criação de `pre_matriculas` pelo site): `alunos`
   (+`historico`), `turmas`, `chamadas` (`turmaId_data`), `cobrancas`
   (`alunoId_AAAA-MM`), `pre_matriculas`, `eventos`, `avisos`,
-  `configuracoes/escolinha`, `responsaveis`. Ids compostos são a garantia
+  `configuracoes/escolinha`, `responsaveis`, `carteirinhas` (espelho mínimo
+  da carteirinha para o QR: leitura pública por código, nunca lista; a
+  ficha é a fonte e o app regrava o espelho). Ids compostos são a garantia
   de idempotência (chamada e cobrança nunca duplicam). Nada de gestão se
   apaga: situação/cancelamento é o caminho, e o histórico do aluno só cresce.
 - Módulo novo na gestão: `gestao/src/modules/<nome>/` com `routes.tsx`, entra

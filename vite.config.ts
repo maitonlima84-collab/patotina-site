@@ -41,6 +41,8 @@ function servirSite(): Plugin {
         }
         let arquivo = path.join(SITE, decodeURIComponent(url.pathname))
         if (fs.existsSync(arquivo) && fs.statSync(arquivo).isDirectory()) arquivo = path.join(arquivo, 'index.html')
+        // /carteirinha → carteirinha.html, como o cleanUrls do Hosting faz no ar.
+        else if (!path.extname(arquivo) && fs.existsSync(`${arquivo}.html`)) arquivo = `${arquivo}.html`
         if (!arquivo.startsWith(SITE) || !fs.existsSync(arquivo)) return next()
         res.setHeader('content-type', TIPOS[path.extname(arquivo)] ?? 'application/octet-stream')
         res.setHeader('cache-control', 'no-cache')

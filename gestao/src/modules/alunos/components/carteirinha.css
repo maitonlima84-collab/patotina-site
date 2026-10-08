@@ -1,0 +1,421 @@
+/* Carteirinha do aluno. Tudo medido em cqw (porcentagem da largura do
+   próprio cartão): o mesmo desenho vale na tela do celular, na ficha e no
+   papel, onde o cartão tem exatamente 85,6 × 54 mm (tamanho de cartão de
+   banco, CR80 — cabe em capa plástica e em impressora de PVC). */
+
+.cart-caixa {
+  /* A medida fica numa caixa por fora: cqw no próprio contêiner mediria o
+     pai dele, não o cartão. */
+  container-type: inline-size;
+  width: 100%;
+}
+.cart {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4.2cqw;
+  color: #f4f1e8;
+  font-family: 'Barlow', system-ui, sans-serif;
+  line-height: 1.15;
+  background:
+    radial-gradient(60% 45% at 85% 8%, rgba(232, 176, 24, 0.13), transparent 70%), radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 72% 9%, rgba(255, 255, 255, 0.45), transparent), radial-gradient(1px 1px at 91% 31%, rgba(255, 255, 255, 0.35), transparent),
+    linear-gradient(to top, rgba(28, 92, 56, 0.42), transparent 34%), linear-gradient(160deg, #0b3446 0%, #002838 52%, #03202e 100%);
+  box-shadow: inset 0 0 0 0.35cqw rgba(232, 176, 24, 0.35);
+  /* Sem isto o navegador imprime o cartão sem o fundo. */
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.cart--paisagem {
+  aspect-ratio: 85.6 / 54;
+}
+.cart--retrato {
+  aspect-ratio: 2 / 3;
+}
+.cart * {
+  box-sizing: border-box;
+}
+
+/* ---------- peças comuns ---------- */
+.cart__escudo {
+  display: block;
+  height: auto;
+  filter: drop-shadow(0 0.6cqw 1cqw rgba(0, 0, 0, 0.45));
+}
+.cart__marca {
+  font-family: 'Anton', Impact, sans-serif;
+  text-transform: uppercase;
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+}
+.cart__marca b {
+  display: block;
+  font-weight: 400;
+  color: #e8b018;
+}
+.cart__cond {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.cart__rotulo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #c9d6db;
+}
+.cart__valor {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.cart__ouro {
+  color: #e8b018;
+}
+.cart__nome {
+  font-family: 'Anton', Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+}
+.cart__foto {
+  overflow: hidden;
+  background: #0b3446;
+  border: 0.5cqw solid rgba(244, 241, 232, 0.85);
+  display: grid;
+  place-items: center;
+  font-family: 'Anton', Impact, sans-serif;
+  color: #9fb3bb;
+}
+.cart__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cart__qr {
+  background: #fff;
+  display: grid;
+  place-items: center;
+}
+.cart__qr svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cart__rodape {
+  display: flex;
+  align-items: center;
+  gap: 1.6cqw;
+}
+.cart__coracoes {
+  white-space: nowrap;
+  letter-spacing: -0.1em;
+}
+.cart__lema {
+  font-family: 'Kaushan Script', 'Brush Script MT', cursive;
+  color: #e8b018;
+  line-height: 1;
+}
+
+/* ---------- paisagem: frente ---------- */
+.cart--paisagem.cart--frente {
+  padding: 4.2cqw 4.6cqw;
+}
+.cart--paisagem .cart__topo {
+  display: flex;
+  align-items: center;
+  gap: 3cqw;
+}
+.cart--frente.cart--paisagem .cart__escudo {
+  width: 15cqw;
+}
+.cart--frente.cart--paisagem .cart__marca {
+  font-size: 7.4cqw;
+}
+.cart--frente.cart--paisagem .cart__subtitulo {
+  font-size: 2.9cqw;
+  margin-top: 1cqw;
+}
+.cart--paisagem .cart__corpo {
+  display: flex;
+  align-items: flex-end;
+  gap: 3.4cqw;
+  margin-top: 2.4cqw;
+}
+.cart--frente.cart--paisagem .cart__foto {
+  width: 21cqw;
+  height: 25.5cqw;
+  border-radius: 2cqw;
+  font-size: 8cqw;
+  flex-shrink: 0;
+}
+.cart--paisagem .cart__info {
+  flex: 1;
+  min-width: 0;
+}
+.cart--frente.cart--paisagem .cart__nome {
+  font-size: 5.6cqw;
+  margin-bottom: 1.4cqw;
+}
+.cart--frente.cart--paisagem .cart__rotulo {
+  font-size: 2.1cqw;
+}
+.cart--frente.cart--paisagem .cart__valor {
+  font-size: 3.9cqw;
+  margin-bottom: 0.9cqw;
+}
+.cart--frente.cart--paisagem .cart__qr {
+  width: 22.5cqw;
+  padding: 1.3cqw;
+  border-radius: 2cqw;
+  flex-shrink: 0;
+}
+.cart--paisagem .cart__rodape {
+  position: absolute;
+  left: 4.6cqw;
+  right: 4.6cqw;
+  bottom: 3.2cqw;
+  font-size: 2.45cqw;
+}
+
+/* ---------- paisagem: verso ---------- */
+.cart--paisagem.cart--verso {
+  padding: 3.6cqw 4.6cqw;
+}
+.cart--verso.cart--paisagem .cart__escudo {
+  width: 9.5cqw;
+}
+.cart--verso.cart--paisagem .cart__marca {
+  font-size: 5cqw;
+}
+.cart--verso.cart--paisagem .cart__local {
+  margin-left: auto;
+  text-align: right;
+  font-size: 2.1cqw;
+  line-height: 1.5;
+}
+.cart--verso .cart__painel {
+  display: flex;
+  gap: 2.6cqw;
+  align-items: center;
+  background: #f4f1e8;
+  color: #002838;
+}
+.cart--verso.cart--paisagem .cart__painel {
+  margin-top: 2.4cqw;
+  padding: 2.2cqw 2.6cqw;
+  border-radius: 2.2cqw;
+}
+.cart__linhas {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+}
+.cart__linhas dt {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4d6873;
+  white-space: nowrap;
+}
+.cart__linhas dd {
+  margin: 0;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cart--paisagem .cart__linhas {
+  column-gap: 2.4cqw;
+}
+.cart--paisagem .cart__linhas dt {
+  font-size: 1.85cqw;
+}
+.cart--paisagem .cart__linhas dd {
+  font-size: 2.75cqw;
+  padding: 0.55cqw 0;
+  border-bottom: 0.15cqw solid rgba(0, 40, 56, 0.12);
+}
+.cart--paisagem .cart__linhas dt {
+  padding: 0.55cqw 0;
+  border-bottom: 0.15cqw solid rgba(0, 40, 56, 0.12);
+}
+.cart--verso .cart__validar {
+  text-align: center;
+  flex-shrink: 0;
+}
+.cart--verso.cart--paisagem .cart__qr {
+  width: 20cqw;
+  padding: 0.6cqw;
+}
+.cart--verso .cart__validar small {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+.cart--verso.cart--paisagem .cart__validar small {
+  font-size: 1.6cqw;
+  margin-top: 0.6cqw;
+}
+.cart--verso.cart--paisagem .cart__rodape {
+  justify-content: space-between;
+  bottom: 2.6cqw;
+}
+.cart--verso.cart--paisagem .cart__lema {
+  font-size: 4.4cqw;
+}
+.cart--verso.cart--paisagem .cart__coracoes {
+  font-size: 3.4cqw;
+}
+
+/* ---------- retrato (celular): frente ---------- */
+.cart--retrato {
+  padding: 6cqw;
+  display: flex;
+  flex-direction: column;
+}
+.cart--retrato .cart__topo {
+  display: flex;
+  align-items: center;
+  gap: 4cqw;
+}
+.cart--frente.cart--retrato .cart__escudo {
+  width: 25cqw;
+}
+.cart--frente.cart--retrato .cart__marca {
+  font-size: 11.5cqw;
+}
+.cart--retrato .cart__faixa {
+  margin-top: 4.5cqw;
+  background: #e8b018;
+  color: #002838;
+  text-align: center;
+  border-radius: 2.4cqw;
+  padding: 1.8cqw 0;
+  font-size: 4.8cqw;
+  font-weight: 700;
+}
+.cart--frente.cart--retrato .cart__corpo {
+  display: flex;
+  gap: 5cqw;
+  margin-top: 5cqw;
+  align-items: center;
+}
+.cart--frente.cart--retrato .cart__foto {
+  width: 38cqw;
+  height: 46cqw;
+  border-radius: 3cqw;
+  font-size: 14cqw;
+  flex-shrink: 0;
+}
+.cart--frente.cart--retrato .cart__nome {
+  font-size: 9cqw;
+  margin-bottom: 3cqw;
+}
+.cart--frente.cart--retrato .cart__rotulo {
+  font-size: 3.3cqw;
+}
+.cart--frente.cart--retrato .cart__valor {
+  font-size: 6.4cqw;
+  margin-bottom: 2cqw;
+}
+.cart--retrato .cart__base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4cqw;
+  margin-top: auto;
+}
+.cart--frente.cart--retrato .cart__qr {
+  width: 34cqw;
+  padding: 2cqw;
+  border-radius: 3cqw;
+}
+.cart--retrato .cart__rodape {
+  margin-top: 4.5cqw;
+  font-size: 3.6cqw;
+}
+.cart--retrato .cart__coracoes {
+  font-size: 5cqw;
+}
+
+/* ---------- retrato (celular): verso ---------- */
+.cart--verso.cart--retrato .cart__escudo {
+  width: 15cqw;
+}
+.cart--verso.cart--retrato .cart__marca {
+  font-size: 7.5cqw;
+}
+.cart--verso.cart--retrato .cart__painel {
+  flex-direction: column;
+  margin-top: 4.5cqw;
+  padding: 4cqw 5cqw;
+  border-radius: 3.5cqw;
+  gap: 3.5cqw;
+}
+.cart--retrato .cart__linhas {
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+.cart--retrato .cart__linhas dt {
+  font-size: 2.9cqw;
+  margin-top: 1.6cqw;
+}
+.cart--retrato .cart__linhas dd {
+  font-size: 4.3cqw;
+  white-space: normal;
+}
+.cart--verso.cart--retrato .cart__qr {
+  width: 30cqw;
+  margin: 0 auto;
+}
+.cart--verso.cart--retrato .cart__validar small {
+  font-size: 2.7cqw;
+  margin-top: 1cqw;
+}
+.cart--verso.cart--retrato .cart__rodape {
+  justify-content: space-between;
+  margin-top: auto;
+}
+.cart--verso.cart--retrato .cart__lema {
+  font-size: 6.2cqw;
+}
+
+/* ---------- virar (celular) ---------- */
+.cart-virar {
+  perspective: 1400px;
+}
+.cart-virar__miolo {
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform-style: preserve-3d;
+}
+.cart-virar--verso .cart-virar__miolo {
+  transform: rotateY(180deg);
+}
+.cart-virar__face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.cart-virar__face--verso {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-virar__miolo {
+    transition: none;
+  }
+}

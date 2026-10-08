@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validar carteirinha — Escolinha Patotina</title>
+<meta name="description" content="Conferência da carteirinha de aluno da Escolinha de Futebol Patotina.">
+<meta name="theme-color" content="#002838">
+<!-- Página aberta pelo QR da carteirinha: nada aqui deve ir para o Google. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#002838;--navy3:#0b3446;--gd:#E8B018;--wt:#F4F1E8;--gray:#9fb3bb;--line:#164257;--ok:#2f9a5e;--ruim:#c0262d;--atencao:#c98a00}
+  *{margin:0;padding:0;box-sizing:border-box}
+  [hidden]{display:none !important}
+  body{min-height:100dvh;background:radial-gradient(70% 50% at 50% 0%,#0b3446,transparent 70%),var(--navy);color:var(--wt);font-family:'Barlow',system-ui,sans-serif;line-height:1.5;display:flex;flex-direction:column;align-items:center;padding:clamp(1rem,5vw,2.5rem) 16px}
+  .cv{width:100%;max-width:420px;background:#fff;color:var(--navy);border-radius:22px;padding:1.6rem 1.4rem 1.4rem;box-shadow:0 20px 60px rgba(0,0,0,.45);text-align:center}
+  .cv__escudo{width:84px;height:auto;display:block;margin:0 auto .4rem}
+  .cv__marca{font-family:'Anton',Impact,sans-serif;font-size:1.05rem;letter-spacing:.04em}
+  .cv__marca b{font-weight:400;color:var(--gd)}
+  .cv__estado{display:flex;align-items:center;justify-content:center;gap:.6rem;margin:1.1rem 0 .3rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.6rem;line-height:1.1}
+  .cv__estado svg{width:42px;height:42px;flex-shrink:0}
+  .cv__texto{color:#4d6873;font-size:.95rem}
+  .cv--valida .cv__estado{color:var(--ok)}
+  .cv--vencida .cv__estado,.cv--inativa .cv__estado{color:var(--atencao)}
+  .cv--substituida .cv__estado,.cv--nao .cv__estado{color:var(--ruim)}
+  .cv__foto{width:120px;height:146px;object-fit:cover;border-radius:14px;margin:1.1rem auto 0;display:block;border:3px solid var(--navy)}
+  .cv__dados{margin-top:1.1rem;background:#f4f1e8;border-radius:14px;padding:.4rem 1rem;text-align:left;display:grid;grid-template-columns:auto 1fr;column-gap:1rem}
+  .cv__dados dt,.cv__dados dd{padding:.5rem 0;border-bottom:1px solid rgba(0,40,56,.1)}
+  .cv__dados dt:nth-last-of-type(1),.cv__dados dd:nth-last-of-type(1){border-bottom:0}
+  .cv__dados dt{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem;color:#4d6873;align-self:center}
+  .cv__dados dd{font-weight:600;overflow-wrap:anywhere}
+  .cv__dados .ok{color:var(--ok)}
+  .cv__dados .ruim{color:var(--ruim)}
+  .cv__hora{margin-top:.9rem;font-size:.8rem;color:#6b818a}
+  .cv__lema{margin-top:1rem;font-size:.92rem;color:#30505c}
+  .cv__lema span{display:block;font-size:1.3rem;letter-spacing:-.1em;margin-bottom:.2rem}
+  .rodape{margin-top:1.4rem;font-size:.9rem;color:var(--gray);text-align:center}
+  .rodape a{color:var(--gd);text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .girando{width:38px;height:38px;border-radius:50%;border:4px solid #e3e8ea;border-top-color:var(--gd);margin:1.4rem auto .6rem;animation:g 0.9s linear infinite}
+  @keyframes g{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.girando{animation:none}}
+</style>
+</head>
+<body>
+
+<main class="cv" id="cv" aria-live="polite">
+  <img class="cv__escudo" src="img/escudo.webp" alt="Escudo da Escolinha Patotina" width="84" height="84">
+  <div class="cv__marca">ESCOLINHA <b>PATOTINA</b></div>
+
+  <div id="carregando"><div class="girando" aria-hidden="true"></div><p class="cv__texto">Conferindo a carteirinha…</p></div>
+
+  <div id="resultado" hidden>
+    <div class="cv__estado"><span id="icone"></span><span id="titulo"></span></div>
+    <p class="cv__texto" id="texto"></p>
+    <img class="cv__foto" id="foto" alt="" hidden>
+    <dl class="cv__dados" id="dados" hidden>
+      <dt>Aluno</dt><dd id="d-nome"></dd>
+      <dt>Categoria</dt><dd id="d-turma"></dd>
+      <dt>Matrícula</dt><dd id="d-matricula"></dd>
+      <dt>Status</dt><dd id="d-status"></dd>
+      <dt>Validade</dt><dd id="d-validade"></dd>
+    </dl>
+    <p class="cv__hora" id="hora"></p>
+  </div>
+
+  <p class="cv__lema"><span>💙🤍❤️</span>Futebol, amizade e desenvolvimento para crianças de <b>4 a 14 anos</b></p>
+</main>
+
+<p class="rodape"><a href="/">« Escolinha Patotina</a> · Matutina/MG</p>
+
+<script type="module">
+/* Validação da carteirinha (QR do cartão → /carteirinha?c=CODIGO).
+   Lê um documento só, carteirinhas/{codigo}: a cópia mínima que o app de
+   gestão mantém (nome, foto, turma, matrícula, validade, situação). As
+   regras deixam ler pelo código, nunca listar. A conta de "vale ou não" é a
+   mesma de gestao/src/modules/alunos/services/carteirinhaService.ts. */
+const CDN = 'https://www.gstatic.com/firebasejs/12.19.0';
+const LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
+const $ = id => document.getElementById(id);
+
+const ICONES = {
+  ok: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="m7 12.5 3.2 3.2L17 9" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  alerta: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M12 6.5v7" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.5" fill="#fff"/></svg>',
+  nao: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="m8 8 8 8M16 8l-8 8" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>',
+};
+
+const ESTADOS = {
+  valida: { icone: 'ok', titulo: 'Carteirinha válida', texto: 'Aluno ativo na Escolinha Patotina.' },
+  vencida: { icone: 'alerta', titulo: 'Carteirinha vencida', texto: 'Passou da validade. A família deve procurar a escolinha para renovar.' },
+  inativa: { icone: 'alerta', titulo: 'Aluno inativo', texto: 'A matrícula deste aluno não está ativa no momento.' },
+  substituida: { icone: 'nao', titulo: 'Carteirinha substituída', texto: 'Esta via foi trocada por uma nova e não vale mais.' },
+  nao: { icone: 'nao', titulo: 'Carteirinha não encontrada', texto: 'Este código não corresponde a nenhuma carteirinha da escolinha. Confira se o QR é mesmo da Patotina.' },
+  erro: { icone: 'alerta', titulo: 'Sem conexão', texto: 'Não deu para conferir agora. Verifique a internet e tente de novo.' },
+};
+
+// Data de hoje no horário de Brasília, em AAAA-MM-DD.
+const hoje = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'America/Sao_Paulo' });
+const dataBr = iso => /^\d{4}-\d{2}-\d{2}$/.test(iso || '') ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '';
+
+function estado(c) {
+  if (c.situacao === 'substituida') return 'substituida';
+  if (c.alunoSituacao !== 'ativo') return 'inativa';
+  return c.validade < hoje() ? 'vencida' : 'valida';
+}
+
+function mostrar(chave, c) {
+  const e = ESTADOS[chave];
+  $('cv').className = `cv cv--${chave}`;
+  $('icone').innerHTML = ICONES[e.icone];
+  $('titulo').textContent = e.titulo;
+  $('texto').textContent = e.texto;
+  if (c && chave !== 'substituida') {
+    $('d-nome').textContent = c.nome || '';
+    $('d-turma').textContent = c.turma || '—';
+    $('d-matricula').textContent = c.matricula || '';
+    $('d-status').textContent = c.alunoSituacao === 'ativo' ? 'Ativo' : 'Inativo';
+    $('d-status').className = c.alunoSituacao === 'ativo' ? 'ok' : 'ruim';
+    $('d-validade').textContent = dataBr(c.validade);
+    $('d-validade').className = c.validade < hoje() ? 'ruim' : '';
+    $('dados').hidden = false;
+    if (/^https?:\/\//.test(c.foto || '')) {
+      $('foto').src = c.foto;
+      $('foto').alt = `Foto de ${c.nome}`;
+      $('foto').hidden = false;
+    }
+  }
+  // A hora da conferência na tela: um print antigo não se passa por agora.
+  $('hora').textContent = `Conferido em ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', dateStyle: 'short', timeStyle: 'short' })}`;
+  $('carregando').hidden = true;
+  $('resultado').hidden = false;
+}
+
+async function configuracao() {
+  try {
+    const r = await fetch('/__/firebase/init.json', { cache: 'no-store' });
+    if (r.ok && (r.headers.get('content-type') || '').includes('json')) {
+      const cfg = await r.json();
+      if (cfg.projectId) return { cfg, emuladores: cfg.projectId.startsWith('demo-') };
+    }
+  } catch { /* sem Hosting por perto */ }
+  if (LOCAL) return { cfg: { projectId: 'demo-patotina', apiKey: 'demo' }, emuladores: true };
+  return null;
+}
+
+async function conferir() {
+  const codigo = (new URLSearchParams(location.search).get('c') || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+  if (codigo.length < 6 || codigo.length > 12) return mostrar('nao');
+  try {
+    const conf = await configuracao();
+    if (!conf) return mostrar('erro');
+    const [{ initializeApp }, fs] = await Promise.all([import(`${CDN}/firebase-app.js`), import(`${CDN}/firebase-firestore-lite.js`)]);
+    const db = fs.getFirestore(initializeApp(conf.cfg));
+    if (conf.emuladores) fs.connectFirestoreEmulator(db, '127.0.0.1', 8080);
+    const snap = await fs.getDoc(fs.doc(db, 'carteirinhas', codigo));
+    if (!snap.exists()) return mostrar('nao');
+    const c = snap.data();
+    mostrar(estado(c), c);
+  } catch (e) {
+    console.error('Falha ao conferir a carteirinha:', e);
+    mostrar('erro');
+  }
+}
+
+conferir();
+</script>
+</body>
+</html>
