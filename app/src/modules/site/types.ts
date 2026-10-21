@@ -50,7 +50,7 @@ export interface Parceiro extends ItemBase {
   nome: string // "SICOOB |CREDITIROS": o que vem depois do | fica na linha de baixo
   rotulo: string
   master: boolean
-  logo: string // caminho no Storage (site/parceiros/<uuid>.webp); vazio = só o nome
+  logo: string // caminho no Storage (site/parceiros/<uuid>.webp, ou .png/.jpg vindo do Safari); vazio = só o nome
   logoUrl: string // URL pública do logo, guardada para o site não precisar do SDK do Storage
   site: string
   ordem: number

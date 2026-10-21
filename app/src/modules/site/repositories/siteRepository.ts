@@ -12,6 +12,7 @@ import {
 } from 'firebase/firestore'
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { db, storage } from '@shared/lib/firebase'
+import { extensaoDe } from '@shared/lib/imagem'
 import type { ItemDoSite, Textos } from '../types'
 
 // Tudo que o painel grava passa por aqui. Quem lê SEM login é o site
@@ -66,10 +67,10 @@ export async function salvarTextos(dados: Partial<Textos>) {
 /* ---------------- imagens (Storage) ---------------- */
 
 export async function subirImagem(pasta: string, blob: Blob): Promise<{ caminho: string; url: string }> {
-  const caminho = `site/${pasta}/${crypto.randomUUID()}.webp`
+  const caminho = `site/${pasta}/${crypto.randomUUID()}.${extensaoDe(blob)}`
   const referencia = ref(storage, caminho)
   await uploadBytes(referencia, blob, {
-    contentType: 'image/webp',
+    contentType: blob.type || 'image/webp',
     // Nome único por arquivo: trocar o logo gera outro endereço, então o
     // navegador pode guardar este para sempre.
     cacheControl: 'public, max-age=31536000, immutable',

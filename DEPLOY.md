@@ -36,11 +36,11 @@ Firebase Hosting — site "patotina-gestao" (target `gestao`, dist-gestao/)
 
 Firestore   + alunos, turmas, chamadas, cobrancas, pre_matriculas, eventos,
             avisos, configuracoes/escolinha, responsaveis (ver docs/gestao.md)
-Storage     + gestao/alunos/*.webp (fotos dos alunos)
+Storage     + gestao/alunos/* (fotos dos alunos; .webp, .jpg no Safari)
 
 Firestore   site_turmas, site_destaques, site_titulos, site_historia,
             site_parceiros, site_config/textos, usuarios
-Storage     site/parceiros/*.webp (logos)
+Storage     site/parceiros/* (logos; .webp, .png/.jpg no Safari)
 ```
 
 Sem Cloud Functions nesta fase: criar conta de outra pessoa roda no cliente

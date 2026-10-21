@@ -9,6 +9,7 @@ import {
 } from 'firebase/firestore'
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { db, storage } from '@shared/lib/firebase'
+import { extensaoDe } from '@shared/lib/imagem'
 import type { Aluno, AlunoDados, Historico } from '../types'
 
 export function subscribeAlunos(onChange: (alunos: Aluno[], erro?: string) => void) {
@@ -83,9 +84,9 @@ export async function registrarHistorico(id: string, registro: Registro) {
 }
 
 export async function subirFoto(blob: Blob) {
-  const caminho = `gestao/alunos/${crypto.randomUUID()}.webp`
+  const caminho = `gestao/alunos/${crypto.randomUUID()}.${extensaoDe(blob)}`
   const r = ref(storage, caminho)
-  await uploadBytes(r, blob, { contentType: 'image/webp' })
+  await uploadBytes(r, blob, { contentType: blob.type || 'image/webp' })
   return { caminho, url: await getDownloadURL(r) }
 }
 
